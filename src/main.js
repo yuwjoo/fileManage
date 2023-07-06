@@ -1,7 +1,8 @@
 import Vue from "vue";
+import App from "./App.vue";
 
 Vue.config.productionTip = false;
 
 new Vue({
-  template: "<li>这是个待办项33</li>",
+  render: (h) => h(App),
 }).$mount("#app");
