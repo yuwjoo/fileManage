@@ -33,10 +33,9 @@ module.exports = (env, config) => {
         },
         {
           test: /\.svg$/i,
-          include: path.resolve(__dirname, "src/assets/icons"),
           loader: "svg-sprite-loader",
           options: {
-            symbolId: "icon-[name]",
+            symbolId: "[name]",
           },
         },
         {
