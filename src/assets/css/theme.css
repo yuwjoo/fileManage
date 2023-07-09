@@ -1,3 +1,10 @@
 :root {
-    --button-color: red
+    /* 背景颜色 */
+    --background-color: #34393f;
+    /* 字体常规色 */
+    --font-color-base: #9399a6;
+    /* 字体亮色 */
+    --font-color-light: #ffffff;
+    /* 字体基本大小 */
+    --font-size-base: 14px;
 }
