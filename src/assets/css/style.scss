@@ -3,4 +3,28 @@ body {
     background-color: var(--background-color);
     font-size: var(--font-size-base);
     margin: 0;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.el-input {
+    .el-input__inner {
+        background-color: transparent;
+        color: var(--font-color-base);
+        border-color: var(--font-color-dark);
+
+        &::placeholder {
+            color: var(--font-color-dark);
+        }
+
+        &:focus {
+            border-color: var(--font-color-base);
+        }
+    }
+}
+
+.el-popup-parent--hidden {
+    padding-right: 0 !important;
 }

@@ -2,9 +2,22 @@
     /* 背景颜色 */
     --background-color: #34393f;
     /* 字体常规色 */
-    --font-color-base: #9399a6;
+    --font-color-base: #abb2bfe6;
     /* 字体亮色 */
     --font-color-light: #ffffff;
-    /* 字体基本大小 */
+    /* 字体暗色 */
+    --font-color-dark: #6e727ce6;
+
+    /* 辅助文字字体大小 */
+    --font-size-extraSmall: 12px;
+    /* 正文（小）字体大小 */
+    --font-size-small: 13px;
+    /* 基本字体大小 */
     --font-size-base: 14px;
+    /* 小标题字体大小 */
+    --font-size-medium: 16px;
+    /* 标题字体大小 */
+    --font-size-large: 18px;
+    /* 主标题字体大小 */
+    --font-size-extraLarge: 20px;
 }

@@ -1,9 +1,23 @@
-import { Button, Select, Row, Col, Container, Header, Main, Dropdown, DropdownItem, DropdownMenu } from "element-ui";
+import {
+  Row,
+  Col,
+  Container,
+  Header,
+  Main,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  Input,
+  Backtop,
+  Dialog,
+  Form,
+  FormItem,
+  Select,
+  Button,
+} from "element-ui";
 
 export function useElementUI(Vue) {
   Vue.prototype.$ELEMENT = { size: "mini", zIndex: 2000 };
-  Vue.use(Button);
-  Vue.use(Select);
   Vue.use(Row);
   Vue.use(Col);
   Vue.use(Container);
@@ -12,4 +26,11 @@ export function useElementUI(Vue) {
   Vue.use(Dropdown);
   Vue.use(DropdownItem);
   Vue.use(DropdownMenu);
+  Vue.use(Input);
+  Vue.use(Backtop);
+  Vue.use(Dialog);
+  Vue.use(Form);
+  Vue.use(FormItem);
+  Vue.use(Select);
+  Vue.use(Button);
 }
