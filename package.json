@@ -2,10 +2,13 @@
   "name": "filemanage",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/main/main.js",
   "scripts": {
-    "serve": "webpack serve --config webpack.config.js --mode development --progress",
-    "build": "webpack --config webpack.config.js --mode production --progress"
+    "test": "electron-builder build --win",
+    "serve": "npm run start:renderer && npm run start:main",
+    "build": "webpack --config buider/webpack.renderer.config.js --mode production --progress",
+    "start:main": "electron ./src/main/main.js",
+    "start:renderer": "webpack serve --config buider/webpack.renderer.config.js --mode development --progress"
   },
   "repository": {
     "type": "git",
@@ -27,7 +30,10 @@
     "@babel/preset-env": "^7.22.7",
     "babel-loader": "^9.1.2",
     "babel-plugin-component": "^1.1.1",
+    "chalk": "^2.4.2",
     "css-loader": "^6.8.1",
+    "electron": "^25.2.0",
+    "electron-builder": "^22.14.13",
     "html-webpack-plugin": "^5.5.3",
     "sass": "^1.63.6",
     "sass-loader": "^13.3.2",
