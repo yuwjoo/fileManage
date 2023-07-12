@@ -1,5 +1,20 @@
 {
+  "directories": {
+    "output": "dist/build"
+  },
+  "asar": true,
+  "extraMetadata": {
+    "main": "main.js"
+  },
   "files": [
-    "./src/main"
+    {
+      "from": ".",
+      "filter": [
+        "package.json"
+      ]
+    },
+    {
+      "from": "dist/sources"
+    }
   ]
 }

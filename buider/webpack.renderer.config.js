@@ -7,12 +7,11 @@ const isProduction = process.env.NODE_ENV === "production"; // 生产环境
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  target: "electron-renderer",
   entry: {
     app: path.resolve(__dirname, "../src/renderer/main.js"),
   },
   output: {
-    path: path.resolve(__dirname, "../dist/vue"),
+    path: path.resolve(__dirname, "../dist/sources/renderer"),
     filename: "js/[name]-[contenthash].js",
     chunkFilename: "js/[name]-[chunkhash].js",
     clean: true,
