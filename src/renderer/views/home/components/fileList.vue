@@ -24,7 +24,7 @@ export default {
   margin-top: 20px;
 
   .fileList_item {
-    width: calc(100% / 4 - 20px);
+    width: calc(100% / 3 - 20px);
     padding: 10px;
   }
 }

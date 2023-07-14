@@ -25,9 +25,21 @@
       </el-dropdown>
     </el-col>
     <el-col class="headerContent_right" :span="9">
-      <icon-font class="headerContent_right_icon" icon="minimize" />
-      <icon-font class="headerContent_right_icon" icon="maximize" />
-      <icon-font class="headerContent_right_icon" icon="close" />
+      <icon-font
+        class="headerContent_right_icon"
+        icon="minimize"
+        @click="handleWindowMin"
+      />
+      <icon-font
+        class="headerContent_right_icon"
+        :icon="isMaximized ? 'restore' : 'maximize'"
+        @click="handleWindowMax"
+      />
+      <icon-font
+        class="headerContent_right_icon"
+        icon="close"
+        @click="handleWindowClose"
+      />
     </el-col>
   </el-row>
 </template>
@@ -36,8 +48,9 @@
 export default {
   data() {
     return {
-      command: null, // 当前选中的菜单项
+      command: {}, // 当前选中的菜单项
       dropDownList: [], // 下拉菜单列表
+      isMaximized: false, // 是否全屏状态
     };
   },
   created() {
@@ -47,7 +60,8 @@ export default {
     /**
      * @name: 初始化
      */
-    init() {
+    async init() {
+      this.isMaximized = await window.electronAPI.getWindowMaximized();
       this.dropDownList = [
         { icon: "el-icon-box", label: "仓库", value: "store" },
         { icon: "el-icon-takeaway-box", label: "杂物间", value: "recycleBin" },
@@ -62,12 +76,31 @@ export default {
     handleClickDropdown(command) {
       this.command = command;
     },
+    /**
+     * @name: 窗口最小化
+     */
+    handleWindowMin() {
+      window.electronAPI.windowMin();
+    },
+    /**
+     * @name: 窗口放大/缩小
+     */
+    async handleWindowMax() {
+      this.isMaximized = await window.electronAPI.windowMax();
+    },
+    /**
+     * @name: 窗口关闭
+     */
+    handleWindowClose() {
+      window.electronAPI.windowClose();
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .headerContent {
+  -webkit-app-region: drag;
   height: 100%;
   user-select: none;
 
@@ -76,6 +109,7 @@ export default {
 
     .headerContent_left_icon {
       cursor: pointer;
+      -webkit-app-region: no-drag;
     }
   }
 
@@ -83,6 +117,7 @@ export default {
     text-align: center;
 
     .headerContent_title_dropdown {
+      -webkit-app-region: no-drag;
       .headerContent_title_dropdown_content {
         cursor: pointer;
         color: var(--font-color-base);
@@ -95,6 +130,7 @@ export default {
     color: var(--font-color-light);
 
     .headerContent_right_icon {
+      -webkit-app-region: no-drag;
       margin-left: 20px;
       cursor: pointer;
       font-size: calc(var(--font-size-base) - 4px);

@@ -34,7 +34,7 @@ export default {
     };
   },
   created() {
-    this.list = Array.from({ length: 100 });
+    // this.list = Array.from({ length: 100 });
   },
   methods: {
     /**

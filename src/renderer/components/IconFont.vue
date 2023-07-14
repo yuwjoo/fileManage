@@ -1,17 +1,24 @@
 <!--
  * @FileName: 
- * @FilePath: \fileManage\src\components\IconFont.vue
+ * @FilePath: \fileManage\src\renderer\components\IconFont.vue
  * @Author: YH
  * @Date: 2023-07-08 09:04:26
  * @LastEditors: YH
- * @LastEditTime: 2023-07-08 11:54:19
+ * @LastEditTime: 2023-07-14 14:24:11
  * @Description: 图标组件
 -->
 <template>
-  <i v-if="isFontIcon" :class="icon" :style="currentIconStyle" />
-  <svg v-else class="iconFont" aria-hidden="true" :style="currentIconStyle">
-    <use :xlink:href="isHrefIcon ? icon : `#${icon}`" />
-  </svg>
+  <span class="iconFont" @click="$emit('click', $event)">
+    <i v-if="isFontIcon" :class="icon" :style="currentIconStyle" />
+    <svg
+      v-else
+      class="iconFont_svg"
+      aria-hidden="true"
+      :style="currentIconStyle"
+    >
+      <use :xlink:href="isHrefIcon ? icon : `#${icon}`" />
+    </svg>
+  </span>
 </template>
 
 <script>
@@ -52,11 +59,13 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .iconFont {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
-  fill: currentColor;
+  .iconFont_svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+  }
 }
 </style>

@@ -1,12 +1,12 @@
 {
-  "name": "filemanage",
+  "name": "u-manage",
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "serve": "node buider/serve.js",
-    "build": "npm run compile:electron && npm run compile:renderer && electron-builder build --win",
-    "compile:renderer": "webpack --config buider/webpack.renderer.config.js --node-env production --progress",
-    "compile:electron": "webpack --config buider/webpack.electron.config.js --node-env production --progress"
+    "serve": "node builder/serve.js",
+    "build": "npm run compile:electron && npm run compile:renderer && electron-builder build --win --config electronBuilder.config.js",
+    "compile:renderer": "webpack --config builder/webpack.renderer.config.js --node-env production --progress",
+    "compile:electron": "webpack --config builder/webpack.electron.config.js --node-env production --progress"
   },
   "repository": {
     "type": "git",

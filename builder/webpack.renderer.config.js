@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { VueLoaderPlugin } = require("vue-loader");
 const TerserPlugin = require("terser-webpack-plugin");
+const packageJSON = require("../package.json");
 
 const isProduction = process.env.NODE_ENV === "production"; // 生产环境
 
@@ -57,7 +58,7 @@ module.exports = {
   devtool: !isProduction ? "source-map" : undefined,
   plugins: [
     new HtmlWebpackPlugin({
-      title: "系统",
+      title: packageJSON.name,
       template: path.resolve(__dirname, "../public/index.html"),
       favicon: path.resolve(__dirname, "../public/favicon.ico"),
     }),
