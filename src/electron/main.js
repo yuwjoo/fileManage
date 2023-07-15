@@ -1,7 +1,11 @@
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
 const ipcMain = require("@/ipcMain");
+
 const isProduction = process.env.NODE_ENV === "production"; // 生产环境
+
+require("./generate/config"); // 生成全局配置文件
+require("./generate/workspace"); // 生成工作区
 
 function createWindow() {
   const win = new BrowserWindow({

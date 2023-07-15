@@ -9,6 +9,9 @@ module.exports = {
   extraMetadata: {
     main: "main.js",
   },
+  extraResources: [
+    // { from: "src/electron/config.js", to: "../config/config.js" },
+  ],
   files: [
     "!node_modules/**",
     "package.json",
