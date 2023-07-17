@@ -16,7 +16,11 @@
     <!-- 文件列表 end -->
 
     <!-- 卡片对话框 start -->
-    <file-info-dialog ref="fileInfoDialog" />
+    <file-info-dialog
+      ref="fileInfoDialog"
+      @add="getData()"
+      @change="getData()"
+    />
     <!-- 卡片对话框 end -->
   </div>
 </template>
@@ -34,7 +38,10 @@ export default {
     };
   },
   created() {
-    // this.list = Array.from({ length: 100 });
+    window.electronAPI.onNewData(() => {
+      this.$refs.fileInfoDialog.open();
+    });
+    this.getData();
   },
   methods: {
     /**
@@ -42,6 +49,14 @@ export default {
      * @param {string} text 搜索关键字
      */
     handleSearch(text) {},
+    /**
+     * @name: 获取数据列表
+     */
+    getData() {
+      window.electronAPI.getList().then((res) => {
+        this.list = res;
+      });
+    },
   },
   components: {
     fileSearch,

@@ -32,6 +32,7 @@ function createWindow() {
 
 app.whenReady().then(() => {
   createWindow();
+  require("./menu"); // 生成菜单
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {

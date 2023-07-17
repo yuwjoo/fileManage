@@ -1,9 +1,9 @@
 <template>
   <div class="fileCard">
     <!-- 文件信息 start -->
-    <div class="fileCard_title">windows启动盘</div>
+    <div class="fileCard_title">{{ item.title }}</div>
     <div class="fileCard_describe">
-      是的连接方式的附件四点零分就老师的解放了见识到了法律上的肌肤十九点分离技术代理费十六点福克斯独立解放螺丝钉解放了是代理费收到了封建时代浪费
+      {{ item.describe }}
     </div>
     <!-- 文件信息 end -->
 
@@ -16,7 +16,10 @@
         />
         <div class="fileCard_mark_button_label">打开文件夹</div>
       </div>
-      <div class="fileCard_mark_button">
+      <div
+        class="fileCard_mark_button"
+        @click="$router.push({ name: 'markdown' })"
+      >
         <icon-font class="fileCard_mark_button_icon" icon="el-icon-tickets" />
         <div class="fileCard_mark_button_label">打开文档</div>
       </div>

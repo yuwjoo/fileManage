@@ -14,10 +14,15 @@ import {
   FormItem,
   Select,
   Button,
+  Upload,
+  Message,
 } from "element-ui";
 
 export function useElementUI(Vue) {
   Vue.prototype.$ELEMENT = { size: "mini", zIndex: 2000 };
+
+  Vue.prototype.$message = Message;
+
   Vue.use(Row);
   Vue.use(Col);
   Vue.use(Container);
@@ -33,4 +38,5 @@ export function useElementUI(Vue) {
   Vue.use(FormItem);
   Vue.use(Select);
   Vue.use(Button);
+  Vue.use(Upload);
 }

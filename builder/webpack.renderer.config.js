@@ -35,6 +35,7 @@ module.exports = {
       {
         test: /\.svg$/i,
         loader: "svg-sprite-loader",
+        exclude: /node_modules/,
         options: {
           symbolId: "[name]",
         },

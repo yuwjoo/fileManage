@@ -1,7 +1,7 @@
 <template>
   <el-row class="headerContent" :gutter="20" type="flex" align="middle">
     <el-col class="headerContent_left" :span="9">
-      <icon-font class="headerContent_left_icon" icon="el-icon-menu" />
+      <icon-font class="headerContent_left_icon" icon="el-icon-menu" @click="handleOpenMenu" />
     </el-col>
     <el-col class="headerContent_title" :span="6">
       <el-dropdown
@@ -94,6 +94,12 @@ export default {
     handleWindowClose() {
       window.electronAPI.windowClose();
     },
+    /**
+     * @name: 处理打开菜单
+     */
+    handleOpenMenu() {
+      window.electronAPI.openMenu("file");
+    }
   },
 };
 </script>

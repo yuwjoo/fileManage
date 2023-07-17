@@ -21,10 +21,10 @@ const router = new VueRouter({
             import(/* webpackChunkName: "home" */ "@/views/home"),
         },
         {
-          path: "/abort",
-          name: "abort",
+          path: "/markdown",
+          name: "markdown",
           component: () =>
-            import(/* webpackChunkName: "abort" */ "@/views/abort"),
+            import(/* webpackChunkName: "markdown" */ "@/views/markdown"),
         },
       ],
     },

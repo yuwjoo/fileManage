@@ -15,7 +15,7 @@ let localConfig = {}; // 本地配置文件数据
  * @return {object} 当前配置
  */
 function getConfig() {
-  return { ...defaultConfig, ...localConfig };
+  return JSON.parse(JSON.stringify({ ...defaultConfig, ...localConfig }));
 }
 
 /**
