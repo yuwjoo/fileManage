@@ -1,6 +1,10 @@
 :root {
     /* 背景颜色 */
     --background-color: #34393f;
+    /* 背景颜色-2 */
+    --background-color-2: #3c4650;
+    /* 背景颜色-3 */
+    --background-color-3: #363f48;
     /* 字体常规色 */
     --font-color-base: #abb2bfe6;
     /* 字体亮色 */

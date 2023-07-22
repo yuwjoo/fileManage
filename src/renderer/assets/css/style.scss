@@ -28,3 +28,45 @@ body {
 .el-popup-parent--hidden {
     padding-right: 0 !important;
 }
+
+.v-modal {
+    opacity: 0.3;
+}
+
+.el-dialog {
+    background-color: var(--background-color-2) !important;
+    padding: 10px;
+
+    .el-dialog__header {
+        padding: 0 !important;
+
+        .el-dialog__title {
+            color: var(--font-color-base) !important;
+            font-size: var(--font-size-medium) !important;
+        }
+    }
+}
+
+.markdown-body {
+    color: var(--font-color-base) !important;
+    z-index: 1 !important;
+
+    h2 {
+        border-bottom: 1px solid var(--font-color-dark) !important;
+    }
+
+    table {
+        tr {
+            background-color: var(--background-color) !important;
+
+            &:nth-child(2n) {
+                background-color: rgba(255, 255, 255, .1) !important;
+            }
+
+            td,
+            th {
+                border: 1px solid var(--font-color-dark) !important;
+            }
+        }
+    }
+}

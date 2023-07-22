@@ -1,31 +1,34 @@
 <template>
-  <div class="fileCard">
+  <div class="dataListItem">
     <!-- 文件信息 start -->
-    <div class="fileCard_title">{{ item.title }}</div>
-    <div class="fileCard_describe">
+    <div class="dataListItem_title">{{ item.title }}</div>
+    <div class="dataListItem_describe">
       {{ item.describe }}
     </div>
     <!-- 文件信息 end -->
 
     <!-- 遮罩层 start -->
-    <div class="fileCard_mark">
-      <div class="fileCard_mark_button">
+    <div class="dataListItem_mark">
+      <div class="dataListItem_mark_button">
         <icon-font
-          class="fileCard_mark_button_icon"
+          class="dataListItem_mark_button_icon"
           icon="el-icon-folder-opened"
         />
-        <div class="fileCard_mark_button_label">打开文件夹</div>
+        <div class="dataListItem_mark_button_label">打开文件夹</div>
       </div>
       <div
-        class="fileCard_mark_button"
+        class="dataListItem_mark_button"
         @click="$router.push({ name: 'markdown' })"
       >
-        <icon-font class="fileCard_mark_button_icon" icon="el-icon-tickets" />
-        <div class="fileCard_mark_button_label">打开文档</div>
+        <icon-font
+          class="dataListItem_mark_button_icon"
+          icon="el-icon-tickets"
+        />
+        <div class="dataListItem_mark_button_label">打开文档</div>
       </div>
-      <div class="fileCard_mark_button" @click="$emit('edit', item)">
-        <icon-font class="fileCard_mark_button_icon" icon="el-icon-edit" />
-        <div class="fileCard_mark_button_label">编辑卡片</div>
+      <div class="dataListItem_mark_button" @click="$emit('edit', item)">
+        <icon-font class="dataListItem_mark_button_icon" icon="el-icon-edit" />
+        <div class="dataListItem_mark_button_label">编辑卡片</div>
       </div>
     </div>
     <!-- 遮罩层 end -->
@@ -33,20 +36,18 @@
 </template>
 
 <script>
-import IconFont from "../../../components/IconFont.vue";
 export default {
-  components: { IconFont },
   props: {
     item: {
       type: Object,
-      default: () => ({}),
+      required: true,
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.fileCard {
+.dataListItem {
   border-bottom: 1px solid var(--font-color-dark);
   width: 100%;
   min-height: 100px;
@@ -56,22 +57,22 @@ export default {
   overflow: hidden;
 
   &:hover {
-    .fileCard_mark {
+    .dataListItem_mark {
       opacity: 1;
     }
   }
 
-  .fileCard_title {
+  .dataListItem_title {
     font-size: var(--font-size-medium);
   }
 
-  .fileCard_describe {
+  .dataListItem_describe {
     margin-top: 10px;
     font-size: var(--font-size-extraSmall);
     color: var(--font-color-dark);
   }
 
-  .fileCard_mark {
+  .dataListItem_mark {
     opacity: 0;
     transition: opacity 0.3s;
     display: flex;
@@ -85,7 +86,7 @@ export default {
     align-items: center;
     border-radius: 5px 5px 0 0;
 
-    .fileCard_mark_button {
+    .dataListItem_mark_button {
       margin: 0 20px;
       text-align: center;
       cursor: pointer;
@@ -95,11 +96,11 @@ export default {
         color: var(--font-color-light);
       }
 
-      .fileCard_mark_button_icon {
+      .dataListItem_mark_button_icon {
         font-size: var(--font-size-extraLarge);
       }
 
-      .fileCard_mark_button_label {
+      .dataListItem_mark_button_label {
         text-align: center;
         margin-top: 10px;
       }

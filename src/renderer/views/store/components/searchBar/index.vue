@@ -1,11 +1,10 @@
 <template>
-  <div class="fileSearch">
+  <div class="searchBar">
     <el-input
-      class="fileSearch_search"
+      class="searchBar_input"
       v-model="searchText"
       placeholder="请输入关键字，回车键查询"
       @keydown.enter="$emit('search', searchText)"
-      @blur="$emit('search', searchText)"
     />
   </div>
 </template>
@@ -21,10 +20,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.fileSearch {
+.searchBar {
   padding: 0 30%;
 
-  .fileSearch_search {
+  .searchBar_input {
     :deep(.el-input__inner) {
       padding: 15px;
       border-radius: 15px;

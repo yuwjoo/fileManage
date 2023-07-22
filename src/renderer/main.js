@@ -8,6 +8,8 @@ import "@/assets/css/style.scss"; // 全局样式
 
 Vue.config.productionTip = false;
 
+Vue.prototype.$electron = window.electronAPI; // 挂载 electron api
+
 useIconFont(Vue);
 useElementUI(Vue);
 

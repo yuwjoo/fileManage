@@ -1,10 +1,10 @@
 <!--
  * @FileName: 
- * @FilePath: \fileManage\src\renderer\components\IconFont.vue
+ * @FilePath: \fileManage\src\renderer\components\IconFont\index.vue
  * @Author: YH
  * @Date: 2023-07-08 09:04:26
  * @LastEditors: YH
- * @LastEditTime: 2023-07-14 14:24:11
+ * @LastEditTime: 2023-07-20 15:33:04
  * @Description: 图标组件
 -->
 <template>
@@ -61,6 +61,8 @@ export default {
 
 <style lang="scss" scoped>
 .iconFont {
+  display: inline-block;
+
   .iconFont_svg {
     width: 1em;
     height: 1em;

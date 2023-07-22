@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    class="fileInfoDialog"
+    class="detailsDialog"
     :title="title"
     :visible.sync="dialogVisible"
     width="500px"
@@ -159,7 +159,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.fileInfoDialog {
+.detailsDialog {
   &::-webkit-scrollbar {
     display: none;
   }
