@@ -134,11 +134,11 @@ export default {
     width: 100%;
     padding: 0 10px;
     height: 40px;
-    background-color: var(--background-color);
+    background-color: var(--theme-color);
     z-index: 99;
 
     &.navbar_row--shadow {
-      box-shadow: 0 -5px 8px 0 var(--font-color-dark);
+      box-shadow: 0 -5px 8px 0 var(--font-color-secondary);
     }
   }
 

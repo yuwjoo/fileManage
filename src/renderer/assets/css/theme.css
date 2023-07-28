@@ -1,27 +1,32 @@
 :root {
-    /* 背景颜色 */
-    --background-color: #34393f;
-    /* 背景颜色-2 */
-    --background-color-2: #3c4650;
-    /* 背景颜色-3 */
-    --background-color-3: #363f48;
-    /* 字体常规色 */
-    --font-color-base: #abb2bfe6;
-    /* 字体亮色 */
-    --font-color-light: #ffffff;
-    /* 字体暗色 */
-    --font-color-dark: #6e727ce6;
+    /* 主题色 */
+    --theme-color: #34393f;
+    /* 成功色 */
+    --success-color: #67C23A;
+    /* 警告色 */
+    --warning-color: #E6A23C;
+    /* 危险色 */
+    --danger-color: #F56C6C;
 
-    /* 辅助文字字体大小 */
-    --font-size-extraSmall: 12px;
-    /* 正文（小）字体大小 */
-    --font-size-small: 13px;
-    /* 基本字体大小 */
+
+    /* 次要字体大小 */
+    --font-size-small: 12px;
+    /* 常规字体大小 */
     --font-size-base: 14px;
-    /* 小标题字体大小 */
-    --font-size-medium: 16px;
     /* 标题字体大小 */
-    --font-size-large: 18px;
-    /* 主标题字体大小 */
-    --font-size-extraLarge: 20px;
+    --font-size-medium: 16px;
+
+
+    /* 次要字体颜色 */
+    --font-color-secondary: #6e727ce6;
+    /* 常规字体颜色 */
+    --font-color-base: #abb2bfe6;
+    /* 高亮字体颜色 */
+    --font-color-light: #ffffff;
+    /* 激活字体颜色 */
+    --font-color-active: #ffffff;
+
+
+    /* 区块背景颜色 */
+    --background-color-block: #3c4650;
 }

@@ -48,7 +48,7 @@ export default {
 
 <style lang="scss" scoped>
 .dataListItem {
-  border-bottom: 1px solid var(--font-color-dark);
+  border-bottom: 1px solid var(--font-color-secondary);
   width: 100%;
   min-height: 100px;
   padding: 20px 10px;
@@ -68,8 +68,8 @@ export default {
 
   .dataListItem_describe {
     margin-top: 10px;
-    font-size: var(--font-size-extraSmall);
-    color: var(--font-color-dark);
+    font-size: var(--font-size-small);
+    color: var(--font-color-secondary);
   }
 
   .dataListItem_mark {
@@ -97,7 +97,7 @@ export default {
       }
 
       .dataListItem_mark_button_icon {
-        font-size: var(--font-size-extraLarge);
+        font-size: 20px;
       }
 
       .dataListItem_mark_button_label {

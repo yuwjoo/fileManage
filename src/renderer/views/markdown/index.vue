@@ -3,7 +3,7 @@
     <mavon-editor
       ref="md"
       v-model="content"
-      previewBackground="var(--background-color)"
+      previewBackground="var(--theme-color)"
       boxShadowStyle="0 2px 12px 0 transparent"
       :subfield="false"
       :defaultOpen="'preview'"
