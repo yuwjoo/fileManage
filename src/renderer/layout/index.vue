@@ -9,7 +9,7 @@
         />
         <navbar-subpage v-else />
       </template>
-      <el-main>
+      <el-main class="layout_container_main">
         <router-view ref="page" />
       </el-main>
     </el-container>
@@ -33,4 +33,12 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.layout {
+  .layout_container {
+    .layout_container_main {
+      padding: 10px;
+    }
+  }
+}
+</style>

@@ -6,7 +6,7 @@
     /* 警告色 */
     --warning-color: #E6A23C;
     /* 危险色 */
-    --danger-color: #F56C6C;
+    --danger-color: #e81123;
 
 
     /* 次要字体大小 */
@@ -17,6 +17,12 @@
     --font-size-medium: 16px;
 
 
+    /* 无字体行高 */
+    --line-height-none: 1;
+    /* 常规字体行高 */
+    --line-height-base: 1.3;
+
+
     /* 次要字体颜色 */
     --font-color-secondary: #6e727ce6;
     /* 常规字体颜色 */
@@ -24,9 +30,29 @@
     /* 高亮字体颜色 */
     --font-color-light: #ffffff;
     /* 激活字体颜色 */
-    --font-color-active: #ffffff;
+    --font-color-active: #409EFF;
 
 
-    /* 区块背景颜色 */
-    --background-color-block: #3c4650;
+    /* 操作区块背景颜色 */
+    --background-color-block-input: #252b33;
+    /* 展示区块背景颜色 */
+    --background-color-block-show: hsl(213, 10%, 25%);
+    /* 悬浮框背景颜色 */
+    --background-color-popup: #3c4650;
+    /* 激活背景颜色 */
+    --background-color-active: #777e85;
+
+
+    /* 浅色投影 */
+    --box-shadow-light-color: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    /* 基础投影 */
+    --box-shadow-base: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+
+
+    /* 遮罩颜色 */
+    --mark-color: rgba(0, 0, 0, 0.3);
+
+
+    /* 常规过渡持续时长 */
+    --transition-duration-base: 0.3s;
 }

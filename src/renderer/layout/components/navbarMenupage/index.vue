@@ -11,6 +11,7 @@
       <el-dropdown
         class="navbarMenu_dropdown"
         trigger="click"
+        placement="bottom"
         @command="handleClickDropdown"
       >
         <span class="navbarMenu_dropdown_content"
@@ -22,7 +23,6 @@
             :key="index"
             :icon="item.icon"
             :command="item.value"
-            :divided="index !== 0"
             >{{ item.label }}</el-dropdown-item
           >
         </el-dropdown-menu>
@@ -72,6 +72,7 @@ export default {
   .navbarMenu_button {
     -webkit-app-region: no-drag;
     cursor: pointer;
+    padding: 10px;
   }
 
   .navbarMenu_dropdown {
@@ -80,6 +81,7 @@ export default {
     .navbarMenu_dropdown_content {
       cursor: pointer;
       color: var(--font-color-base);
+      padding: 10px 10px;
     }
   }
 }

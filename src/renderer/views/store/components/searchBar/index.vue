@@ -3,6 +3,7 @@
     <el-input
       class="searchBar_input"
       v-model="searchText"
+      prefix-icon="el-icon-search"
       placeholder="请输入关键字，回车键查询"
       @keydown.enter="$emit('search', searchText)"
     />
@@ -21,20 +22,24 @@ export default {
 
 <style lang="scss" scoped>
 .searchBar {
-  padding: 0 30%;
+  margin: 0 auto;
+  width: 40%;
+  min-width: 300px;
 
   .searchBar_input {
     :deep(.el-input__inner) {
-      padding: 15px;
-      border-radius: 15px;
-      font-size: var(--font-size-small);
-      border-top-color: transparent;
-      border-left-color: transparent;
-      border-right-color: transparent;
+      padding: 17px 15px 17px 30px;
+      border: none;
+      font-size: var(--font-size-base);
 
       &::placeholder {
         user-select: none;
+        font-size: var(--font-size-small);
       }
+    }
+
+    :deep(.el-input__prefix .el-input__icon) {
+      line-height: 34px;
     }
   }
 }

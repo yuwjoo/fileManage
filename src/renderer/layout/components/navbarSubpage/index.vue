@@ -33,6 +33,8 @@ export default {
   .navbarMenu_button {
     -webkit-app-region: no-drag;
     cursor: pointer;
+    padding: 10px;
+    font-size: calc(1em + 2px);
   }
 }
 </style>

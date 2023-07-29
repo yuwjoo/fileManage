@@ -27,11 +27,43 @@ export default {
 .dataList {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 20px;
+  margin-top: 5px;
 
   .dataList_item {
-    width: calc(100% / 3 - 20px);
+    width: calc(100% / 1 - 20px);
     padding: 10px;
+  }
+}
+
+@media screen and (min-width: 700px) and (max-width: 999px) {
+  .dataList {
+    .dataList_item {
+      width: calc(100% / 2 - 20px);
+    }
+  }
+}
+
+@media screen and (min-width: 1000px) and (max-width: 1299px) {
+  .dataList {
+    .dataList_item {
+      width: calc(100% / 3 - 20px);
+    }
+  }
+}
+
+@media screen and (min-width: 1300px) and (max-width: 1699px) {
+  .dataList {
+    .dataList_item {
+      width: calc(100% / 4 - 20px);
+    }
+  }
+}
+
+@media screen and (min-width: 1700px) {
+  .dataList {
+    .dataList_item {
+      width: calc(100% / 5 - 20px);
+    }
   }
 }
 </style>

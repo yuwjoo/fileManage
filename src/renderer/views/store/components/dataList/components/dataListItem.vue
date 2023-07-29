@@ -1,11 +1,11 @@
 <template>
   <div class="dataListItem">
-    <!-- 文件信息 start -->
+    <!-- 数据信息 start -->
     <div class="dataListItem_title">{{ item.title }}</div>
     <div class="dataListItem_describe">
       {{ item.describe }}
     </div>
-    <!-- 文件信息 end -->
+    <!-- 数据信息 end -->
 
     <!-- 遮罩层 start -->
     <div class="dataListItem_mark">
@@ -28,7 +28,7 @@
       </div>
       <div class="dataListItem_mark_button" @click="$emit('edit', item)">
         <icon-font class="dataListItem_mark_button_icon" icon="el-icon-edit" />
-        <div class="dataListItem_mark_button_label">编辑卡片</div>
+        <div class="dataListItem_mark_button_label">编辑详情</div>
       </div>
     </div>
     <!-- 遮罩层 end -->
@@ -48,13 +48,15 @@ export default {
 
 <style lang="scss" scoped>
 .dataListItem {
-  border-bottom: 1px solid var(--font-color-secondary);
   width: 100%;
+  height: 100%;
   min-height: 100px;
-  padding: 20px 10px;
+  padding: 15px 10px;
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
+  border-radius: 5px;
+  background-color: var(--background-color-block-show);
 
   &:hover {
     .dataListItem_mark {
@@ -63,13 +65,22 @@ export default {
   }
 
   .dataListItem_title {
-    font-size: var(--font-size-medium);
+    font-size: var(--font-size-base);
+    color: var(--font-color-light);
+    line-height: var(--line-height-base);
   }
 
   .dataListItem_describe {
     margin-top: 10px;
     font-size: var(--font-size-small);
     color: var(--font-color-secondary);
+    line-height: var(--line-height-base);
+    display: -webkit-box; /* 将元素设为一个弹性伸缩盒子 */
+    -webkit-box-orient: vertical; /* 设定元素为垂直方向 */
+    overflow: hidden; /* 隐藏超出部分 */
+    text-overflow: ellipsis; /* 超出部分用省略号(...)表示 */  
+    -webkit-line-clamp: 4; /* 限制文本显示n行 */
+    line-clamp: 4;
   }
 
   .dataListItem_mark {
@@ -81,7 +92,7 @@ export default {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba($color: #000000, $alpha: 0.5);
+    background-color: var(--mark-color);
     justify-content: center;
     align-items: center;
     border-radius: 5px 5px 0 0;
@@ -93,7 +104,7 @@ export default {
       user-select: none;
 
       &:hover {
-        color: var(--font-color-light);
+        color: var(--font-color-active);
       }
 
       .dataListItem_mark_button_icon {

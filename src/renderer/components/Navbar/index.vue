@@ -4,7 +4,7 @@
  * @Author: YH
  * @Date: 2023-07-20 10:41:01
  * @LastEditors: YH
- * @LastEditTime: 2023-07-20 16:26:52
+ * @LastEditTime: 2023-07-29 16:34:59
  * @Description: 头部导航栏
 -->
 <template>
@@ -26,16 +26,19 @@
           <icon-font
             class="navbar_right_icon"
             icon="minimize"
+            title="最小化"
             @click="handleWindowMin"
           />
           <icon-font
             class="navbar_right_icon"
             :icon="isMaximized ? 'restore' : 'maximize'"
+            :title="isMaximized ? '还原' : '最大化'"
             @click="handleWindowMax"
           />
           <icon-font
             class="navbar_right_icon"
             icon="close"
+            title="关闭"
             @click="handleWindowClose"
           />
         </slot>
@@ -80,8 +83,8 @@ export default {
       window.addEventListener("scroll", this.handlerWindowScroll, {
         passive: true,
       });
-      this.handlerWindowScroll();
       window.addEventListener("resize", this.handlerWindowResize);
+      this.handlerWindowScroll();
       this.handlerWindowResize();
     },
     /**
@@ -121,9 +124,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$navbar-height: 40px; // 导航栏高度
+$navbar-z-index: 99; // 导航栏悬浮层级高度
+
 .navbar {
   user-select: none;
-  height: 40px;
+  height: $navbar-height;
 
   .navbar_row {
     margin-left: 0 !important;
@@ -132,13 +138,12 @@ export default {
     top: 0;
     left: 0;
     width: 100%;
-    padding: 0 10px;
-    height: 40px;
+    height: $navbar-height;
     background-color: var(--theme-color);
-    z-index: 99;
+    z-index: $navbar-z-index;
 
     &.navbar_row--shadow {
-      box-shadow: 0 -5px 8px 0 var(--font-color-secondary);
+      box-shadow: var(--box-shadow-base);
     }
   }
 
@@ -160,9 +165,17 @@ export default {
 
       .navbar_right_icon {
         -webkit-app-region: no-drag;
-        margin-left: 20px;
-        cursor: pointer;
-        font-size: calc(var(--font-size-base) - 4px);
+        padding: 10px 20px;
+        font-size: calc(1em - 4px);
+        transition: background-color var(--transition-duration-base);
+
+        &:hover {
+          background-color: var(--background-color-active);
+        }
+
+        &:last-child:hover {
+          background-color: var(--danger-color);
+        }
       }
     }
   }

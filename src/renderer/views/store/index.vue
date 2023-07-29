@@ -60,7 +60,7 @@ export default {
       this.$electron
         .getList()
         .then((res) => {
-          this.list = res || [];
+          this.list = Array.from({length: 100}).map((item, index)=> (res || [])[index%2]);
         })
         .catch(() => {
           this.$message({

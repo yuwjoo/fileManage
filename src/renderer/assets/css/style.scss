@@ -2,6 +2,7 @@ body {
     font-size: var(--font-size-base);
     color: var(--font-color-base);
     background-color: var(--theme-color);
+    line-height: var(--line-height-none);
     margin: 0;
 
     &::-webkit-scrollbar {
@@ -9,9 +10,38 @@ body {
     }
 }
 
+
+// 下拉菜单弹窗
+.el-dropdown-menu {
+    background-color: var(--background-color-popup);
+    border-color: var(--background-color-popup);
+    box-shadow: var(--box-shadow-light-color);
+
+    .el-dropdown-menu__item {
+        color: var(--font-color-base);
+        font-size: var(--font-size-base);
+
+        &:not(:first-child) {
+            margin-top: 3px;
+        }
+
+        &:hover {
+            background-color: var(--background-color-active);
+            color: var(--font-color-light);
+        }
+    }
+
+    .popper__arrow,
+    .popper__arrow::after {
+        border-bottom-color: var(--background-color-popup) !important;
+    }
+}
+
+
+// 输入框
 .el-input {
     .el-input__inner {
-        background-color: transparent;
+        background-color: var(--background-color-block-input);
         color: var(--font-color-base);
         border-color: var(--font-color-secondary);
 
@@ -25,16 +55,10 @@ body {
     }
 }
 
-.el-popup-parent--hidden {
-    padding-right: 0 !important;
-}
 
-.v-modal {
-    opacity: 0.3;
-}
-
+// 弹窗
 .el-dialog {
-    background-color: var(--background-color-block) !important;
+    background-color: var(--background-color-popup) !important;
     padding: 10px;
 
     .el-dialog__header {
@@ -47,6 +71,30 @@ body {
     }
 }
 
+.el-popup-parent--hidden {
+    padding-right: 0 !important;
+}
+
+.v-modal {
+    opacity: 1;
+    background-color: var(--mark-color);
+}
+
+
+// 回到顶部
+.el-backtop {
+    background-color: var(--background-color-popup);
+    color: var(--font-color-base);
+    box-shadow: var(--box-shadow-light-color);
+
+    &:hover {
+        background-color: var(--background-color-active);
+        color: var(--font-color-light);
+    }
+}
+
+
+// markdown文档
 .markdown-body {
     color: var(--font-color-base) !important;
     z-index: 1 !important;
