@@ -53,6 +53,8 @@
     --mark-color: rgba(0, 0, 0, 0.3);
 
 
+    /* 快速过渡持续时长 */
+    --transition-duration-fast: 0.15s;
     /* 常规过渡持续时长 */
     --transition-duration-base: 0.3s;
 }

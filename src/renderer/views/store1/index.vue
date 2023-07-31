@@ -24,7 +24,7 @@ import dataList from "./components/dataList";
 import detailsDialog from "./components/detailsDialog";
 
 export default {
-  name: "keep-store",
+  name: "store1",
   data() {
     return {
       search: {}, // 筛选条件

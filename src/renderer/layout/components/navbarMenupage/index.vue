@@ -35,6 +35,7 @@
 import Navbar from "@/components/Navbar";
 
 export default {
+  name: "navbarMenupage",
   data() {
     return {
       menuList: [
@@ -57,7 +58,7 @@ export default {
      */
     handleClickDropdown(name) {
       if (this.$route.name !== name) {
-        this.$router.push({ name });
+        this.$router.replace({ name });
       }
     },
   },

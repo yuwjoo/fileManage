@@ -4,8 +4,8 @@
  * @Author: YH
  * @Date: 2023-07-07 11:24:28
  * @LastEditors: YH
- * @LastEditTime: 2023-07-20 16:24:27
- * @Description: 
+ * @LastEditTime: 2023-07-31 17:03:29
+ * @Description:
  * meta参数：
  *     title: 页面标题
  *     menupage: 是否菜单页
@@ -41,7 +41,7 @@ const router = new VueRouter({
           path: "/temporaries",
           name: "temporaries",
           component: () =>
-            import(/* webpackChunkName: "temporaries" */ "@/views/store"),
+            import(/* webpackChunkName: "temporaries" */ "@/views/store1"),
           meta: {
             title: "临时区",
             menupage: true,
@@ -69,6 +69,13 @@ const router = new VueRouter({
       ],
     },
   ],
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { x: 0, y: 0 };
+    }
+  },
 });
 
 export default router;

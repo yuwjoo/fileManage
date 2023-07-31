@@ -49,6 +49,7 @@
 
 <script>
 export default {
+  name: "navbar",
   props: {
     // 标题
     title: {

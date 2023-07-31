@@ -10,7 +10,9 @@
         <navbar-subpage v-else />
       </template>
       <el-main class="layout_container_main">
-        <router-view ref="page" />
+        <keep-alive :include="/^keep-/">
+          <router-view ref="page" />
+        </keep-alive>
       </el-main>
     </el-container>
     <!-- 页面布局 end -->
@@ -20,15 +22,24 @@
       <icon-font icon="el-icon-caret-top" />
     </el-backtop>
     <!-- 回到顶部 end -->
+
+    <!-- 自定义滚动条 start -->
+    <scrollbar />
+    <!-- 自定义滚动条 end -->
   </div>
 </template>
 
 <script>
+import navbarMenupage from "./components/navbarMenupage";
+import navbarSubpage from "./components/navbarSubpage";
+import scrollbar from "@/components/Scrollbar";
+
 export default {
   name: "layout",
   components: {
-    navbarMenupage: () => import("./components/navbarMenupage"),
-    navbarSubpage: () => import("./components/navbarSubpage"),
+    navbarMenupage,
+    navbarSubpage,
+    scrollbar,
   },
 };
 </script>

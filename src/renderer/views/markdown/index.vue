@@ -20,6 +20,7 @@ import { mavonEditor } from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
 
 export default {
+  name: "markdown",
   data() {
     return {
       content: `[返回](/README.md)
@@ -93,7 +94,9 @@ export default {
 |  number  |  item数值  |  { number, index, [item](#item) }  |`,
     };
   },
-  mounted() {},
+  mounted() {
+    console.log("挂载");
+  },
   components: {
     mavonEditor,
   },

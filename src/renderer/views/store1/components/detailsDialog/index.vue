@@ -3,7 +3,7 @@
     class="detailsDialog"
     :title="title"
     :visible.sync="dialogVisible"
-    width="1000px"
+    width="500px"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
   >
@@ -75,7 +75,7 @@ export default {
   computed: {
     // 对话框标题
     title() {
-      return ["新增", "编辑"][this.dialogType - 1];
+      return ["新增", "编辑"][this.dialogType - 1] + "卡片";
     },
   },
   methods: {
@@ -161,16 +161,8 @@ export default {
 
 <style lang="scss" scoped>
 .detailsDialog {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   &::-webkit-scrollbar {
     display: none;
-  }
-
-  :deep(.el-dialog) {
-    margin: auto !important;
   }
 }
 </style>
