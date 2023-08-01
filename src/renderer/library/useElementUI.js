@@ -16,6 +16,8 @@ import {
   Button,
   Upload,
   Message,
+  Checkbox,
+  CheckboxGroup,
 } from "element-ui";
 
 export function useElementUI(Vue) {
@@ -39,4 +41,6 @@ export function useElementUI(Vue) {
   Vue.use(Select);
   Vue.use(Button);
   Vue.use(Upload);
+  Vue.use(Checkbox);
+  Vue.use(CheckboxGroup);
 }

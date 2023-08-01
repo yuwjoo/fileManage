@@ -1,9 +1,10 @@
 <template>
   <el-dialog
     class="detailsDialog"
+    width="45%"
+    top="13vh"
     :title="title"
     :visible.sync="dialogVisible"
-    width="1000px"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
   >
@@ -11,31 +12,24 @@
       :mode="form"
       label-suffix=":"
       label-position="right"
-      label-width="80px"
+      label-width="85px"
     >
-      <el-form-item label="包含文件" prop="fileList">
-        <el-upload
-          action=""
-          drag
-          multiple
-          :file-list="fileList"
-          :http-request="handleUploadFile"
-          :on-success="handleUploadSuccess"
-          :on-remove="handleUploadRemove"
-        >
-          <i class="el-icon-upload"></i>
-          <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-        </el-upload>
+      <el-form-item label="标题" prop="title" required="">
+        <el-input v-model="form.title" placeholder="" />
       </el-form-item>
-      <el-form-item label="标题" prop="title">
-        <el-input v-model="form.title" />
+      <el-form-item label="资源文件" prop="title" required="">
+        <select-file-cell v-model="form.fileList" directory />
+      </el-form-item>
+      <el-form-item label="指南文档" prop="title">
+        <select-file-cell :value="form.fileList.slice(0, 0)" />
       </el-form-item>
       <el-form-item label="描述" prop="describe">
         <el-input
           v-model="form.describe"
           type="textarea"
           resize="none"
-          :autosize="{ minRows: 3, maxRows: 6 }"
+          placeholder=""
+          :autosize="{ minRows: 4, maxRows: 7 }"
         />
       </el-form-item>
       <el-form-item label="标签" prop="tags">
@@ -44,14 +38,20 @@
           multiple
           filterable
           allow-create
+          placeholder=""
           default-first-option
           style="width: 100%"
         >
         </el-select>
       </el-form-item>
+      <el-form-item label="分组" prop="title">
+        <el-input v-model="form.title" placeholder="" />
+      </el-form-item>
+      <el-form-item label="所属" prop="title">
+        <el-input value="仓库" placeholder="" disabled />
+      </el-form-item>
     </el-form>
     <span slot="footer">
-      <el-button @click="close">取 消</el-button>
       <el-button type="primary" :loading="saveLoading" @click="handleSave"
         >保 存</el-button
       >
@@ -60,6 +60,8 @@
 </template>
 
 <script>
+import selectFileCell from "./components/selectFileCell";
+
 export default {
   name: "detailsDialog",
   data() {
@@ -75,7 +77,7 @@ export default {
   computed: {
     // 对话框标题
     title() {
-      return ["新增", "编辑"][this.dialogType - 1];
+      return ["新增", "编辑"][this.dialogType - 1] + "管理";
     },
   },
   methods: {
@@ -156,21 +158,16 @@ export default {
       );
     },
   },
+  components: {
+    selectFileCell,
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .detailsDialog {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   &::-webkit-scrollbar {
     display: none;
-  }
-
-  :deep(.el-dialog) {
-    margin: auto !important;
   }
 }
 </style>

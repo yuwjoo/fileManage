@@ -4,7 +4,7 @@
  * @Author: YH
  * @Date: 2023-07-20 10:41:01
  * @LastEditors: YH
- * @LastEditTime: 2023-07-29 16:34:59
+ * @LastEditTime: 2023-08-01 14:10:35
  * @Description: 头部导航栏
 -->
 <template>
@@ -21,29 +21,30 @@
         <slot name="title" :title="navbarTitle">{{ navbarTitle }}</slot>
       </el-col>
       <el-col class="navbar_col navbar_right" :span="8">
-        <slot name="beforeRight" />
-        <slot name="right">
-          <icon-font
-            class="navbar_right_icon"
-            icon="minimize"
-            title="最小化"
-            @click="handleWindowMin"
-          />
-          <icon-font
-            class="navbar_right_icon"
-            :icon="isMaximized ? 'restore' : 'maximize'"
-            :title="isMaximized ? '还原' : '最大化'"
-            @click="handleWindowMax"
-          />
-          <icon-font
-            class="navbar_right_icon"
-            icon="close"
-            title="关闭"
-            @click="handleWindowClose"
-          />
-        </slot>
+        <slot name="right" />
       </el-col>
     </el-row>
+
+    <div class="navbar_window">
+      <icon-font
+        class="navbar_window_icon"
+        icon="minimize"
+        title="最小化"
+        @click="handleWindowMin"
+      />
+      <icon-font
+        class="navbar_window_icon"
+        :icon="isMaximized ? 'restore' : 'maximize'"
+        :title="isMaximized ? '还原' : '最大化'"
+        @click="handleWindowMax"
+      />
+      <icon-font
+        class="navbar_window_icon"
+        icon="close"
+        title="关闭"
+        @click="handleWindowClose"
+      />
+    </div>
   </div>
 </template>
 
@@ -127,6 +128,7 @@ export default {
 <style lang="scss" scoped>
 $navbar-height: 40px; // 导航栏高度
 $navbar-z-index: 99; // 导航栏悬浮层级高度
+$window-button-z-index: 9999; // 窗口按钮悬浮层级高度
 
 .navbar {
   user-select: none;
@@ -146,37 +148,47 @@ $navbar-z-index: 99; // 导航栏悬浮层级高度
     &.navbar_row--shadow {
       box-shadow: var(--box-shadow-base);
     }
+
+    .navbar_col {
+      display: flex;
+      align-items: center;
+
+      &.navbar_left {
+        justify-content: flex-start;
+      }
+
+      &.navbar_title {
+        justify-content: center;
+      }
+
+      &.navbar_right {
+        justify-content: flex-end;
+        color: var(--font-color-light);
+      }
+    }
   }
 
-  .navbar_col {
+  .navbar_window {
+    position: fixed;
+    top: 0;
+    right: 10px;
+    z-index: $window-button-z-index;
+    height: $navbar-height;
     display: flex;
     align-items: center;
 
-    &.navbar_left {
-      justify-content: flex-start;
-    }
+    .navbar_window_icon {
+      -webkit-app-region: no-drag;
+      padding: 10px 20px;
+      font-size: calc(1em - 4px);
+      transition: background-color var(--transition-duration-base);
 
-    &.navbar_title {
-      justify-content: center;
-    }
+      &:hover {
+        background-color: var(--background-color-active);
+      }
 
-    &.navbar_right {
-      justify-content: flex-end;
-      color: var(--font-color-light);
-
-      .navbar_right_icon {
-        -webkit-app-region: no-drag;
-        padding: 10px 20px;
-        font-size: calc(1em - 4px);
-        transition: background-color var(--transition-duration-base);
-
-        &:hover {
-          background-color: var(--background-color-active);
-        }
-
-        &:last-child:hover {
-          background-color: var(--danger-color);
-        }
+      &:last-child:hover {
+        background-color: var(--danger-color);
       }
     }
   }
