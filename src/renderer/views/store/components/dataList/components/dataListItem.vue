@@ -9,7 +9,29 @@
 
     <!-- 遮罩层 start -->
     <div class="dataListItem_mark">
-      <div class="dataListItem_mark_button">
+      <el-dropdown
+        class="dataListItem_mark_dropdown"
+        trigger="hover"
+        placement="right"
+        @command="handleClickDropdown"
+      >
+        <span class="dataListItem_mark_dropdown_content"
+          ><icon-font icon="el-icon-more"
+        /></span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item
+            v-for="(item, index) in optionList"
+            :key="index"
+            :icon="item.icon"
+            :command="item.value"
+            >{{ item.label }}</el-dropdown-item
+          >
+        </el-dropdown-menu>
+      </el-dropdown>
+      <div
+        class="dataListItem_mark_button"
+        @click="$electron.openDataDir(`${item.title}/source`)"
+      >
         <icon-font
           class="dataListItem_mark_button_icon"
           icon="el-icon-folder-opened"
@@ -18,7 +40,9 @@
       </div>
       <div
         class="dataListItem_mark_button"
-        @click="$router.push({ name: 'markdown' })"
+        @click="
+          $router.push({ name: 'markdown', query: { title: item.title } })
+        "
       >
         <icon-font
           class="dataListItem_mark_button_icon"
@@ -42,6 +66,24 @@ export default {
     item: {
       type: Object,
       required: true,
+    },
+  },
+  data() {
+    return {
+      optionList: [{ icon: "el-icon-delete", label: "删除", value: "delete" }], // 更多下拉菜单列表
+    };
+  },
+  methods: {
+    /**
+     * @name: 处理点击更多下拉项
+     * @param {string} command 指令
+     */
+    handleClickDropdown(command) {
+      if (command === "delete") {
+        this.$electron.deleteData(this.item.title).then(() => {
+          this.$emit("change");
+        });
+      }
     },
   },
 };
@@ -97,6 +139,17 @@ export default {
     justify-content: center;
     align-items: center;
     border-radius: 5px 5px 0 0;
+
+    .dataListItem_mark_dropdown {
+      position: absolute;
+      right: 10px;
+      top: 5px;
+
+      .dataListItem_mark_dropdown_content {
+        cursor: pointer;
+        font-size: calc(var(--font-size-base) + 4px);
+      }
+    }
 
     .dataListItem_mark_button {
       margin: 0 20px;

@@ -14,14 +14,14 @@
       label-position="right"
       label-width="85px"
     >
-      <el-form-item label="标题" prop="title" required="">
+      <el-form-item label="标题" prop="title">
         <el-input v-model="form.title" placeholder="" />
       </el-form-item>
-      <el-form-item label="资源文件" prop="title" required="">
-        <select-file-cell v-model="form.fileList" directory />
+      <el-form-item label="资源文件" prop="title">
+        <select-file-cell v-model="form.sourceList" />
       </el-form-item>
       <el-form-item label="指南文档" prop="title">
-        <select-file-cell :value="form.fileList.slice(0, 0)" />
+        <select-file-cell v-model="form.guideList" accept=".md,.txt,.js" />
       </el-form-item>
       <el-form-item label="描述" prop="describe">
         <el-input
@@ -45,10 +45,31 @@
         </el-select>
       </el-form-item>
       <el-form-item label="分组" prop="title">
-        <el-input v-model="form.title" placeholder="" />
+        <el-select
+          v-model="form.group"
+          filterable
+          allow-create
+          placeholder=""
+          default-first-option
+          style="width: 100%"
+        >
+        </el-select>
       </el-form-item>
       <el-form-item label="所属" prop="title">
-        <el-input value="仓库" placeholder="" disabled />
+        <el-select
+          v-model="form.affiliation"
+          filterable
+          placeholder=""
+          default-first-option
+          style="width: 100%"
+        >
+          <el-option
+            v-for="(item, index) in menuList"
+            :key="index"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
       </el-form-item>
     </el-form>
     <span slot="footer">
@@ -71,7 +92,10 @@ export default {
       row: null, // 原数据
       form: {}, // 表单数据
       saveLoading: false, // 保存加载中
-      fileList: [], // 文件列表
+      menuList: [
+        { label: "仓库", value: "store" },
+        { label: "临时区", value: "temporaries" },
+      ],
     };
   },
   computed: {
@@ -87,8 +111,7 @@ export default {
      */
     open(row) {
       this.dialogType = row ? 2 : 1;
-      this.row = row || {};
-      this.fileList = this.row.fileList || [];
+      this.row = row || { sourceList: [], guideList: [], affiliation: "store" };
       this.form = JSON.parse(JSON.stringify(this.row));
       this.dialogVisible = true;
     },
@@ -118,44 +141,6 @@ export default {
         .finally(() => {
           this.saveLoading = false;
         });
-    },
-    /**
-     * @name: 处理上传文件
-     * @param {object} option 相关参数
-     */
-    handleUploadFile(option) {
-      option.onSuccess(option.file.path);
-    },
-    /**
-     * @name: 处理上传文件成功
-     * @param {string} response 响应结果
-     * @param {object} file 文件
-     * @param {object} fileList 文件列表
-     */
-    handleUploadSuccess(response, file, fileList) {
-      this.$set(
-        this.form,
-        "fileList",
-        fileList.map((v) => ({
-          url: v.url || v.response,
-          name: v.name,
-        }))
-      );
-    },
-    /**
-     * @name: 处理删除上传文件
-     * @param {object} file 文件
-     * @param {object} fileList 文件列表
-     */
-    handleUploadRemove(file, fileList) {
-      this.$set(
-        this.form,
-        "fileList",
-        fileList.map((v) => ({
-          url: v.url || v.response,
-          name: v.name,
-        }))
-      );
     },
   },
   components: {

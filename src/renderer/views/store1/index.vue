@@ -9,11 +9,7 @@
     <!-- 数据列表 end -->
 
     <!-- 详情对话框 start -->
-    <details-dialog
-      ref="detailsDialog"
-      @add="getData()"
-      @change="getData()"
-    />
+    <details-dialog ref="detailsDialog" @add="getData()" @change="getData()" />
     <!-- 详情对话框 end -->
   </div>
 </template>
@@ -60,10 +56,7 @@ export default {
       this.$electron
         .getList()
         .then((res) => {
-          setTimeout(() => {
-            console.log("更新")
-            this.list = Array.from({length: 100}).map((item, index)=> (res || [])[index%2]);
-          }, 3000)
+          this.list = res || [];
         })
         .catch(() => {
           this.$message({

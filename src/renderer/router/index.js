@@ -64,6 +64,7 @@ const router = new VueRouter({
             import(/* webpackChunkName: "markdown" */ "@/views/markdown"),
           meta: {
             title: "Markdown",
+            custom: true,
           },
         },
       ],

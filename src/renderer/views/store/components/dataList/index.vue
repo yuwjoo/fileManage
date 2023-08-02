@@ -1,7 +1,11 @@
 <template>
   <div class="dataList">
     <div class="dataList_item" v-for="(item, index) in list" :key="index">
-      <data-list-item :item="item" @edit="$emit('edit', $event)" />
+      <data-list-item
+        :item="item"
+        @edit="$emit('edit', $event)"
+        @change="$emit('change', $event)"
+      />
     </div>
   </div>
 </template>

@@ -20,6 +20,6 @@ module.exports = {
     },
   ],
   electronDownload: {
-    mirror: "https://mirrors.huaweicloud.com/electron/",
+    mirror: "https://npm.taobao.org/mirrors/electron/",
   },
 };

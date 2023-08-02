@@ -31,9 +31,36 @@ body {
         }
     }
 
-    .popper__arrow,
-    .popper__arrow::after {
-        border-bottom-color: var(--background-color-popup) !important;
+    &[x-placement^=top] {
+
+        .popper__arrow,
+        .popper__arrow::after {
+            border-top-color: var(--background-color-popup) !important;
+        }
+    }
+
+    &[x-placement^=right] {
+
+        .popper__arrow,
+        .popper__arrow::after {
+            border-right-color: var(--background-color-popup) !important;
+        }
+    }
+
+    &[x-placement^=bottom] {
+
+        .popper__arrow,
+        .popper__arrow::after {
+            border-bottom-color: var(--background-color-popup) !important;
+        }
+    }
+
+    &[x-placement^=left] {
+
+        .popper__arrow,
+        .popper__arrow::after {
+            border-left-color: var(--background-color-popup) !important;
+        }
     }
 }
 
@@ -84,7 +111,41 @@ body {
 }
 
 
-// 弹窗
+// 选择器
+.el-select {
+    .el-select__tags {
+        .el-tag {
+            background-color: var(--background-color-block-show);
+            color: var(--font-color-base);
+
+            .el-tag__close {
+                background-color: var(--background-color-block-show);
+            }
+        }
+    }
+}
+
+.el-select-dropdown {
+    background-color: var(--background-color-block-show);
+    border-color: var(--background-color-block-show);
+
+    .el-select-dropdown__item {
+        color: var(--font-color-base);
+
+        &.hover {
+            background-color: var(--background-color-active);
+            color: var(--font-color-light);
+        }
+    }
+
+    .popper__arrow,
+    .popper__arrow::after {
+        border-bottom-color: var(--background-color-block-show) !important;
+    }
+}
+
+
+// 对话框
 .el-dialog {
     background-color: var(--background-color-popup);
     padding: 10px;

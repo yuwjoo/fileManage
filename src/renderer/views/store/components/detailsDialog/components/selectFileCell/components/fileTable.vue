@@ -30,10 +30,16 @@
           v-for="(file, index) in list"
           :Key="index"
         >
-          <el-checkbox class="fileTable_list_item_checkbox" :label="file.url">{{
-            file.name
-          }}</el-checkbox>
-          <icon-font class="fileTable_list_item_close" icon="el-icon-close" />
+          <el-checkbox
+            class="fileTable_list_item_checkbox"
+            :label="file.path"
+            >{{ file.name }}</el-checkbox
+          >
+          <icon-font
+            class="fileTable_list_item_close"
+            icon="el-icon-close"
+            @click="handleDelete(file)"
+          />
         </div>
       </el-checkbox-group>
     </div>
@@ -72,7 +78,7 @@ export default {
     handleCheckAllChange() {
       this.checkedFiles = this.checkAll
         ? []
-        : this.list.map((item) => item.url);
+        : this.list.map((item) => item.path);
     },
     /**
      * @name: 处理批量删除
@@ -80,15 +86,28 @@ export default {
     handleBatchDelete() {
       if (!this.checkedFiles.length) return;
       const newList = this.list.filter(
-        (item) => !this.checkedFiles.includes(item.url)
+        (item) => !this.checkedFiles.includes(item.path)
       );
+      this.checkedFiles = [];
       this.$emit("update:list", newList);
     },
     /**
      * @name: 处理清空列表
      */
     handleClearList() {
+      this.checkedFiles = [];
       this.$emit("update:list", []);
+    },
+    /**
+     * @name: 处理删除文件
+     * @param {object} file 被删除的文件
+     */
+    handleDelete(file) {
+      this.checkedFiles = this.checkedFiles.filter((v) => v !== file.path);
+      this.$emit(
+        "update:list",
+        this.list.filter((item) => item.path !== file.path)
+      );
     },
   },
 };
@@ -136,7 +155,7 @@ export default {
 
   .fileTable_options {
     line-height: var(--line-height-none);
-    margin: 0 4px 3px;
+    margin: 0 6px 5px;
     display: flex;
     align-items: center;
 
@@ -155,6 +174,7 @@ export default {
 
         &.fileTable_options_btn--disabled {
           color: var(--font-color-secondary);
+          cursor: no-drop;
         }
       }
     }
@@ -192,7 +212,8 @@ export default {
     }
 
     .fileTable_list_item {
-      padding: 3px;
+      padding: 2.5px 5px;
+      font-size: var(--font-size-small);
 
       &:not(:last-child) {
         border-bottom: 1px dotted var(--font-color-secondary);
