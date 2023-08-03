@@ -2,7 +2,7 @@ const { app } = require("electron");
 const path = require("path");
 const fs = require("fs");
 
-const configPath = path.resolve(app.getAppPath(), "./config.json"); // 配置存放路径
+const configPath = path.resolve(app.getPath("exe"), "../", "./config.json"); // 配置存放路径
 
 const defaultConfig = {
   workspacePath: "./workspace", // 工作区目录

@@ -3,7 +3,7 @@ const path = require("path");
 const fs = require("fs");
 
 const config = require("@/generate/config").getConfig(); // 全局配置信息
-const workspacePath = path.resolve(app.getAppPath(), config.workspacePath); // 工作区路径
+const workspacePath = path.resolve(app.getPath("exe"), '../', config.workspacePath); // 工作区路径
 const indexPath = path.resolve(workspacePath, "./index.json"); // 索引路径
 
 let indexData = []; // 索引数据
