@@ -1,12 +1,14 @@
 :root {
     /* 主题色 */
-    --theme-color: #ffffff;
-    /* 成功色 */
-    --success-color: #67C23A;
-    /* 警告色 */
-    --warning-color: #E6A23C;
-    /* 危险色 */
-    --danger-color: #e81123;
+    --primary-color: #7a40f2;
+    /* 背景色 */
+    --background-color: #f9f9f9;
+    /* 基础色-1 */
+    --base-color-1: #3acbe9;
+    /* 基础色-2 */
+    --base-color-2: #f4c427;
+    /* 基础色-3 */
+    --base-color-3: #ff9060;
 
 
     /* 次要字体大小 */

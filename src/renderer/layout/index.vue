@@ -18,5 +18,13 @@ export default {
 
 <style lang="scss" scoped>
 .layout {
+  display: flex;
+
+  .layout_main {
+    height: 100vh;
+    flex-grow: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 }
 </style>
