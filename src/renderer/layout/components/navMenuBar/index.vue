@@ -22,7 +22,7 @@
       <icon-font
         class="navMenuBar_footer_open"
         :icon="isOpen ? 'el-icon-back' : 'el-icon-right'"
-        @click="isOpen = !isOpen"
+        @click.native="isOpen = !isOpen"
       />
     </div>
   </div>
@@ -41,7 +41,7 @@ export default {
     this.menuList = [
       { icon: "el-icon-menu", label: "首页", name: "a" },
       { icon: "el-icon-plus", label: "回收站", name: "b" },
-      { icon: "el-icon-menu", label: "首页", name: "c" },
+      { icon: "restore", label: "首页", name: "c" },
       { icon: "el-icon-plus", label: "回收站", name: "d" },
       { icon: "el-icon-menu", label: "首页", name: "e" },
       { icon: "el-icon-plus", label: "回收站", name: "f" },
@@ -77,8 +77,11 @@ $MENU_ITEM_NUM: 6; // 菜单项个数
       .navMenuBar_menu_item {
         .navMenuBar_menu_item_label {
           opacity: 1;
-          transition: opacity 0.3s;
         }
+      }
+
+      .navMenuBar_menu_silder::before {
+        border-radius: 20px 50% 50% 20px;
       }
     }
   }
@@ -101,11 +104,9 @@ $MENU_ITEM_NUM: 6; // 菜单项个数
       padding: 20px 0 20px 31px;
       box-sizing: border-box;
       cursor: pointer;
-      width: 100%;
+      width: 130px;
       position: relative;
       z-index: 1;
-      display: flex;
-      align-items: center;
 
       &.is-active {
         color: $BG_COLOR;
@@ -127,6 +128,7 @@ $MENU_ITEM_NUM: 6; // 菜单项个数
         opacity: 0;
         font-size: 14px;
         margin-left: 10px;
+        transition: opacity 0.3s;
       }
     }
 
@@ -157,6 +159,7 @@ $MENU_ITEM_NUM: 6; // 菜单项个数
         background-color: white;
         border-radius: 20px;
         box-shadow: 0 -40px 0 0 $BG_COLOR, 0 40px 0 0 $BG_COLOR;
+        transition: border-radius 0.3s;
       }
     }
   }
