@@ -1,6 +1,36 @@
 body {
     margin: 0;
     line-height: 1;
-    font-size: --font-size-base;
-    background-color: --background-color;
+    font-size: var(--font-size-base);
+    background-color: var(--background-color);
+}
+
+// 卡片
+.com-card {
+    background-color: white;
+    padding: 10px;
+    border-radius: var(--border-radius-base);
+    box-shadow: 0 0 2px 0 #ccc;
+    box-sizing: border-box;
+}
+
+// element input样式
+.com-el-input {
+    .el-input__inner {
+        background-color: rgb(237, 238, 244);
+        height: 32px;
+        border: none;
+        border-radius: var(--border-radius-small);
+    }
+}
+
+// element button样式
+.com-el-button {
+    height: 32px;
+    border-radius: var(--border-radius-small);
+
+    &.el-button--primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
 }

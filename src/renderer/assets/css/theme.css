@@ -1,40 +1,37 @@
 :root {
     /* 主题色 */
     --primary-color: #7a40f2;
+
     /* 背景色 */
     --background-color: #f9f9f9;
-    /* 基础色-1 */
+
+    /* 基础色 */
     --base-color-1: #3acbe9;
-    /* 基础色-2 */
     --base-color-2: #f4c427;
-    /* 基础色-3 */
     --base-color-3: #ff9060;
 
+    /* 字体颜色 */
+    --font-color-light: #f9f9f9;
+    --font-color-dark: #131313;
 
-    /* 次要字体颜色 */
-    --font-color-secondary: #6e727ce6;
-    /* 常规字体颜色 */
-    --font-color-base: #abb2bfe6;
-    /* 高亮字体颜色 */
-    --font-color-light: #ffffff;
-    /* 激活字体颜色 */
-    --font-color-active: #409EFF;
-
-
-    /* 次要字体大小 */
+    /* 字体大小 */
     --font-size-small: 12px;
-    /* 常规字体大小 */
     --font-size-base: 14px;
-    /* 重点字体大小 */
     --font-size-medium: 16px;
 
-
-    /* 常规字体行高 */
+    /* 行高 */
     --line-height-base: 1.2;
 
+    /* 圆角 */
+    --border-radius-small: 6px;
+    --border-radius-base: 10px;
+    --border-radius-big: 20px;
 
-    /* 快速过渡持续时长 */
+    /* 过渡持续时长 */
     --transition-duration-fast: 0.15s;
-    /* 常规过渡持续时长 */
     --transition-duration-base: 0.3s;
+
+
+    /* 头部栏高度 */
+    --header-bar-height: 40px;
 }

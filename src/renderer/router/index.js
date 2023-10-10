@@ -4,12 +4,10 @@
  * @Author: YH
  * @Date: 2023-07-07 11:24:28
  * @LastEditors: YH
- * @LastEditTime: 2023-07-31 17:03:29
+ * @LastEditTime: 2023-10-10 15:16:40
  * @Description:
  * meta参数：
  *     title: 页面标题
- *     menupage: 是否菜单页
- *     custom: 自定义头部导航栏
  */
 import Vue from "vue";
 import VueRouter from "vue-router";
@@ -24,47 +22,61 @@ const router = new VueRouter({
       name: "layout",
       component: layout,
       redirect: {
-        name: "store",
+        name: "copywriting",
       },
       children: [
         {
-          path: "/store",
-          name: "store",
+          path: "/copywriting",
+          name: "copywriting",
           component: () =>
-            import(/* webpackChunkName: "store" */ "@/views/store"),
+            import(/* webpackChunkName: "copywriting" */ "@/views/copywriting"),
           meta: {
-            title: "仓库",
-            menupage: true,
+            title: "文案",
           },
         },
         {
-          path: "/temporaries",
-          name: "temporaries",
+          path: "/dub",
+          name: "dub",
           component: () =>
-            import(/* webpackChunkName: "temporaries" */ "@/views/store1"),
+            import(/* webpackChunkName: "dub" */ "@/views/dub"),
           meta: {
-            title: "临时区",
-            menupage: true,
+            title: "配音",
           },
         },
         {
-          path: "/recycleBin",
-          name: "recycleBin",
+          path: "/audioFrequency",
+          name: "audioFrequency",
           component: () =>
-            import(/* webpackChunkName: "recycleBin" */ "@/views/store"),
+            import(/* webpackChunkName: "audioFrequency" */ "@/views/audioFrequency"),
           meta: {
-            title: "回收站",
-            menupage: true,
+            title: "音频",
           },
         },
         {
-          path: "/markdown",
-          name: "markdown",
+          path: "/sourceMaterial",
+          name: "sourceMaterial",
           component: () =>
-            import(/* webpackChunkName: "markdown" */ "@/views/markdown"),
+            import(/* webpackChunkName: "sourceMaterial" */ "@/views/sourceMaterial"),
           meta: {
-            title: "Markdown",
-            custom: true,
+            title: "素材",
+          },
+        },
+        {
+          path: "/integration",
+          name: "integration",
+          component: () =>
+            import(/* webpackChunkName: "integration" */ "@/views/integration"),
+          meta: {
+            title: "整合",
+          },
+        },
+        {
+          path: "/publish",
+          name: "publish",
+          component: () =>
+            import(/* webpackChunkName: "publish" */ "@/views/publish"),
+          meta: {
+            title: "发布",
           },
         },
       ],
