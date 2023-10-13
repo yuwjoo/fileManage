@@ -4,7 +4,7 @@
  * @Author: YH
  * @Date: 2023-10-10 15:05:18
  * @LastEditors: YH
- * @LastEditTime: 2023-10-10 17:55:06
+ * @LastEditTime: 2023-10-13 15:46:26
  * @Description: 文案模块
 -->
 <template>
@@ -12,6 +12,7 @@
     <div class="copywriting_search">
       <el-input
         class="copywriting_search_input com-el-input"
+        v-model="searchContent"
         prefix-icon="el-icon-search"
         placeholder="请输入搜索内容"
       />
@@ -24,6 +25,7 @@
         class="copywriting_content_card com-card"
         v-for="(item, index) in 10"
         :key="index"
+        @click="$router.push({ name: 'ai' })"
       >
         内容
       </div>
@@ -34,6 +36,11 @@
 <script>
 export default {
   name: "copywriting",
+  data() {
+    return {
+      searchContent: "",
+    };
+  },
 };
 </script>
 
@@ -55,13 +62,13 @@ export default {
   .copywriting_content {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    height: 200vh;
 
     .copywriting_content_card {
-      width: 200px;
+      width: calc(100% / 4 - 20px);
       padding: 30px 0;
       text-align: center;
-      margin-bottom: 10px;
+      margin: 0 10px 10px;
       transition: all var(--transition-duration-fast);
 
       &:hover {

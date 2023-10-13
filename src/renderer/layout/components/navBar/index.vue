@@ -4,17 +4,26 @@
  * @Author: YH
  * @Date: 2023-09-25 13:57:49
  * @LastEditors: YH
- * @LastEditTime: 2023-10-10 14:33:36
+ * @LastEditTime: 2023-10-13 13:59:28
  * @Description: 布局-导航栏
 -->
 <template>
-  <div :class="['navBar', { 'is-open': isOpen }]">
+  <div :class="['navBar', { 'is-open': $store.state.layout.openSidebar }]">
     <div class="navBar_header">
       <icon-font
         class="navBar_header_logo"
-        :icon="isOpen ? 'el-icon-s-fold' : 'el-icon-s-unfold'"
+        :icon="
+          $store.state.layout.openSidebar
+            ? 'el-icon-s-fold'
+            : 'el-icon-s-unfold'
+        "
         size="18px"
-        @click.native="isOpen = !isOpen"
+        @click.native="
+          $store.commit(
+            'layout/setOpenSidebar',
+            !$store.state.layout.openSidebar
+          )
+        "
       />
     </div>
 
@@ -22,19 +31,23 @@
       <div
         :class="[
           'navBar_menu_item',
-          { 'is-active': item.name === $route.name },
+          {
+            'is-active': $route.meta.matched.find(
+              (route) => route.name === item.name
+            ),
+          },
         ]"
-        v-for="item in menuList"
+        v-for="item in $store.getters['layout/menuList']"
         :key="item.name"
-        :title="item.title"
+        :title="item.meta.title"
         @click="$router.push({ name: item.name })"
       >
         <icon-font
           class="navBar_menu_item_icon"
-          :icon="item.icon"
+          :icon="item.meta.icon"
           size="18px"
         />
-        <span class="navBar_menu_item_title">{{ item.title }}</span>
+        <span class="navBar_menu_item_title">{{ item.meta.title }}</span>
       </div>
       <div class="navBar_menu_silder"></div>
     </div>
@@ -52,20 +65,6 @@
 <script>
 export default {
   name: "navBar",
-  data() {
-    return {
-      menuList: [
-        { icon: "el-icon-edit-outline", title: "文案", name: "copywriting" },
-        { icon: "el-icon-microphone", title: "配音", name: "dub" },
-        { icon: "el-icon-headset", title: "音频", name: "audioFrequency" },
-        { icon: "el-icon-film", title: "素材", name: "sourceMaterial" },
-        { icon: "el-icon-files", title: "整合", name: "integration" },
-        { icon: "el-icon-position", title: "发布", name: "publish" },
-      ], // 菜单列表
-      active: "", // 当前激活菜单项
-      isOpen: false, // 是否展开
-    };
-  },
 };
 </script>
 

@@ -1,6 +1,7 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "@/router";
+import store from "@/store";
 import { useIconFont } from "@/library/useIconFont"; // 图标组件
 import { useElementUI } from "@/library/useElementUI"; // element-ui组件库
 import "@/assets/css/theme.css"; // 主题css
@@ -15,5 +16,6 @@ useElementUI(Vue);
 
 new Vue({
   router,
+  store,
   render: (h) => h(App),
 }).$mount("#app");

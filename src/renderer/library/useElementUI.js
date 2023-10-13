@@ -21,6 +21,8 @@ import {
   Notification,
   MessageBox,
   Option,
+  Breadcrumb,
+  BreadcrumbItem
 } from "element-ui";
 
 export function useElementUI(Vue) {
@@ -49,4 +51,6 @@ export function useElementUI(Vue) {
   Vue.use(Upload);
   Vue.use(Checkbox);
   Vue.use(CheckboxGroup);
+  Vue.use(Breadcrumb);
+  Vue.use(BreadcrumbItem);
 }
