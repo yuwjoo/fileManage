@@ -4,7 +4,7 @@
  * @Author: YH
  * @Date: 2023-07-08 09:04:26
  * @LastEditors: YH
- * @LastEditTime: 2023-09-27 17:47:34
+ * @LastEditTime: 2023-10-16 14:04:19
  * @Description: 图标组件
 -->
 <script>
@@ -39,8 +39,8 @@ export default {
 
     // 创建图标数据对象
     const iconData = {
-      class: staticClass,
-      style: { ...staticStyle, fontSize: size, color },
+      class: staticClass || data.class,
+      style: { ...(staticStyle || data.style), fontSize: size, color },
       attrs,
       on: nativeOn,
     };
