@@ -22,7 +22,7 @@
         :key="index"
         :style="itemStyle"
       >
-        <slot name="underlay" :item="entity.item" />
+        <slot name="underlay" :item="entity.item" :isHover="entity.isHover" />
       </div>
     </div>
     <!-- 背景层 end -->
@@ -43,7 +43,12 @@
         :style="[itemStyle, entity.isDrag ? itemDragStyle : entity.moveStyle]"
         @click="handleClickItem(entity.item)"
       >
-        <slot :item="entity.item">{{ entity.item.value }}</slot>
+        <slot
+          :item="entity.item"
+          :isDrag="entity.isDrag"
+          :isMove="entity.isMove"
+          >{{ entity.item.value }}</slot
+        >
       </div>
     </div>
     <!-- 前景层 end -->
@@ -171,12 +176,19 @@ export default {
      * @description: 初始化矩阵数据
      */
     initMatrix() {
-      const { top, left, height } = this.$el.getBoundingClientRect();
+      const { top, left, height, width } = this.$el.getBoundingClientRect();
       const rows = Math.ceil(height / (this.itemHeight + this.rowGap));
-      const cols =
-        rows - 1 > 0
-          ? Math.floor((this.itemCount - 1) / (rows - 1))
-          : this.itemCount;
+      let cols = this.cols;
+      if (cols === "auto-fill") {
+        const num = Math.ceil(width / (this.itemWidth + this.colGap));
+        if ((this.itemWidth + this.colGap) * num - this.colGap > width) {
+          cols = num - 1;
+        } else {
+          cols = num;
+        }
+      } else {
+        cols = Math.min(this.itemCount, cols);
+      }
       const map = this.value.map((_, index) => {
         const itemCol = (index + 1) % cols || cols;
         const itemRow = Math.ceil((index + 1) / cols);

@@ -4,7 +4,7 @@
  * @Author: YH
  * @Date: 2023-10-10 15:05:18
  * @LastEditors: YH
- * @LastEditTime: 2023-10-26 11:44:55
+ * @LastEditTime: 2023-10-26 17:39:30
  * @Description: 配音模块
 -->
 <template>
@@ -20,7 +20,7 @@ export default {
   name: "dub",
   data() {
     return {
-      list: Array.from({ length: 100 }).map((_, index) => ({
+      list: Array.from({ length: 10 }).map((_, index) => ({
         icon: "",
         value: index,
       })),
