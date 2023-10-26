@@ -6,7 +6,7 @@ export default {
   meta: {
     title: "文案",
     icon: "el-icon-edit-outline",
-    order: 1
+    order: 2
   },
   children: [
     {

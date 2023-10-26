@@ -5,6 +5,6 @@ export default {
   meta: {
     title: "配音",
     icon: "el-icon-microphone",
-    order: 2
+    order: 1
   },
 };

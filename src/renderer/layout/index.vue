@@ -4,14 +4,14 @@
  * @Author: YH
  * @Date: 2023-08-28 16:58:06
  * @LastEditors: YH
- * @LastEditTime: 2023-10-10 16:40:27
+ * @LastEditTime: 2023-10-24 17:54:30
  * @Description: 布局
 -->
 <template>
   <div class="layout">
-    <nav-bar class="layout_nav" />
+    <!-- <nav-bar class="layout_nav" /> -->
     <div class="layout_content">
-      <header-bar class="layout_content_header" />
+      <!-- <header-bar class="layout_content_header" /> -->
       <div class="layout_content_main" id="main">
         <keep-alive>
           <router-view />
