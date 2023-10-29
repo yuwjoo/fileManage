@@ -1,5 +1,5 @@
 const sqlite3 = require("sqlite3").verbose();
-const sqliteDbPath = "./database/Manage.db"; // 数据库地址
+const sqliteDbPath = "./Manage.db"; // 数据库地址
 const db = new sqlite3.Database(sqliteDbPath);
 
 db.serialize(() => {

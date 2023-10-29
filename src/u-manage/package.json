@@ -3,7 +3,7 @@
   "productName": "u-manage",
   "version": "1.0.0",
   "description": "My Electron application description",
-  "main": "src/index.js",
+  "main": "src/main/index.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
@@ -16,8 +16,22 @@
     "name": "YH",
     "email": "1191759350@qq.com"
   },
+  "_moduleAliases": {
+    "@": "./src"
+  },
   "license": "MIT",
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "module-alias": "^2.2.3"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.4.2",
+    "@electron-forge/maker-deb": "^6.4.2",
+    "@electron-forge/maker-rpm": "^6.4.2",
+    "@electron-forge/maker-squirrel": "^6.4.2",
+    "@electron-forge/maker-zip": "^6.4.2",
+    "@electron-forge/plugin-auto-unpack-natives": "^6.4.2",
+    "electron": "27.0.2",
+    "electron-reloader": "^1.2.3"
   }
 }

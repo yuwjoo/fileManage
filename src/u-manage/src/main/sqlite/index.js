@@ -1,6 +1,7 @@
+const db = require("./db");
 const { run, all } = require("./handler");
 
-module.exports = {
+const api = {
   /**
    * @description: 添加类型数据
    * @param {Object} data 数据
@@ -77,3 +78,5 @@ module.exports = {
     return all(`SELECT * FROM resource;`);
   },
 };
+
+module.exports = { api, db };
