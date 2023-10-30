@@ -29,11 +29,40 @@ function initIPCReceive() {
   });
 
   /**
+   * @description: 窗口关闭
+   */
+  ipcMain.on("windowClose", ({ sender }) => {
+    const win = BrowserWindow.fromWebContents(sender);
+    win.close();
+  });
+
+  /**
    * @description: 设置窗口全屏状态
    */
   ipcMain.on("windowSetFullScreen", ({ sender }, isFull) => {
     const win = BrowserWindow.fromWebContents(sender);
     win.setFullScreen(isFull);
+  });
+
+  /**
+   * @description: 响应请求
+   */
+  ipcMain.on("request", ({ ports }, data) => {
+    const replyPort = ports[0];
+    replyPort.postMessage(0);
+    console.log("接收到的消息", data)
+    setTimeout(() => {
+      replyPort.postMessage(100);
+      replyPort.close();
+    });
+  });
+
+  /**
+   * @description: 测试
+   */
+  ipcMain.on("test", ({ ports }, data) => {
+    const replyPort = ports[0];
+    replyPort()
   });
 }
 
