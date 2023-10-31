@@ -1,15 +1,17 @@
+// 模块别名
 require("module-alias/register");
+
 const { app, BrowserWindow } = require("electron");
 const { initMainWindow } = require("./mainWindow");
-const { initIPCReceive } = require("./ipc/ipcReceive");
+const { initIPC } = require("./ipc");
 
 // 热更新
 try {
   require("electron-reloader")(module, {});
 } catch (_) {}
 
-// 初始化IPC接收函数
-initIPCReceive();
+// 初始化IPC
+initIPC();
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {

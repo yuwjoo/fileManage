@@ -73,10 +73,14 @@
 </template>
 
 <script setup lang="ts">
+import { formatTimes, formatThousands } from "configjs-utilsjs";
 import comHeader from "@/components/Header.vue";
 import { useSearch } from "./hooks/search.ts";
 import { useSelect } from "./hooks/select.ts";
 import { useTable } from "./hooks/table.ts";
+
+console.log(formatTimes("1698743183111"));
+console.log(formatThousands(4894944551));
 
 defineOptions({
   name: "Home",

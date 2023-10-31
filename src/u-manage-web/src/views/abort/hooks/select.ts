@@ -22,7 +22,7 @@ function getTypesData(): void {
   types.loading = true;
   getTypesList({})
     .then((res) => {
-      types.list = res.value || [];
+      // types.list = res.value || [];
     })
     .finally(() => {
       types.loading = false;

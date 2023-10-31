@@ -5,12 +5,13 @@
  * @return {Promise<any>} 请求结果
  */
 export function getTypesList(data: any, progress?: Function): Promise<any> {
-  return window.electronApi.request({
-    url: "types/getTypesList",
-    method: "post",
-    progress,
-    data,
-  });
+  return new Promise((a, b) => a());
+  // return window.electronApi.request({
+  //   url: "types/getTypesList",
+  //   method: "post",
+  //   progress,
+  //   data,
+  // });
 }
 
 /**
@@ -20,10 +21,11 @@ export function getTypesList(data: any, progress?: Function): Promise<any> {
  * @return {Promise<any>} 请求结果
  */
 export function getResourceList(data: any, progress?: Function): Promise<any> {
-  return window.electronApi.request({
-    url: "types/getResourceList",
-    method: "post",
-    progress,
-    data,
-  });
+  return new Promise((a, b) => a());
+  // return window.electronApi.request({
+  //   url: "types/getResourceList",
+  //   method: "post",
+  //   progress,
+  //   data,
+  // });
 }

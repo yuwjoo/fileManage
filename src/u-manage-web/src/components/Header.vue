@@ -13,6 +13,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { useElectronListener } from "@/hooks/electron";
 
 defineOptions({
   name: "Header",
@@ -21,8 +22,8 @@ defineOptions({
 const isMaximize = ref<Boolean>(false); // 窗口是否最大化
 
 // 监听最大化窗口变化
-window.electronApi.onChangeMaximize((event: any) => {
-  isMaximize.value = event.value;
+useElectronListener("changeMaximize", (is: boolean) => {
+  isMaximize.value = is;
 });
 
 /**
@@ -30,9 +31,9 @@ window.electronApi.onChangeMaximize((event: any) => {
  */
 function hanldeWindowMax() {
   if (isMaximize) {
-    window.electronApi.windowRestore();
+    // window.electronApi.windowRestore();
   } else {
-    window.electronApi.windowMaximize();
+    // window.electronApi.windowMaximize();
   }
 }
 
@@ -40,14 +41,14 @@ function hanldeWindowMax() {
  * @description: 处理窗口最小化
  */
 function hanldeWindowMin() {
-  window.electronApi.windowRestore();
+  // window.electronApi.windowRestore();
 }
 
 /**
  * @description: 处理窗口关闭
  */
 function hanldeWindowClose() {
-  window.electronApi.windowClose();
+  // window.electronApi.windowClose();
 }
 </script>
 

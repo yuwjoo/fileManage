@@ -1,6 +1,5 @@
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
-const { changeMaximize, changeFullScreen } = require("@/main/ipc/ipcSend");
 
 /**
  * @description: 初始化主窗口
@@ -24,11 +23,6 @@ function initMainWindow() {
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
   }
-
-  mainWindow.on("maximize", () => changeMaximize(mainWindow, true));
-  mainWindow.on("unmaximize", () => changeMaximize(mainWindow, false));
-  mainWindow.on("enter-full-screen", () => changeFullScreen(mainWindow, true));
-  mainWindow.on("leave-full-screen", () => changeFullScreen(mainWindow, false));
 }
 
 module.exports = { initMainWindow };
