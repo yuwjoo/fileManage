@@ -1,24 +1,60 @@
 <template>
   <div class="home">
     <!-- 头部 start -->
-    <com-header />
+    <com-header v-if="isElectronEnv()" />
     <!-- 头部 end -->
 
-    <!-- 筛选条件 start -->
-    <el-form :inline="true" :model="search" class="demo-form-inline">
-      <el-form-item label="">
-        <el-input
-          v-model="search.searchContent"
-          placeholder="请输入模糊搜索值"
-          clearable
-          style="width: 300px"
-        />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="resetData(search)">查询</el-button>
-      </el-form-item>
+    <!-- 筛选项 start -->
+    <el-form class="home_form" :model="search" label-suffix=":">
+      <el-row class="home_form_row" :gutter="20">
+        <el-col :span="6">
+          <el-form-item label="关键字">
+            <el-input
+              v-model="search.searchContent"
+              placeholder="请输入模糊搜索"
+              clearable
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="标签">
+            <el-select v-model="search.tags" multiple placeholder="请选择标签">
+              <el-option></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="3">
+          <el-form-item>
+            <el-button
+              type="primary"
+              icon="Search"
+              plain
+              @click="resetData(search)"
+              >查询数据</el-button
+            >
+          </el-form-item>
+        </el-col>
+        <el-col :span="9">
+          <el-form-item>
+            <el-button
+              type="success"
+              icon="Plus"
+              plain
+              @click="resetData(search)"
+              >新建资源</el-button
+            >
+            <el-button
+              type="danger"
+              icon="Delete"
+              plain
+              @click="resetData(search)"
+              >批量删除</el-button
+            >
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
-    <!-- 筛选条件 end -->
+    <!-- 筛选项 end -->
 
     <!-- tab栏 start -->
     <el-tabs v-model="search.typeId" type="border-card">
@@ -27,6 +63,7 @@
         :key="item.id"
         :label="item.title"
         :name="item.id"
+        :stretch="true"
       >
         <el-table :data="list" border :loading="loading">
           <el-table-column
@@ -57,15 +94,6 @@
             <el-button type="danger" size="small">删除</el-button>
           </el-table-column>
         </el-table>
-        <el-pagination
-          background
-          layout="prev, pager, next"
-          :current-page="page.current"
-          :page-size="page.size"
-          :page-count="page.total"
-          style="margin-top: 20px"
-          @update:current-page="handleChangeCurrent"
-        />
       </el-tab-pane>
     </el-tabs>
     <!-- tab栏 end -->
@@ -73,33 +101,41 @@
 </template>
 
 <script setup lang="ts">
-import { formatTimes, formatThousands } from "configjs-utilsjs";
+import { reactive, ref } from "vue";
 import comHeader from "@/components/Header.vue";
-import { useSearch } from "./hooks/search.ts";
-import { useSelect } from "./hooks/select.ts";
-import { useTable } from "./hooks/table.ts";
+import { isElectronEnv } from "@/hooks/electron";
 
-console.log(formatTimes("1698743183111"));
-console.log(formatThousands(4894944551));
+interface Search {
+  searchContent: string;
+  tags: number[];
+  typeId: number;
+}
 
 defineOptions({
   name: "Home",
 });
 
-const { search } = useSearch();
-const { types } = useSelect();
-const { list, page, loading, getData, resetData } = useTable();
-
-/**
- * @description: 处理当前页改变
- */
-function handleChangeCurrent(): void {
-  getData(search);
-}
+const search = reactive<Search>({
+  searchContent: "", // 模糊搜索值
+  tags: [], // 标签
+  typeId: -1, // 类型id
+});
+const list = ref<any[]>([]); // 列表数据
+const loading = ref<boolean>(false); // 加载状态
 </script>
 
 <style lang="scss">
 .home {
-  padding: 0 20px 20px;
+  padding: 20px;
+
+  .home_form {
+    .home_form_row {
+      .el-col:last-child {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+      }
+    }
+  }
 }
 </style>

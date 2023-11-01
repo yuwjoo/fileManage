@@ -1,6 +1,8 @@
 <template>
   <el-row class="header">
     <el-col class="header_system" :span="6" :offset="18">
+      <el-icon @click="test"><RefreshRight /></el-icon>
+      <el-icon @click="handleReload"><RefreshRight /></el-icon>
       <el-icon @click="hanldeWindowMin"><Minus /></el-icon>
       <el-icon @click="hanldeWindowMax">
         <Files v-if="isMaximize" />
@@ -13,27 +15,33 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useElectronListener } from "@/hooks/electron";
+import { useElectronListener, useElectronRequest } from "@/hooks/electron";
+import { useRouter, useRoute } from "vue-router";
 
 defineOptions({
   name: "Header",
 });
-
+const router = useRouter();
+const route = useRoute();
 const isMaximize = ref<Boolean>(false); // 窗口是否最大化
 
 // 监听最大化窗口变化
-useElectronListener("changeMaximize", (is: boolean) => {
-  isMaximize.value = is;
-});
+useElectronListener(
+  "window:changeMaximize",
+  (is: boolean) => {
+    isMaximize.value = is;
+  },
+  { immediate: true }
+);
 
 /**
  * @description: 处理窗口最大化/还原
  */
 function hanldeWindowMax() {
-  if (isMaximize) {
-    // window.electronApi.windowRestore();
+  if (isMaximize.value) {
+    useElectronRequest("window:restore");
   } else {
-    // window.electronApi.windowMaximize();
+    useElectronRequest("window:maximize");
   }
 }
 
@@ -41,14 +49,25 @@ function hanldeWindowMax() {
  * @description: 处理窗口最小化
  */
 function hanldeWindowMin() {
-  // window.electronApi.windowRestore();
+  useElectronRequest("window:minimize");
 }
 
 /**
  * @description: 处理窗口关闭
  */
 function hanldeWindowClose() {
-  // window.electronApi.windowClose();
+  useElectronRequest("window:close");
+}
+
+/**
+ * @description: 处理刷新页面
+ */
+function handleReload() {
+  window.location.reload();
+}
+
+function test() {
+  router.push({ name: route.name === "home" ? "abort" : "home" });
 }
 </script>
 

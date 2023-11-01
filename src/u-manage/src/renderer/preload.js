@@ -4,14 +4,15 @@ const { contextBridge, ipcRenderer } = require("electron");
  * @description: 监听事件
  * @param {String} name 事件名称
  * @param {Function} callback 回调函数
+ * @param {object} options 配置
  * @return {{remove}} 移除监听器函数
  */
-function addListener(name, callback) {
+function addListener(name, callback, options) {
   const { port1, port2 } = new MessageChannel();
   port1.onmessage = (event) => {
     callback(event.data);
   };
-  ipcRenderer.postMessage("listener", { name }, [port2]);
+  ipcRenderer.postMessage("listener", { name, options }, [port2]);
   return {
     remove: () => {
       port1.postMessage({ remove: true });
@@ -62,6 +63,7 @@ function connect(name, params, options = {}) {
 }
 
 contextBridge.exposeInMainWorld("electronApi", {
+  version: process.versions.electron,
   addListener,
   request,
   connect,

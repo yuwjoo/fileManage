@@ -2,13 +2,8 @@
 require("module-alias/register");
 
 const { app, BrowserWindow } = require("electron");
-const { initMainWindow } = require("./mainWindow");
-const { initIPC } = require("./ipc");
-
-// 热更新
-try {
-  require("electron-reloader")(module, {});
-} catch (_) {}
+const { initMainWindow } = require("@/main/mainWindow");
+const { initIPC } = require("@/main/ipc");
 
 // 初始化IPC
 initIPC();
@@ -38,3 +33,8 @@ app.on("window-all-closed", () => {
     app.quit();
   }
 });
+
+// 热更新
+try {
+  require("electron-reloader")(module, {});
+} catch (_) {}
