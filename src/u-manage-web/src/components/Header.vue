@@ -1,16 +1,20 @@
 <template>
-  <el-row class="header">
-    <el-col class="header_system" :span="6" :offset="18">
-      <el-icon @click="test"><RefreshRight /></el-icon>
-      <el-icon @click="handleReload"><RefreshRight /></el-icon>
-      <el-icon @click="hanldeWindowMin"><Minus /></el-icon>
-      <el-icon @click="hanldeWindowMax">
-        <Files v-if="isMaximize" />
-        <FullScreen v-else />
-      </el-icon>
-      <el-icon @click="hanldeWindowClose"><Close /></el-icon>
-    </el-col>
-  </el-row>
+  <div class="header">
+    <el-row class="header_row">
+      <el-col class="header_row_col" :span="6" :offset="18">
+        <el-space :size="0">
+          <el-icon @click="test"><RefreshRight /></el-icon>
+          <el-icon @click="handleReload"><RefreshRight /></el-icon>
+          <el-icon @click="hanldeWindowMin"><Minus /></el-icon>
+          <el-icon @click="hanldeWindowMax">
+            <Files v-if="isMaximize" />
+            <FullScreen v-else />
+          </el-icon>
+          <el-icon @click="hanldeWindowClose"><Close /></el-icon>
+        </el-space>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -73,23 +77,31 @@ function test() {
 
 <style lang="scss">
 .header {
-  -webkit-app-region: drag;
+  height: 40px;
 
-  .header_system {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+  .header_row {
+    -webkit-app-region: drag;
+    z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
 
-    .el-icon {
-      -webkit-app-region: no-drag;
-      padding: 10px 20px;
+    .header_row_col {
+      text-align: right;
 
-      &:hover {
-        background-color: rgba(0, 0, 0, 0.1);
+      .el-icon {
+        -webkit-app-region: no-drag;
+        padding: 10px 20px;
 
-        &:last-child {
-          background-color: rgba(255, 0, 0, 1);
-          color: white;
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.1);
+
+          &:last-child {
+            background-color: rgba(255, 0, 0, 1);
+            color: white;
+          }
         }
       }
     }

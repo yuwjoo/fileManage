@@ -5,11 +5,11 @@ const db = new sqlite3.Database(sqliteDbPath);
 db.serialize(() => {
   // 分类表
   db.run(
-    `CREATE TABLE IF NOT EXISTS types
+    `CREATE TABLE IF NOT EXISTS category
     (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       directory TEXT NOT NULL UNIQUE,
-      title TEXT NOT NULL
+      name TEXT NOT NULL
     );`
   );
   // 资源表
@@ -17,10 +17,11 @@ db.serialize(() => {
     `CREATE TABLE IF NOT EXISTS resource
     (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      title TEXT NOT NULL UNIQUE,
+      name TEXT NOT NULL UNIQUE,
       describe TEXT,
-      types_id INTEGER NOT NULL,
-      FOREIGN KEY (types_id) REFERENCES types(id)
+      tags TEXT,
+      category_id INTEGER NOT NULL,
+      FOREIGN KEY (category_id) REFERENCES category(id)
     );`
   );
   db.run("PRAGMA foreign_keys = ON;"); // 打开外键约束

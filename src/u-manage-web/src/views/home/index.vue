@@ -18,36 +18,38 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="标签">
-            <el-select v-model="search.tags" multiple placeholder="请选择标签">
-              <el-option></el-option>
+            <el-select
+              v-model="search.tags"
+              multiple
+              placeholder="请选择标签"
+              :loading="select.tag.loading"
+            >
+              <el-option
+                v-for="(item, index) in select.tag.list"
+                :key="index"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="3">
           <el-form-item>
-            <el-button
-              type="primary"
-              icon="Search"
-              plain
-              @click="resetData(search)"
+            <el-button type="primary" icon="Search" plain @click="handleSearch"
               >查询数据</el-button
             >
           </el-form-item>
         </el-col>
         <el-col :span="9">
           <el-form-item>
-            <el-button
-              type="success"
-              icon="Plus"
-              plain
-              @click="resetData(search)"
+            <el-button type="success" icon="Plus" plain @click="handleAdd"
               >新建资源</el-button
             >
             <el-button
               type="danger"
               icon="Delete"
               plain
-              @click="resetData(search)"
+              @click="handleBatchDelete"
               >批量删除</el-button
             >
           </el-form-item>
@@ -57,71 +59,79 @@
     <!-- 筛选项 end -->
 
     <!-- tab栏 start -->
-    <el-tabs v-model="search.typeId" type="border-card">
+    <el-tabs v-model="active" type="border-card" @tab-change="handleChangeTab">
       <el-tab-pane
-        v-for="item in types.list"
+        v-for="(item, index) in select.types.list"
         :key="item.id"
         :label="item.title"
-        :name="item.id"
-        :stretch="true"
+        :name="index"
+        stretch
+        lazy
       >
-        <el-table :data="list" border :loading="loading">
-          <el-table-column
-            prop="title"
-            label="标题"
-            min-width="100"
-            align="center"
-          />
-          <el-table-column
-            prop="describe"
-            label="描述"
-            min-width="150"
-            align="center"
-          />
-          <el-table-column
-            prop="tags"
-            label="标签"
-            min-width="100"
-            align="center"
-          />
-          <el-table-column
-            prop="option"
-            label="操作"
-            width="180"
-            align="center"
-          >
-            <el-button type="warning" size="small">编辑</el-button>
-            <el-button type="danger" size="small">删除</el-button>
-          </el-table-column>
-        </el-table>
+        <data-table ref="tableRefs" :search="search" />
       </el-tab-pane>
     </el-tabs>
     <!-- tab栏 end -->
+
+    <!-- 新建资源对话框 start -->
+    <add-dialog ref="addDialogRef" />
+    <!-- 新建资源对话框 end -->
   </div>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import comHeader from "@/components/Header.vue";
+import dataTable from "./components/dataTable.vue";
+import addDialog from "./components/addDialog.vue";
 import { isElectronEnv } from "@/hooks/electron";
+import { useSelect } from "./hooks/select";
 
 interface Search {
   searchContent: string;
   tags: number[];
-  typeId: number;
+  typeId: number | "";
 }
 
-defineOptions({
-  name: "Home",
-});
+defineOptions({ name: "Home" });
 
+const select = useSelect(); // 下拉列表
 const search = reactive<Search>({
   searchContent: "", // 模糊搜索值
   tags: [], // 标签
-  typeId: -1, // 类型id
+  typeId: "", // 类型id
 });
-const list = ref<any[]>([]); // 列表数据
-const loading = ref<boolean>(false); // 加载状态
+const active = ref<number>(0); // 当前激活的tab下标
+const tableRefs = ref<any[]>([]); // 表格refs
+const addDialogRef = ref<any>(null); // 新建对话框ref
+
+/**
+ * @description: 处理查询
+ */
+function handleSearch(): void {
+  tableRefs.value[active.value].getData();
+}
+
+/**
+ * @description: 处理新建
+ */
+function handleAdd(): void {
+  addDialogRef.value.open();
+}
+
+/**
+ * @description: 处理批量删除
+ */
+function handleBatchDelete(): void {}
+
+/**
+ * @description: 处理tab切换
+ * @param {number} index 选中下标
+ */
+function handleChangeTab(index: number): void {
+  search.typeId = select.types.list[index].id;
+  tableRefs.value[index]?.getData();
+}
 </script>
 
 <style lang="scss">

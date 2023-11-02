@@ -36,4 +36,19 @@ function all(sql, params) {
   });
 }
 
-module.exports = { run, all };
+/**
+ * @description: 开启事务
+ * @param {Function} callback 回调函数
+ * @return {Promise} 结果
+ */
+async function transaction(callback) {
+  db.run("BEGIN;");
+  try {
+    await new Promise(callback);
+    db.run("COMMIT;");
+  } catch {
+    db.run("ROLLBACK;");
+  }
+}
+
+module.exports = { run, all, transaction };

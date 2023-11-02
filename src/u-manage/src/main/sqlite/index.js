@@ -1,54 +1,55 @@
 const db = require("./db");
-const { run, all } = require("./handler");
+const { run, all, transaction } = require("./handler");
 
 const api = {
   /**
-   * @description: 添加类型数据
+   * @description: 添加分类数据
    * @param {Object} data 数据
    * @return {Promise} 结果
    */
-  addTypes(data) {
-    return run(`INSERT INTO types (directory, title) VALUES (?, ?);`, [
+  insertCategory(data) {
+    return run(`INSERT INTO category (directory, name) VALUES (?, ?);`, [
       data.directory,
-      data.title,
+      data.name,
     ]);
   },
   /**
-   * @description: 删除类型数据
-   * @param {String} id 类型id
+   * @description: 删除分类数据
+   * @param {String} id 分类id
    * @return {Promise} 结果
    */
-  deleteTypes(id) {
-    return run(`DELETE FROM types WHERE id=?;`, [id]);
+  deleteCategory(id) {
+    return run(`DELETE FROM category WHERE id=?;`, [id]);
   },
   /**
-   * @description: 修改类型数据
+   * @description: 修改分类数据
    * @param {Object} data 数据
    * @return {Promise} 结果
    */
-  updateTypes(data) {
-    return run(`UPDATE types SET title=?, directory=? WHERE id=?;`, [
-      data.title,
+  updateCategory(data) {
+    return run(`UPDATE category SET name=?, directory=? WHERE id=?;`, [
+      data.name,
       data.directory,
       data.id,
     ]);
   },
   /**
-   * @description: 查询类型数据列表
+   * @description: 查询分类数据列表
+   * @param {String} id 分类id
    * @return {Promise} 结果
    */
-  getTypesList() {
-    return all(`SELECT * FROM types;`);
+  selectCategoryList(id) {
+    return all(`SELECT * FROM category WHERE id==?;`, [id]);
   },
   /**
    * @description: 添加资源数据
    * @param {Object} data 数据
    * @return {Promise} 结果
    */
-  addResource(data) {
+  insertResource(data) {
     return run(
-      `INSERT INTO resource (title, describe, types_id) VALUES (?, ?, ?);`,
-      [data.title, data.describe, data.types_id]
+      `INSERT INTO resource (name, describe, tags, category_id) VALUES (?, ?, ?, ?);`,
+      [data.name, data.describe, (data.tags || []).join(","), data.category_id]
     );
   },
   /**
@@ -66,17 +67,27 @@ const api = {
    */
   updateResource(data) {
     return run(
-      `UPDATE resource SET title=?, describe=?, types_id=? WHERE id=?;`,
-      [data.title, data.describe, data.types_id, data.id]
+      `UPDATE resource SET name=?, describe=?, tags=?, category_id=? WHERE id=?;`,
+      [
+        data.name,
+        data.describe,
+        (data.tags || []).join(","),
+        data.category_id,
+        data.id,
+      ]
     );
   },
   /**
    * @description: 查询资源数据列表
+   * @param {Object} data 筛选条件
    * @return {Promise} 结果
    */
-  getResourceList() {
-    return all(`SELECT * FROM resource;`);
+  selectResourceList(data) {
+    return all(
+      `SELECT * FROM resource
+       WHERE name link "%${data.searchContent}%" or describe link "%${data.searchContent}%";`
+    );
   },
 };
 
-module.exports = { api, db };
+module.exports = { api, db, run, all, transaction };
