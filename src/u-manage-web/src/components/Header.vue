@@ -77,7 +77,7 @@ function test() {
 
 <style lang="scss">
 .header {
-  height: 40px;
+  height: 36px;
 
   .header_row {
     -webkit-app-region: drag;
