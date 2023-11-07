@@ -3,14 +3,21 @@
     <el-row class="header_row">
       <el-col class="header_row_col" :span="6" :offset="18">
         <el-space :size="0">
-          <el-icon @click="test"><RefreshRight /></el-icon>
-          <el-icon @click="handleReload"><RefreshRight /></el-icon>
-          <el-icon @click="hanldeWindowMin"><Minus /></el-icon>
-          <el-icon @click="hanldeWindowMax">
-            <Files v-if="isMaximize" />
-            <FullScreen v-else />
+          <el-icon @click="handleReload">
+            <i-ep-refresh-right />
           </el-icon>
-          <el-icon @click="hanldeWindowClose"><Close /></el-icon>
+          <el-icon @click="handleExec('minimize')">
+            <i-ep-minus />
+          </el-icon>
+          <el-icon v-if="isMaximize" @click="handleExec(`restore`)">
+            <i-ep-files />
+          </el-icon>
+          <el-icon v-else @click="handleExec(`maximize`)">
+            <i-ep-full-screen />
+          </el-icon>
+          <el-icon @click="handleExec(`close`)">
+            <i-ep-close />
+          </el-icon>
         </el-space>
       </el-col>
     </el-row>
@@ -19,18 +26,16 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useElectronListener, useElectronRequest } from "@/hooks/electron";
-import { useRouter, useRoute } from "vue-router";
+import { useElectron } from "@/hooks/electron";
 
 defineOptions({
   name: "Header",
 });
-const router = useRouter();
-const route = useRoute();
+const electron = useElectron();
 const isMaximize = ref<Boolean>(false); // 窗口是否最大化
 
 // 监听最大化窗口变化
-useElectronListener(
+electron.listener(
   "window:changeMaximize",
   (is: boolean) => {
     isMaximize.value = is;
@@ -39,28 +44,11 @@ useElectronListener(
 );
 
 /**
- * @description: 处理窗口最大化/还原
+ * @description: 处理执行指令
+ * @param {string} command 指令
  */
-function hanldeWindowMax() {
-  if (isMaximize.value) {
-    useElectronRequest("window:restore");
-  } else {
-    useElectronRequest("window:maximize");
-  }
-}
-
-/**
- * @description: 处理窗口最小化
- */
-function hanldeWindowMin() {
-  useElectronRequest("window:minimize");
-}
-
-/**
- * @description: 处理窗口关闭
- */
-function hanldeWindowClose() {
-  useElectronRequest("window:close");
+function handleExec(command: string): void {
+  electron.request(`window:${command}`);
 }
 
 /**
@@ -68,10 +56,6 @@ function hanldeWindowClose() {
  */
 function handleReload() {
   window.location.reload();
-}
-
-function test() {
-  router.push({ name: route.name === "home" ? "abort" : "home" });
 }
 </script>
 

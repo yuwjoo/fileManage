@@ -1,13 +1,34 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import { resolve } from 'path'
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+import { resolve } from "path";
+import AutoImport from "unplugin-auto-import/vite";
+import Components from "unplugin-vue-components/vite";
+import IconsResolver from "unplugin-icons/resolver";
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 
 export default defineConfig({
-  plugins: [vue()],
-  //解决“vite use `--host` to expose”
-  base: './',	//不加打包后白屏
+  plugins: [
+    vue(),
+    AutoImport({
+      resolvers: [
+        ElementPlusResolver(),
+        IconsResolver({
+          prefix: "Icon",
+        }),
+      ],
+    }),
+    Components({
+      resolvers: [
+        ElementPlusResolver(),
+        IconsResolver({
+          enabledCollections: ["ep"],
+        }),
+      ],
+    }),
+  ],
+  base: "./",
   server: {
-    host: '0.0.0.0',
+    host: "0.0.0.0",
     // port: 8080,
     // open: true
   },
@@ -15,9 +36,9 @@ export default defineConfig({
     //别名配置，引用src路径下的东西可以通过@如：import Layout from '@/layout/index.vue'
     alias: [
       {
-        find: '@',
-        replacement: resolve(__dirname, 'src')
-      }
-    ]
-  }
-})
+        find: "@",
+        replacement: resolve(__dirname, "src"),
+      },
+    ],
+  },
+});
