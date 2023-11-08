@@ -29,6 +29,11 @@ declare module 'vue' {
     ElTag: typeof import('element-plus/es')['ElTag']
     ElUpload: typeof import('element-plus/es')['ElUpload']
     Header: typeof import('./src/components/Header.vue')['default']
+    IEpClose: typeof import('~icons/ep/close')['default']
+    IEpFiles: typeof import('~icons/ep/files')['default']
+    IEpFullScreen: typeof import('~icons/ep/full-screen')['default']
+    IEpMinus: typeof import('~icons/ep/minus')['default']
+    IEpRefreshRight: typeof import('~icons/ep/refresh-right')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

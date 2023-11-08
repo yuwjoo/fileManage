@@ -4,10 +4,12 @@ import "element-plus/theme-chalk/dark/css-vars.css"; // 暗系主题
 import App from "./App.vue";
 import { initPinia } from "./stores";
 import { initRouter } from "./router";
+import { initElectron } from "./hooks/electron";
 
 const app = createApp(App);
 
 initPinia(app);
 initRouter(app);
+initElectron(app);
 
 app.mount("#app");

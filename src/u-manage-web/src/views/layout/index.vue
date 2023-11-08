@@ -2,39 +2,37 @@
   <div class="layout">
     <el-row class="layout_header">
       <el-col :span="18"></el-col>
-      <el-col v-if="windowControl.isEnable" :span="6">
-        <el-icon @click="windowControl.handleReload">
+      <el-col v-if="isEnable" :span="6">
+        <el-icon @click="handleReload">
           <i-ep-refresh-right />
         </el-icon>
-        <el-icon @click="windowControl.handleExec('minimize')">
+        <el-icon @click="handleExec('minimize')">
           <i-ep-minus />
         </el-icon>
-        <template v-if="windowControl.isMaximize">
-          <el-icon @click="windowControl.handleExec(`restore`)">
-            <i-ep-files />
-          </el-icon>
-        </template>
-        <template v-else>
-          <el-icon @click="windowControl.handleExec(`maximize`)">
-            <i-ep-full-screen />
-          </el-icon>
-        </template>
-        <el-icon @click="windowControl.handleExec(`close`)">
+        <el-icon v-if="isMaximize" @click="handleExec(`restore`)">
+          <i-ep-files />
+        </el-icon>
+        <el-icon v-else @click="handleExec(`maximize`)">
+          <i-ep-full-screen />
+        </el-icon>
+        <el-icon @click="handleExec(`close`)">
           <i-ep-close />
         </el-icon>
       </el-col>
     </el-row>
 
-    <keep-alive>
-      <router-view />
-    </keep-alive>
+    <router-view v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useWindowControl } from "./hooks/windowControl";
 
-const windowControl = useWindowControl();
+const { isEnable, isMaximize, handleReload, handleExec } = useWindowControl();
 </script>
 
 <style lang="scss">

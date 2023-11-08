@@ -4,6 +4,7 @@ import { resolve } from "path";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import IconsResolver from "unplugin-icons/resolver";
+import Icons from "unplugin-icons/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 
 export default defineConfig({
@@ -24,6 +25,9 @@ export default defineConfig({
           enabledCollections: ["ep"],
         }),
       ],
+    }),
+    Icons({
+      autoInstall: true,
     }),
   ],
   base: "./",
