@@ -15,6 +15,5 @@ declare module 'vue' {
 declare global {
   interface Window {
     electronApi: any;
-    location: any;
   }
 }
