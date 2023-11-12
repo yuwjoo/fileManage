@@ -1,7 +1,7 @@
 <template>
   <el-container class="layout">
     <el-header class="layout_header" height="40px">
-      <layout-content />
+      <header-content />
     </el-header>
     <el-main class="layout_main">
       <router-view v-slot="{ Component }">
@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import layoutContent from './components/layoutContent.vue';
+import headerContent from './components/headerContent.vue';
 
 defineOptions({ name: 'layout' });
 </script>
