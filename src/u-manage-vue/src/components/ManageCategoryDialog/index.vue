@@ -94,7 +94,7 @@ defineOptions({ name: 'ManageCategoryDialog' });
 const { manageCategory } = useDialogStore(); // 对话框 store
 const { category } = useSelectStore(); // 下拉列表 store
 const { visible, close } = toRefs(manageCategory);
-const tableList = ref<TableData>(
+const tableList = ref<TableData[]>(
   category.list.map((item) => {
     return { _isEdit: false, _loading: 'no', ...item };
   })
@@ -143,8 +143,6 @@ function handleEdit(row: TableData) {
   console.log(row);
   row._isEdit = true;
 }
-
-getCategoryList();
 </script>
 
 <style lang="scss">
