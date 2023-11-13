@@ -1,5 +1,4 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import Layout from '@/views/layout/index.vue';
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -7,7 +6,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'layout',
-      component: Layout,
+      component: () => import('@/views/layout/index.vue'),
       redirect: { name: 'home' },
       meta: {
         icon: 'close'

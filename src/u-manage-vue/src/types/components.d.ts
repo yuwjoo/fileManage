@@ -7,10 +7,12 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Components: typeof import('./../components/index.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCol: typeof import('element-plus/es')['ElCol']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
     ElContainer: typeof import('element-plus/es')['ElContainer']
+    ElDialog: typeof import('element-plus/es')['ElDialog']
     ElDropdown: typeof import('element-plus/es')['ElDropdown']
     ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
     ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
@@ -27,12 +29,8 @@ declare module 'vue' {
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     IElMenu: typeof import('~icons/ep/menu')['default']
-    IElRefreshRight: typeof import('~icons/ep/refresh-right')['default']
-    IIconfontClose: typeof import('~icons/iconfont/close')['default']
-    IIconfontDevTools: typeof import('~icons/iconfont/dev-tools')['default']
-    IIconfontMaximize: typeof import('~icons/iconfont/maximize')['default']
-    IIconfontMinimize: typeof import('~icons/iconfont/minimize')['default']
-    IIconfontRestore: typeof import('~icons/iconfont/restore')['default']
+    ManageCategoryDialog: typeof import('./../components/ManageCategoryDialog/index.vue')['default']
+    Mange: typeof import('./../components/Mange.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

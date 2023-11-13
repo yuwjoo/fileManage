@@ -1,5 +1,6 @@
 import { Plus, Collection } from '@element-plus/icons-vue';
 import type { DefineComponent } from 'vue';
+import { useDialogStore } from '@/stores/dialog';
 
 interface MenuList {
   icon: DefineComponent;
@@ -11,6 +12,7 @@ const menuList = <Array<MenuList>>[
   { icon: Plus, title: '新建资源', command: 'addResource' },
   { icon: Collection, title: '管理分类', command: 'manageClass' }
 ];
+const { manageCategory } = useDialogStore(); // 对话框 store
 
 /**
  * @description: 处理指令
@@ -22,7 +24,7 @@ function handleCommand(command: string): void {
       console.log('新建资源');
       break;
     case 'manageClass':
-      console.log('管理分类');
+      manageCategory.open();
       break;
   }
 }

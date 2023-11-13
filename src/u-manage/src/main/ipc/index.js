@@ -5,7 +5,10 @@ const { ipcMain } = require("electron");
  * @return {Object} 模块数据
  */
 function initModule() {
-  const moduleList = [require("./modules/window")];
+  const moduleList = [
+    require("./modules/window"),
+    require("./modules/category"),
+  ];
   return moduleList.reduce(
     (obj, module) => {
       return {

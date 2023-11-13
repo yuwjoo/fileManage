@@ -22,7 +22,8 @@
   "license": "MIT",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
-    "module-alias": "^2.2.3"
+    "module-alias": "^2.2.3",
+    "sqlite3": "^5.1.6"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.4.2",

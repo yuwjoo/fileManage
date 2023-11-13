@@ -132,9 +132,6 @@ defineExpose({
 
 <style lang="scss">
 .resource_table_row {
-  margin-bottom: 10px;
-}
-
-.resource_table_table {
+  margin-bottom: 15px;
 }
 </style>

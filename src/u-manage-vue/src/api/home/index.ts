@@ -6,7 +6,7 @@ import { request } from '@/assets/js/interceptor';
  * @return {promise<any>} 返回结果
  */
 export function selectCategoryList(params?: { [key: string]: any }): Promise<any> {
-  return request('getCategoryList', params);
+  return request('category:selectCategoryList', params);
 }
 
 /**

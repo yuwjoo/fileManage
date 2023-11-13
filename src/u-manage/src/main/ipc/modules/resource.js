@@ -1,4 +1,4 @@
-import { api } from "@/main/sqlite";
+const { api } = require("@/main/sqlite");
 
 exports.listener = {};
 

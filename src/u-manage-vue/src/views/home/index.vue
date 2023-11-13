@@ -2,9 +2,9 @@
   <div class="home">
     <el-tabs class="home_tabs" v-model="tabId" tab-position="top" @tab-change="handleTabChange">
       <el-tab-pane
-        v-for="(tab, index) in categoryList"
+        v-for="(tab, index) in category.list"
         :key="index"
-        :label="tab.name"
+        :label="tab[category.option.label]"
         :name="index"
         lazy
       >
@@ -18,27 +18,13 @@
 import { ref } from 'vue';
 import ResourceTable from './components/resourceTable.vue';
 import type { TabPaneName } from 'element-plus';
-import { selectCategoryList } from '@/api/home';
+import { useSelectStore } from '@/stores/select';
 
 defineOptions({ name: 'home' });
 
 const tabId = ref<number>(0);
 const resourceTableRef = ref<Array<InstanceType<typeof ResourceTable>>>([]);
-const categoryList = ref<any[]>([]); // 分类列表
-
-/**
- * @description: 获取分类列表
- */
-function getCategoryList() {
-  selectCategoryList().then(() => {
-    categoryList.value = [
-      { id: 1, name: '全部' },
-      { id: 2, name: '工具' },
-      { id: 3, name: '文档' },
-      { id: 4, name: '其他' }
-    ];
-  });
-}
+const { category, getCategoryList } = useSelectStore(); // 下拉列表 store
 
 /**
  * @description: 处理tab改变
@@ -52,10 +38,4 @@ function handleTabChange(activeName: TabPaneName) {
 getCategoryList();
 </script>
 
-<style lang="scss">
-.home {
-  .home_tabs {
-    margin-top: -20px;
-  }
-}
-</style>
+<style lang="scss"></style>

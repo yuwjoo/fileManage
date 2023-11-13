@@ -75,6 +75,9 @@ const controlList = useWindowControl(); // 窗口控制按钮
     }
 
     .header_content_column_control {
+      position: relative;
+      z-index: 9999;
+
       &:hover {
         background-color: var(--el-color-info-light-7);
       }
