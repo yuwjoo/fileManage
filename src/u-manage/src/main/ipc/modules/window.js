@@ -83,6 +83,14 @@ exports.request = {
     const win = BrowserWindow.fromWebContents(event.sender);
     win.setFullScreen(options.params);
   },
+  /**
+   * @description: 打开控制台
+   * @param {Object} event 事件对象
+   * @param {Object} options 配置
+   */
+  ["window:openDevTools"](event, options) {
+    event.sender.openDevTools();
+  },
 };
 
 exports.connect = {};
