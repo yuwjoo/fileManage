@@ -81,6 +81,7 @@ import { useDialogStore } from '@/stores/dialog';
 import { ref, toRefs } from 'vue';
 import { Delete, Edit, Check } from '@element-plus/icons-vue';
 import type { FormInstance, FormRules } from 'element-plus';
+import { useSelectStore } from '@/stores/select';
 
 interface TableData {
   [key: string]: any;
@@ -91,24 +92,18 @@ interface TableData {
 defineOptions({ name: 'ManageCategoryDialog' });
 
 const { manageCategory } = useDialogStore(); // 对话框 store
+const { category } = useSelectStore(); // 下拉列表 store
 const { visible, close } = toRefs(manageCategory);
-const tableList = ref<TableData[]>([]); // 表格数据
+const tableList = ref<TableData>(
+  category.list.map((item) => {
+    return { _isEdit: false, _loading: 'no', ...item };
+  })
+); // 表格数据
 const rules: FormRules<TableData> = {
   name: [{ required: true, message: '请输入分类名', trigger: 'change' }],
   directory: [{ required: true, message: '请输入目录', trigger: 'change' }]
 }; // 表单校验规则
-const formRef = ref<FormInstance>();
-
-/**
- * @description: 获取分类列表
- */
-function getCategoryList() {
-  tableList.value = [
-    { id: 1, name: '工具', directory: '/utils', _isEdit: false, _loading: 'no' },
-    { id: 2, name: '文档', directory: '/utils', _isEdit: false, _loading: 'no' },
-    { id: 4, name: '其他', directory: '/utils', _isEdit: false, _loading: 'no' }
-  ];
-}
+const formRef = ref<FormInstance>(); // 表单 ref
 
 /**
  * @description: 处理保存
