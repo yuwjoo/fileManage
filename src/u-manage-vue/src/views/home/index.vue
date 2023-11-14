@@ -1,8 +1,9 @@
 <template>
   <div class="home">
-    <el-tabs class="home_tabs" v-model="tabId" tab-position="top" @tab-change="handleTabChange">
+        <resource-table ref="resourceTableRef" />
+    <!-- <el-tabs class="home_tabs" v-model="tabId" tab-position="top" @tab-change="handleTabChange">
       <el-tab-pane
-        v-for="(tab, index) in category.list"
+        v-for="(tab, index) in [tabList[0]]"
         :key="index"
         :label="tab[category.option.label]"
         :name="index"
@@ -11,11 +12,22 @@
         <resource-table ref="resourceTableRef" :category-id="tab.id" />
       </el-tab-pane>
     </el-tabs>
+    <el-tabs class="home_tabs" v-model="tabId" tab-position="top" @tab-change="handleTabChange">
+      <el-tab-pane
+        v-for="(tab, index) in [tabList[1]]"
+        :key="index"
+        :label="tab[category.option.label]"
+        :name="index"
+        lazy
+      >
+        <resource-table ref="resourceTableRef" :category-id="tab.id" />
+      </el-tab-pane>
+    </el-tabs> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import ResourceTable from './components/resourceTable.vue';
 import type { TabPaneName } from 'element-plus';
 import { useSelectStore } from '@/stores/select';
@@ -25,6 +37,9 @@ defineOptions({ name: 'home' });
 const tabId = ref<number>(0);
 const resourceTableRef = ref<Array<InstanceType<typeof ResourceTable>>>([]);
 const { category, getCategoryList } = useSelectStore(); // 下拉列表 store
+const tabList = computed(() => {
+  return [{ name: '全部', directory: '' }, ...category.list];
+});
 
 /**
  * @description: 处理tab改变

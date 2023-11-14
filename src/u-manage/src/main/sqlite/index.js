@@ -35,11 +35,10 @@ const api = {
   },
   /**
    * @description: 查询分类数据列表
-   * @param {String} id 分类id
    * @return {Promise} 结果
    */
-  selectCategoryList(id) {
-    return all(`SELECT * FROM category WHERE id==?;`, [id]);
+  selectCategoryList() {
+    return all(`SELECT * FROM category;`);
   },
   /**
    * @description: 添加资源数据
@@ -85,7 +84,7 @@ const api = {
   selectResourceList(data) {
     return all(
       `SELECT * FROM resource
-       WHERE name link "%${data.searchContent}%" or describe link "%${data.searchContent}%";`
+       WHERE name link "%${data.searchContent}%";`
     );
   },
 };

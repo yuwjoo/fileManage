@@ -30,7 +30,7 @@ exports.request = {
    * @param {Object} options 配置
    */
   ["category:deleteCategoryData"](event, options) {
-    const id = options.params;
+    const { id } = options.params;
     return api.deleteCategory(id);
   },
 };

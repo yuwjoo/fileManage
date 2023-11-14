@@ -8,6 +8,7 @@ function initModule() {
   const moduleList = [
     require("./modules/window"),
     require("./modules/category"),
+    require("./modules/resource"),
   ];
   return moduleList.reduce(
     (obj, module) => {

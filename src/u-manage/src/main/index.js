@@ -35,6 +35,6 @@ app.on("window-all-closed", () => {
 });
 
 // 热更新
-try {
-  require("electron-reloader")(module, {});
-} catch (_) {}
+// try {
+//   require("electron-reloader")(module, {});
+// } catch (_) {}

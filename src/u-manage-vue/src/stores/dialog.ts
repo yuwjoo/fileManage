@@ -35,6 +35,7 @@ function handleClose(this: DialogProp) {
 
 export const useDialogStore = defineStore('dialog', () => {
   const manageCategory = new DialogProp(); // 管理分类对话框
+  const addResource = new DialogProp(); // 添加资源对话框
 
-  return { manageCategory };
+  return { manageCategory, addResource };
 });

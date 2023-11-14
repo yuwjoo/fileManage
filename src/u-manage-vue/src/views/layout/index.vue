@@ -15,6 +15,10 @@
   <!-- 管理分类对话框 start -->
   <manage-category-dialog />
   <!-- 管理分类对话框 end -->
+
+  <!-- 添加资源对话框 start -->
+  <add-resource-dialog />
+  <!-- 添加资源对话框 end -->
 </template>
 
 <script setup lang="ts">

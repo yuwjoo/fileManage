@@ -12,7 +12,7 @@ const menuList = <Array<MenuList>>[
   { icon: Plus, title: '新建资源', command: 'addResource' },
   { icon: Collection, title: '管理分类', command: 'manageClass' }
 ];
-const { manageCategory } = useDialogStore(); // 对话框 store
+const { manageCategory, addResource } = useDialogStore(); // 对话框 store
 
 /**
  * @description: 处理指令
@@ -21,7 +21,7 @@ const { manageCategory } = useDialogStore(); // 对话框 store
 function handleCommand(command: string): void {
   switch (command) {
     case 'addResource':
-      console.log('新建资源');
+      addResource.open();
       break;
     case 'manageClass':
       manageCategory.open();
