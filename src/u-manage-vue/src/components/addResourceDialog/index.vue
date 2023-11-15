@@ -117,6 +117,19 @@
               + New Tag
             </el-button>
           </el-form-item>
+          <el-form-item
+            class="addDialog_space_form_item"
+            label="资源文件"
+            prop="describe"
+            :label-width="80"
+          >
+            <el-upload drag style="width: 100%">
+              <el-table :data="[{ file: '工具.jpg' }, { file: 'index.html' }]">
+                <el-table-column label="文件名" prop="file"></el-table-column>
+                <el-table-column label="操作" width="80px"></el-table-column>
+              </el-table>
+            </el-upload>
+          </el-form-item>
         </div>
         <div v-else-if="step === 2">
           <el-descriptions title="" border direction="vertical">
@@ -136,7 +149,7 @@
     <template #footer>
       <el-button v-if="step > 0" size="default" @click="handleChangeStep(-1)">上一步</el-button>
       <el-button v-else size="default" @click="handleClose">取消</el-button>
-      <el-button v-if="step < 2" type="primary" size="default" @click="handleChangeStep(1)"
+      <el-button v-if="step < 3" type="primary" size="default" @click="handleChangeStep(1)"
         >下一步</el-button
       >
       <el-button v-else type="primary" size="default" @click="handleSubmit">提交</el-button>
@@ -189,29 +202,29 @@ const rules = reactive<FormRules<Form>>({
   name: [{ required: true, message: '请输入名称', trigger: 'change' }]
 }); // 校验规则
 
-const inputValue = ref('')
-const dynamicTags = ref(['Tag 1', 'Tag 2', 'Tag 3'])
-const inputVisible = ref(false)
-const InputRef = ref<InstanceType<typeof ElInput>>()
+const inputValue = ref('');
+const dynamicTags = ref(['Tag 1', 'Tag 2', 'Tag 3']);
+const inputVisible = ref(false);
+const InputRef = ref<InstanceType<typeof ElInput>>();
 
-function handleClose2 (tag: string) {
-  dynamicTags.value.splice(dynamicTags.value.indexOf(tag), 1)
+function handleClose2(tag: string) {
+  dynamicTags.value.splice(dynamicTags.value.indexOf(tag), 1);
 }
 
 const showInput = () => {
-  inputVisible.value = true
+  inputVisible.value = true;
   nextTick(() => {
-    InputRef.value!.input!.focus()
-  })
-}
+    InputRef.value!.input!.focus();
+  });
+};
 
 const handleInputConfirm = () => {
   if (inputValue.value) {
-    dynamicTags.value.push(inputValue.value)
+    dynamicTags.value.push(inputValue.value);
   }
-  inputVisible.value = false
-  inputValue.value = ''
-}
+  inputVisible.value = false;
+  inputValue.value = '';
+};
 
 /**
  * @description: 打开对话框
@@ -246,11 +259,12 @@ function handleChangeStep(val: number): void {
   if (val === -1) {
     step.value -= 1;
   } else {
-    formRef.value.validate(<FormValidateCallback>((isValid) => {
-      if (isValid) {
-        step.value += 1;
-      }
-    }));
+    step.value += 1;
+    // formRef.value.validate(<FormValidateCallback>((isValid) => {
+    //   if (isValid) {
+    //     step.value += 1;
+    //   }
+    // }));
   }
 }
 
@@ -272,6 +286,10 @@ defineExpose({ open });
 
 <style lang="scss">
 .addDialog {
+  .el-upload {
+    --el-upload-dragger-padding-horizontal: 10px;
+  }
+
   .addDialog_space {
     width: 100%;
 
