@@ -7,12 +7,12 @@
     show-close
   >
     <el-space class="addDialog_space" direction="vertical" fill>
-      <el-steps :space="200" :active="step" simple finish-status="success">
+      <!-- <el-steps :space="200" :active="step" simple finish-status="success">
         <el-step title="基本信息" icon="DocumentAdd" />
         <el-step title="资源文件" icon="DocumentAdd" />
         <el-step title="说明文件" icon="DocumentAdd" />
         <el-step title="完善信息" icon="EditPen" />
-      </el-steps>
+      </el-steps> -->
 
       <el-form
         class="addDialog_space_form"
@@ -55,7 +55,8 @@
                 </el-icon>
               </template>
               <template #default>
-                没有想要的分类？<el-link type="primary">点我</el-link>快速创建
+                没有想要的分类？<el-link type="primary" @click="visible1 = true">点我</el-link
+                >快速新建
               </template>
             </el-popover>
           </el-form-item>
@@ -123,10 +124,59 @@
             prop="describe"
             :label-width="80"
           >
+            <el-upload drag disabled style="width: 100%">
+              <el-table
+                :data="[{ file: '工具.jpg' }, { file: 'index.html' }]"
+                :show-header="false"
+                empty-text="拖拽文件或者点击添加"
+              >
+                <el-table-column label="文件名" prop="file">
+                  <template v-slot:default="{ row }">
+                    <el-link @click.stop>{{ row.file }}</el-link>
+                  </template>
+                </el-table-column>
+                <el-table-column label="操作" width="80px"  align="right">
+                  <template v-slot:default="{ row }">
+                    <el-button
+                      type="danger"
+                      :icon="Delete"
+                      circle
+                      title="删除"
+                      @click.stop="handleDelete(row, $index)"
+                    />
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-upload>
+          </el-form-item>
+          <el-form-item
+            class="addDialog_space_form_item"
+            label="说明文档"
+            prop="describe"
+            :label-width="80"
+          >
             <el-upload drag style="width: 100%">
-              <el-table :data="[{ file: '工具.jpg' }, { file: 'index.html' }]">
-                <el-table-column label="文件名" prop="file"></el-table-column>
-                <el-table-column label="操作" width="80px"></el-table-column>
+              <el-table
+                :data="[{ file: '说明.md' }]"
+                :show-header="false"
+                empty-text="拖拽文件或者点击添加"
+              >
+                <el-table-column label="文件名" prop="file">
+                  <template v-slot:default="{ row }">
+                    <el-link :icon="Document" @click.stop>{{ row.file }}</el-link>
+                  </template>
+                </el-table-column>
+                <el-table-column label="操作" width="80px" align="right">
+                  <template v-slot:default="{ row }">
+                    <el-button
+                      type="danger"
+                      :icon="Delete"
+                      circle
+                      title="删除"
+                      @click.stop="handleDelete(row, $index)"
+                    />
+                  </template>
+                </el-table-column>
               </el-table>
             </el-upload>
           </el-form-item>
@@ -155,6 +205,42 @@
       <el-button v-else type="primary" size="default" @click="handleSubmit">提交</el-button>
     </template>
   </el-dialog>
+
+  <el-dialog
+    class="addDialog"
+    v-model="visible1"
+    title="新建分类"
+    :close-on-click-modal="false"
+    width="30%"
+    show-close
+    top="30vh"
+  >
+    <el-form :model="tableList" :show-message="false">
+      <el-descriptions title="" direction="vertical" :column="2" border>
+        <el-descriptions-item>
+          <template #label>分类名</template>
+          <template #default>
+            <el-form-item label="" prop="name" :rules="rules.name">
+              <el-input v-model.trim="form.name" placeholder="请输入" clearable />
+            </el-form-item>
+          </template>
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template #label>目录名</template>
+          <template #default>
+            <el-form-item label="" prop="directory" :rules="rules.directory">
+              <el-input v-model.trim="form.directory" placeholder="请输入" clearable />
+            </el-form-item>
+          </template>
+        </el-descriptions-item>
+      </el-descriptions>
+    </el-form>
+
+    <template #footer>
+      <el-button size="default" @click="handleClose">取消</el-button>
+      <el-button type="primary" size="default" @click="handleSubmit">提交</el-button>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
@@ -166,6 +252,7 @@ import type {
   FormRules
 } from 'element-plus';
 import { useDialogStore } from '@/stores/dialog';
+import { Delete, Document } from '@element-plus/icons-vue';
 
 interface Form {
   fileList: UploadUserFile[];
@@ -178,6 +265,8 @@ interface Form {
 const { visible, close } = toRefs(useDialogStore().addResource); // 对话框 store
 const step = ref<number>(0); // 当前步骤
 const formRef = ref<any>(null); // 表单ref
+const visible1 = ref<boolean>();
+const tableList = ref<any>({});
 const form = reactive<Form>({
   fileList: [], // 文件列表
   name: '', // 名称
