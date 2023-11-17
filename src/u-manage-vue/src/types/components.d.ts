@@ -52,6 +52,7 @@ declare module 'vue' {
     IElFilter: typeof import('~icons/ep/filter')['default']
     IElGrid: typeof import('~icons/ep/grid')['default']
     IElMenu: typeof import('~icons/ep/menu')['default']
+    IElPlus: typeof import('~icons/ep/plus')['default']
     IElScaleToOriginal: typeof import('~icons/ep/scale-to-original')['default']
     IElStar: typeof import('~icons/ep/star')['default']
     IElUploadFilled: typeof import('~icons/ep/upload-filled')['default']

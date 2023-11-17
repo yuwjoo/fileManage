@@ -48,8 +48,8 @@ import { useDropdownMenu } from '../hooks/dropdownMenu';
 defineOptions({ name: 'headerContent' });
 
 const { menuList, handleCommand } = useDropdownMenu(); // 下拉菜单按钮
-const isDark = useDark(); // 是暗黑模式
 const controlList = useWindowControl(); // 窗口控制按钮
+const isDark = useDark(); // 是暗黑模式
 </script>
 
 <style lang="scss">

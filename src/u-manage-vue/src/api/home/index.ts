@@ -19,6 +19,15 @@ export function saveCategoryData(params?: { [key: string]: any }): Promise<any> 
 }
 
 /**
+ * @description: 新增分类数据
+ * @param {object} params 参数
+ * @return {promise<any>} 返回结果
+ */
+export function insertCategoryData(params?: { [key: string]: any }): Promise<any> {
+  return request('category:insertCategoryData', params);
+}
+
+/**
  * @description: 删除分类数据
  * @param {object} params 参数
  * @return {promise<any>} 返回结果
