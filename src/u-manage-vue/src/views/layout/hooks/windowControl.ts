@@ -1,4 +1,4 @@
-import { computed, ref, type FunctionalComponent, type SVGAttributes, type ComputedRef } from 'vue';
+import { computed, ref, type ComputedRef } from 'vue';
 import { useElectron } from '@/hooks/electron';
 import iconDevTools from '~icons/iconfont/dev-tools';
 import iconRefreshRight from '~icons/ep/refresh-right';
@@ -6,63 +6,14 @@ import iconMinimize from '~icons/iconfont/minimize';
 import iconRestore from '~icons/iconfont/restore';
 import iconMaximize from '~icons/iconfont/maximize';
 import iconClose from '~icons/iconfont/close';
-
-interface Buttons {
-  icon: FunctionalComponent<SVGAttributes, {}, any>;
-  title: string;
-  onclick: () => void;
-}
-
-let electron: any; // electron api
-
-/**
- * @description: 处理打开控制台
- */
-function handleOpenDevTools() {
-  electron.request('window:openDevTools');
-}
-
-/**
- * @description: 处理打开控制台
- */
-function handleMinimize() {
-  electron.request('window:minimize');
-}
-
-/**
- * @description: 处理重置窗口大小
- */
-function handleRestore() {
-  electron.request('window:restore');
-}
-
-/**
- * @description: 处理最大化窗口
- */
-function handleMaximize() {
-  electron.request('window:maximize');
-}
-
-/**
- * @description: 处理关闭窗口
- */
-function handleClose() {
-  electron.request('window:close');
-}
-
-/**
- * @description: 处理刷新页面
- */
-function handleReload() {
-  window.location.reload();
-}
+import type { WindowControlButtons } from '@/types/views/layout/hooks/windowControl';
 
 /**
  * @description: 窗口控制相关 hook
- * @return {ComputedRef<Buttons[]>} 控制按钮列表
+ * @return {ComputedRef<WindowControlButtons[]>} 控制按钮列表
  */
-export function useWindowControl(): ComputedRef<Buttons[]> {
-  electron = useElectron(); // electron api
+export function useWindowControl(): ComputedRef<WindowControlButtons[]> {
+  const electron = useElectron(); // electron api
   const isDevEnv = import.meta.env.DEV; // 是开发环境
   const isMaximize = ref<Boolean>(false); // 是最大化窗口
   const showControl = electron.isElectronEnv; // 显示窗口控制按钮
@@ -77,21 +28,41 @@ export function useWindowControl(): ComputedRef<Buttons[]> {
   }
 
   return computed(() => {
-    const buttons = <Array<Buttons>>[];
+    const buttons = <Array<WindowControlButtons>>[];
     if (!showControl) return buttons;
     if (isDevEnv) {
       buttons.push(
-        { icon: iconDevTools, title: '打开控制台', onclick: handleOpenDevTools },
-        { icon: iconRefreshRight, title: '刷新页面', onclick: handleReload }
+        {
+          icon: iconDevTools,
+          title: '打开控制台',
+          onclick: () => electron.request('window:openDevTools')
+        },
+        { icon: iconRefreshRight, title: '刷新页面', onclick: () => window.location.reload() }
       );
     }
-    buttons.push({ icon: iconMinimize, title: '最小化', onclick: handleMinimize });
+    buttons.push({
+      icon: iconMinimize,
+      title: '最小化',
+      onclick: () => electron.request('window:minimize')
+    });
     if (isMaximize.value) {
-      buttons.push({ icon: iconRestore, title: '还原', onclick: handleRestore });
+      buttons.push({
+        icon: iconRestore,
+        title: '还原',
+        onclick: () => electron.request('window:restore')
+      });
     } else {
-      buttons.push({ icon: iconMaximize, title: '最大化', onclick: handleMaximize });
+      buttons.push({
+        icon: iconMaximize,
+        title: '最大化',
+        onclick: () => electron.request('window:maximize')
+      });
     }
-    buttons.push({ icon: iconClose, title: '关闭', onclick: handleClose });
+    buttons.push({
+      icon: iconClose,
+      title: '关闭',
+      onclick: () => electron.request('window:close')
+    });
     return buttons;
   });
 }

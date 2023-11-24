@@ -3,16 +3,13 @@ import './assets/css/dark.scss';
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-
 import App from './App.vue';
 import router from './router';
-
-import { initElectron } from '@/hooks/electron';
+import { createElectron } from '@/hooks/electron';
 
 const app = createApp(App);
 
-initElectron(app);
-
+app.use(createElectron());
 app.use(createPinia());
 app.use(router);
 

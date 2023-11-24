@@ -25,7 +25,7 @@ export default defineConfig({
     }),
     AutoImport({
       resolvers: [ElementPlusResolver()],
-      dts: fileURLToPath(new URL('./src/types/auto-imports.d.ts', import.meta.url))
+      dts: fileURLToPath(new URL('./src/types/root/autoImports.d.ts', import.meta.url))
     }),
     Components({
       allowOverrides: true,
@@ -40,7 +40,7 @@ export default defineConfig({
           customCollections: ['iconfont']
         })
       ],
-      dts: fileURLToPath(new URL('./src/types/components.d.ts', import.meta.url))
+      dts: fileURLToPath(new URL('./src/types/root/components.d.ts', import.meta.url))
     }),
     Icons({
       autoInstall: true,

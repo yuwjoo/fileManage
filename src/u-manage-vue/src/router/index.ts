@@ -6,16 +6,13 @@ const router = createRouter({
     {
       path: '/',
       name: 'layout',
-      component: () => import('@/views/layout/index.vue'),
-      redirect: { name: 'home' },
-      meta: {
-        icon: 'close'
-      },
+      component: () => import('@/views/layout/layout.vue'),
+      redirect: { name: 'warehouse' },
       children: [
         {
-          path: 'home',
-          name: 'home',
-          component: () => import('@/views/home/index.vue')
+          path: 'warehouse',
+          name: 'warehouse',
+          component: () => import('@/views/warehouse/warehouse.vue')
         },
         {
           path: 'abort',

@@ -1,23 +1,18 @@
 <template>
   <el-dialog
-    class="manage_category_dialog"
+    class="edit-category-dialog"
     v-model="visible"
     title="管理分类"
     width="500px"
     :close-on-click-modal="false"
-    :before-close="close"
+    :before-close="manageCategory.close"
   >
-    <el-form
-      class="manage_category_dialog_form"
-      ref="formRef"
-      :model="tableList"
-      :show-message="false"
-    >
-      <el-table ref="tableRef" :data="tableList" border stripe max-height="500px">
+    <el-form class="edit-category-dialog__form" ref="formRef" :model="list" :show-message="false">
+      <el-table ref="tableRef" :data="list" border stripe max-height="500px">
         <el-table-column prop="name" label="分类名" min-width="120" align="center">
           <template #default="{ $index, row }">
             <el-form-item
-              class="manage_category_dialog_form_item"
+              class="edit-category-dialog__form-item"
               v-if="row._isEdit"
               :prop="`[${$index}].name`"
               :rules="rules.name"
@@ -29,7 +24,7 @@
         <el-table-column prop="directory" label="目录名" min-width="120" align="center">
           <template #default="{ $index, row }">
             <el-form-item
-              class="manage_category_dialog_form_item"
+              class="edit-category-dialog__form-item"
               v-if="row._isEdit"
               :prop="`[${$index}].directory`"
               :rules="rules.directory"
@@ -71,7 +66,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-button class="manage_category_dialog_form_addbtn" :icon="Plus" @click="handleAdd"
+      <el-button class="edit-category-dialog__form-add" :icon="Plus" @click="handleAdd"
         >新建</el-button
       >
     </el-form>
@@ -79,56 +74,55 @@
 </template>
 
 <script setup lang="ts">
-import { useDialogStore } from '@/stores/dialog';
-import { ref, toRefs, nextTick, watch, toRaw } from 'vue';
+import { ref, nextTick, toRaw, computed, watchEffect, watch } from 'vue';
 import { Delete, Edit, Check, Plus } from '@element-plus/icons-vue';
+import { saveCategoryData, deleteCategoryData } from '@/api/warehouse';
+import { editCategoryVisible } from '../hooks/openDialog';
 import type { FormInstance, FormRules, TableInstance } from 'element-plus';
-import { useSelectStore } from '@/stores/select';
-import { saveCategoryData, deleteCategoryData } from '@/api/home';
 
-interface TableData {
-  [key: string]: any;
+const visible = ref<boolean>(false); // 显示对话框
+
+watch(editCategoryVisible, () => {
+  if (editCategoryVisible.value) {
+    open();
+  }
+});
+
+interface Options {
   _isEdit: boolean;
   _loading: 'save' | 'delete' | 'no';
 }
 
-defineOptions({ name: 'ManageCategoryDialog' });
+type ListData = { [key: string]: any } & Options;
 
-const { visible, close } = toRefs(useDialogStore().manageCategory); // 对话框 store
-const { category, getCategoryList } = useSelectStore(); // 下拉列表 store
-const tableList = ref<TableData[]>([]); // 表格数据
-const rules: FormRules<TableData> = {
+const { category, getCategoryList } = useSelectList(); // 下拉列表
+const { manageCategory } = storeToRefs(useDialogStore()); // 对话框 store
+const list = computed<ListData[]>(() => {
+  return category.list.map((item) => ({ _isEdit: false, _loading: 'no', ...item }));
+}); // 表格数据
+const rules: FormRules<ListData> = {
   name: [{ required: true, message: '请输入分类名', trigger: 'change' }],
   directory: [{ required: true, message: '请输入目录', trigger: 'change' }]
 }; // 表单校验规则
 const formRef = ref<FormInstance>(); // 表单 ref
 const tableRef = ref<TableInstance>(); // 表格 ref
 
-watch(visible, (val) => {
-  if (val) {
-    tableList.value = category.list.map((item) => ({ _isEdit: false, _loading: 'no', ...item }));
-  } else {
-    getCategoryList();
-  }
-});
-
 /**
  * @description: 处理新建
  */
 function handleAdd() {
-  tableList.value.push({ _isEdit: true, _loading: 'no' });
+  list.value.push({ _isEdit: true, _loading: 'no' });
   nextTick(() => tableRef.value!.setScrollTop(9999));
 }
 
 /**
  * @description: 处理保存
- * @param {TableData} row 当前数据
+ * @param {ListData} row 当前数据
  * @param {number} index 数据下标
  */
-function handleSave(row: TableData, index: number) {
+function handleSave(row: ListData, index: number) {
   formRef.value?.validateField([`[${index}].name`, `[${index}].directory`], (valid) => {
     if (valid) {
-      console.log(toRaw(row));
       row._loading = 'save';
       saveCategoryData(toRaw(row))
         .then((res) => {
@@ -144,10 +138,10 @@ function handleSave(row: TableData, index: number) {
 
 /**
  * @description: 处理删除
- * @param {TableData} row 当前数据
+ * @param {ListData} row 当前数据
  * @param {number} index 数据下标
  */
-function handleDelete(row: TableData, index: number) {
+function handleDelete(row: ListData, index: number) {
   console.log(row);
   if (row.id) {
     row._loading = 'delete';
@@ -157,31 +151,31 @@ function handleDelete(row: TableData, index: number) {
       })
       .finally(() => {
         row._loading = 'no';
-        tableList.value.splice(index, 1);
+        list.value.splice(index, 1);
       });
   } else {
-    tableList.value.splice(index, 1);
+    list.value.splice(index, 1);
   }
 }
 
 /**
  * @description: 处理编辑
- * @param {TableData} row 当前数据
+ * @param {ListData} row 当前数据
  */
-function handleEdit(row: TableData) {
+function handleEdit(row: ListData) {
   console.log(row);
   row._isEdit = true;
 }
 </script>
 
 <style lang="scss">
-.manage_category_dialog {
-  .manage_category_dialog_form {
-    .manage_category_dialog_form_item {
+.edit-category-dialog {
+  .edit-category-dialog__form {
+    .edit-category-dialog__form-item {
       margin-bottom: 0;
     }
 
-    .manage_category_dialog_form_addbtn {
+    .edit-category-dialog__form-add {
       margin-top: 10px;
       width: 100%;
       padding: 8px 0;

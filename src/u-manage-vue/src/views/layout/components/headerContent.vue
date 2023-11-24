@@ -1,8 +1,8 @@
 <template>
-  <el-row class="header_content">
-    <el-col class="header_content_column" :span="8">
+  <el-row class="header-content">
+    <el-col class="header-content-column" :span="8">
       <el-dropdown trigger="click" @command="handleCommand">
-        <el-icon class="header_content_column_button">
+        <el-icon class="header-content-column__button">
           <i-el-menu />
         </el-icon>
         <template #dropdown>
@@ -18,9 +18,9 @@
         </template>
       </el-dropdown>
     </el-col>
-    <el-col class="header_content_column" :span="16">
+    <el-col class="header-content-column" :span="16">
       <el-switch
-        class="header_content_column_button header_content_column_switch"
+        class="header-content-column__button header-content-column__switch"
         v-model="isDark"
         size="small"
         :active-icon="Moon"
@@ -28,7 +28,7 @@
       />
       <el-icon
         v-for="(control, index) in controlList"
-        class="header_content_column_button header_content_column_control"
+        class="header-content-column__button header-content-column__control"
         :title="control.title"
         :key="index"
         @click="control.onclick"
@@ -45,47 +45,45 @@ import { Moon, Sunny } from '@element-plus/icons-vue';
 import { useWindowControl } from '../hooks/windowControl';
 import { useDropdownMenu } from '../hooks/dropdownMenu';
 
-defineOptions({ name: 'headerContent' });
-
 const { menuList, handleCommand } = useDropdownMenu(); // 下拉菜单按钮
 const controlList = useWindowControl(); // 窗口控制按钮
 const isDark = useDark(); // 是暗黑模式
 </script>
 
 <style lang="scss">
-.header_content {
+.header-content {
   -webkit-app-region: drag;
   height: 100%;
+}
 
-  .header_content_column {
-    display: flex;
+.header-content-column {
+  display: flex;
 
-    &:last-child {
-      justify-content: flex-end;
-    }
+  &:last-child {
+    justify-content: flex-end;
+  }
+}
 
-    .header_content_column_button {
-      -webkit-app-region: no-drag;
-      height: 100%;
-      padding: 0 20px;
-    }
+.header-content-column__button {
+  -webkit-app-region: no-drag;
+  height: 100%;
+  padding: 0 20px;
+}
 
-    .header_content_column_switch {
-      --el-switch-on-color: var(--el-switch-off-color);
-    }
+.header-content-column__switch {
+  --el-switch-on-color: var(--el-switch-off-color);
+}
 
-    .header_content_column_control {
-      position: relative;
-      z-index: 9999;
+.header-content-column__control {
+  position: relative;
+  z-index: 9999;
 
-      &:hover {
-        background-color: var(--el-color-info-light-7);
-      }
+  &:hover {
+    background-color: var(--el-color-info-light-7);
+  }
 
-      &:last-child:hover {
-        background-color: rgba(255, 0, 0, 0.8);
-      }
-    }
+  &:last-child:hover {
+    background-color: rgba(255, 0, 0, 0.8);
   }
 }
 </style>

@@ -1,24 +1,16 @@
 import { onBeforeUnmount } from 'vue';
 import type { App } from 'vue';
+import type {
+  ElectronApi,
+  Electron as ElectronType,
+  ListenerOptions,
+  ConnectionOptions,
+  ConnectOptions
+} from '@/types/hooks/electron';
 
-interface ListenerOptions {
-  immediate?: boolean;
-}
-
-interface ConnectOptions {
-  onmessage?: Function;
-  onerror?: Function;
-  onclose?: Function;
-}
-
-interface ConnectReturn {
-  send: Function;
-  close: Function;
-}
-
-export class Electron {
-  #electronApi?: { [key: string]: any }; // api对象
-  isElectronEnv: boolean; // 是否是electron环境
+class Electron implements ElectronType {
+  #electronApi: ElectronApi | undefined;
+  isElectronEnv: boolean;
 
   constructor() {
     this.#electronApi = window.electronApi;
@@ -28,11 +20,15 @@ export class Electron {
   /**
    * @description: 监听事件
    * @param {string} name 事件名
-   * @param {Function} callback 回调函数
+   * @param {(data: any) => void} callback 回调函数
    * @param {ListenerOptions} options 配置
+   * @return {string} 事件名
    */
-  listener(name: string, callback: Function, options?: ListenerOptions): void {
-    const listener = this.#electronApi!.addListener(name, callback, options);
+  listener(name: string, callback: (data: any) => void, options?: ListenerOptions): void {
+    if (!this.#electronApi) {
+      throw new Error('Electron API is not available');
+    }
+    const listener = this.#electronApi.addListener(name, callback, options);
     onBeforeUnmount(() => {
       listener.remove();
     });
@@ -41,38 +37,50 @@ export class Electron {
   /**
    * @description: 发送请求
    * @param {string} name 请求名
-   * @param {any} parmas 参数
+   * @param {Record<string, unknown>} params 参数
    * @return {Promise<any>} 返回结果
    */
-  request(name: string, parmas?: any): Promise<any> {
-    return this.#electronApi!.request(name, parmas);
+  request(name: string, params?: Record<string, unknown>): Promise<any> {
+    if (!this.#electronApi) {
+      throw new Error('Electron API is not available');
+    }
+    return this.#electronApi.request(name, params);
   }
 
   /**
    * @description: 建立连接
    * @param {string} name 连接名
-   * @param {any} parmas 参数
+   * @param {Record<string, unknown>} params 参数
    * @param {ConnectOptions} options 配置项
-   * @return {ConnectReturn} 操作对象
+   * @return {ConnectionOptions} 操作对象
    */
-  connect(name: string, parmas?: any, options?: ConnectOptions): ConnectReturn {
-    return this.#electronApi!.connect(name, parmas, options);
+  connect(
+    name: string,
+    params?: Record<string, unknown>,
+    options?: ConnectOptions
+  ): ConnectionOptions {
+    if (!this.#electronApi) {
+      throw new Error('Electron API is not available');
+    }
+    return this.#electronApi.connect(name, params, options);
   }
 }
 
 let electron: Electron;
 
 /**
- * @description: 初始化 electron
- * @param {App} app vue应用实例
+ * @description: 创建 electron
+ * @return {(app: App) => void} 安装程序
  */
-export function initElectron(app: App): void {
-  electron = new Electron();
-  app.config.globalProperties.$electron = electron;
+export function createElectron(): (app: App) => void {
+  return (app: App) => {
+    electron = new Electron();
+    app.config.globalProperties.$electron = electron;
+  };
 }
 
 /**
- * @description: electron hook 入口
+ * @description: 使用 electron
  * @return {Electron} electron实例
  */
 export function useElectron(): Electron {
