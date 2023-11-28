@@ -1,7 +1,7 @@
 <template>
   <el-page-header class="warehouse" icon="">
     <template #title>
-      <el-tooltip content="点击刷新列表" @click="getDataList">{{ currentCategoryName }}</el-tooltip>
+      <el-tooltip content="点击刷新列表" @click="getDataList">{{ curCategoryName }}</el-tooltip>
     </template>
     <template #content>
       <el-input
@@ -55,7 +55,14 @@
           </el-form>
           <div class="warehouse-filter-popover__option">
             <el-button type="default" @click="filterReset">重置</el-button>
-            <el-button type="primary" @click="handleFilterSearch">查询</el-button>
+            <el-button
+              type="primary"
+              @click="
+                filterClose();
+                getDataList();
+              "
+              >查询</el-button
+            >
           </div>
         </template>
       </el-popover>
@@ -104,35 +111,35 @@
       </el-table>
     </template>
   </el-page-header>
+
+  <!-- 创建分类对话框 start -->
+  <create-category-dialog />
+  <!-- 创建分类对话框 end -->
+
+  <!-- 编辑分类对话框 start -->
+  <edit-category-dialog />
+  <!-- 编辑分类对话框 end -->
+
+  <!-- 编辑资源对话框 start -->
+  <edit-resource-dialog />
+  <!-- 编辑资源对话框 end -->
 </template>
 
 <script setup lang="ts">
 import { Delete, Edit, FolderOpened } from '@element-plus/icons-vue';
 import { computed } from 'vue';
 import { useWarehouseTable } from './hooks/warehouseTable';
-import { useSelectList } from './hooks/warehouseSelect';
+import { useWarehouseSelect } from './hooks/warehouseSelect';
 import { useWarehouseFilter } from './hooks/warehouseFilter';
+import createCategoryDialog from './components/createCategoryDialog.vue';
+import editCategoryDialog from './components/editCategoryDialog.vue';
+import editResourceDialog from './components/editResourceDialog.vue';
 
 const { loading, list, search, dataSearch, getDataList, handleOpen, handleDelete, handleEdit } =
   useWarehouseTable(); // 表格数据
 const { visibleFilter, filterReset, filterClose } = useWarehouseFilter(search); // 过滤器
-const { select, getCategoryList } = useSelectList(); // 下拉列表
-
-const currentCategoryName = computed(() => {
-  return (
-    select.category.list.find((item) => {
-      return item.id === (dataSearch.value.categoryId || '');
-    })?.name || '全部'
-  );
-}); // 当前分类名称
-
-/**
- * @description: 处理过滤器查询
- */
-function handleFilterSearch() {
-  filterClose();
-  getDataList();
-}
+const { select, getLabel, getCategoryList } = useWarehouseSelect(); // 下拉列表
+const curCategoryName = computed(() => getLabel(select.category, dataSearch.value.categoryId)); // 当前分类名称
 
 getCategoryList();
 </script>

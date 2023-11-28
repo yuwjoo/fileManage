@@ -1,11 +1,11 @@
 import { reactive } from 'vue';
 import { selectCategoryList } from '@/api/warehouse';
-import type { Select } from '@/types/views/warehouse/hooks/warehouseSelect';
+import type { Select, SelectItem } from '@/types/views/warehouse/hooks/warehouseSelect';
 
 /**
  * @description: 下拉列表
  */
-export function useSelectList() {
+export function useWarehouseSelect() {
   const select = reactive<Select>({
     category: {
       list: [],
@@ -15,11 +15,22 @@ export function useSelectList() {
   });
 
   /**
+   * @description: 获取名称
+   * @param {SelectItem<any[]>} prop 下拉列表属性
+   * @param {any} id 数据id
+   * @return {string} 数据名称
+   */
+  function getLabel(prop: SelectItem<any[]>, id: any): string {
+    const target = prop.list.find((item) => item[prop.option.value] === id);
+    return target?.[prop.option.label] ?? '';
+  }
+
+  /**
    * @description: 获取分类列表数据
    */
   function getCategoryList() {
     select.category.loading = true;
-    selectCategoryList()
+    return selectCategoryList()
       .then((res) => {
         select.category.list = res || [];
       })
@@ -31,5 +42,5 @@ export function useSelectList() {
       });
   }
 
-  return { select, getCategoryList };
+  return { select, getLabel, getCategoryList };
 }

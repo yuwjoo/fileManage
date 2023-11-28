@@ -39,27 +39,14 @@
 </template>
 
 <script setup lang="ts">
-import { type FormRules, type FormInstance, ElNotification } from 'element-plus';
-import { ref, reactive } from 'vue';
-import { insertCategoryData } from '@/api/home';
-
-interface FormType {
-  name: string;
-  directory: string;
-}
+import { ref } from 'vue';
+import { useCreateCategoryDialogForm } from '../hooks/createCategoryDialogForm';
 
 const emits = defineEmits<{
   add: [value: any];
 }>();
 const visible = ref<boolean>(false); // 显示对话框
-const loading = ref<boolean>(false); // 加载中
-const form = ref<FormType>({ name: '', directory: '' }); // 表单数据
-const formRef = ref<FormInstance>(); // form 表单 ref
-
-const rules = reactive<FormRules<FormType>>({
-  name: [{ required: true, message: '请输入分类名', trigger: 'change' }],
-  directory: [{ required: true, message: '请输入目录名', trigger: 'change' }]
-}); // 校验规则
+const { loading, form, formRef, rules, handleSubmit } = useCreateCategoryDialogForm(); // 表单数据
 
 /**
  * @description: 打开对话框
@@ -74,33 +61,6 @@ function open() {
  */
 function handleClose() {
   visible.value = false;
-}
-
-/**
- * @description: 处理提交
- */
-function handleSubmit() {
-  formRef.value!.validate((isVaild) => {
-    if (isVaild) {
-      loading.value = true;
-      insertCategoryData(form.value)
-        .then((res) => {
-          emits('add', res || {});
-          handleClose();
-        })
-        .catch((err) => {
-          ElNotification({
-            type: 'error',
-            title: '提交失败',
-            message: "I'm at the bottom right corner",
-            position: 'bottom-right'
-          });
-        })
-        .finally(() => {
-          loading.value = false;
-        });
-    }
-  });
 }
 
 defineExpose({ open });

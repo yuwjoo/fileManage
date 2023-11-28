@@ -1,18 +1,11 @@
 import { ref } from 'vue';
 
-export const editResourceVisible = ref<boolean>(false); // 显示编辑资源对话框
-export const editCategoryVisible = ref<boolean>(false); // 显示编辑分类对话框
+const editResourceOpen = ref<(...arg: any[]) => void>(); // 打开编辑资源对话框函数
+const editCategoryOpen = ref<(...arg: any[]) => void>(); // 打开编辑分类对话框函数
 
 /**
- * @description: 打开编辑资源对话框
+ * @description: 打开对话框
  */
-export function openEditResource() {
-  editResourceVisible.value = true;
-}
-
-/**
- * @description: 打开编辑分类对话框
- */
-export function openEditCategory() {
-  editCategoryVisible.value = true;
+export function useOpenDialog() {
+  return { editResourceOpen, editCategoryOpen };
 }
