@@ -10,3 +10,7 @@ export interface Form {
   resourceList: UploadUserFile[]; // 资源文件列表
   readmeList: UploadUserFile[]; // 说明文档列表
 }
+
+export interface Options {
+  submitSuccess: () => void;
+}

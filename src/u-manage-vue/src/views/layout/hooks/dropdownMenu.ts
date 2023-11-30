@@ -1,6 +1,7 @@
 import { Plus, Collection } from '@element-plus/icons-vue';
-import { useOpenDialog } from '@/views/warehouse/hooks/openDialog';
-import type { MenuItem } from '@/types/views/layout/hooks/dropdownMenu';
+import { useEditCategoryDialogOpen } from '@/views/warehouse/hooks/editCategoryDialog/editCategoryDialogOpen';
+import { useEditResourceDialogOpen } from '@/views/warehouse/hooks/editResourceDialog/editResourceDialogOpen';
+import type { MenuItem } from '@/types/views/layout/dropdownMenu';
 
 /**
  * @description: 下拉菜单 hook
@@ -10,7 +11,6 @@ export function useDropdownMenu() {
     { icon: Plus, title: '新建资源', command: 'addResource' },
     { icon: Collection, title: '管理分类', command: 'manageCategory' }
   ];
-  const { editResourceOpen, editCategoryOpen } = useOpenDialog(); // 打开对话框
 
   /**
    * @description: 处理指令
@@ -19,10 +19,10 @@ export function useDropdownMenu() {
   function handleCommand(command: string): void {
     switch (command) {
       case 'addResource':
-        editResourceOpen.value?.();
+        useEditResourceDialogOpen().open?.();
         break;
       case 'manageCategory':
-        editCategoryOpen.value?.();
+        useEditCategoryDialogOpen().open?.();
         break;
     }
   }

@@ -1,7 +1,7 @@
 <template>
   <el-page-header class="warehouse" icon="">
     <template #title>
-      <el-tooltip content="点击刷新列表" @click="getDataList">{{ curCategoryName }}</el-tooltip>
+      <el-tooltip content="点击刷新列表" @click="getList">{{ categoryName }}</el-tooltip>
     </template>
     <template #content>
       <el-input
@@ -54,12 +54,12 @@
             </el-form-item>
           </el-form>
           <div class="warehouse-filter-popover__option">
-            <el-button type="default" @click="filterReset">重置</el-button>
+            <el-button type="default" @click="handleFilterReset">重置</el-button>
             <el-button
               type="primary"
               @click="
-                filterClose();
-                getDataList();
+                handleFilterClose();
+                getList();
               "
               >查询</el-button
             >
@@ -90,21 +90,21 @@
               :icon="FolderOpened"
               circle
               title="打开目录"
-              @click="handleOpen(scope.row)"
+              @click="handleOpenDir(scope.row)"
             />
             <el-button
               type="warning"
               :icon="Edit"
               circle
               title="编辑"
-              @click="handleEdit(scope.row)"
+              @click="handleDeleteRow(scope.row)"
             />
             <el-button
               type="danger"
               :icon="Delete"
               circle
               title="删除"
-              @click="handleDelete(scope.row)"
+              @click="handleEditRow(scope.row)"
             />
           </template>
         </el-table-column>
@@ -113,7 +113,7 @@
   </el-page-header>
 
   <!-- 创建分类对话框 start -->
-  <create-category-dialog />
+  <create-category-dialog ref="createCategoryDialogRef" />
   <!-- 创建分类对话框 end -->
 
   <!-- 编辑分类对话框 start -->
@@ -121,25 +121,40 @@
   <!-- 编辑分类对话框 end -->
 
   <!-- 编辑资源对话框 start -->
-  <edit-resource-dialog />
+  <edit-resource-dialog @create-category="createCategoryDialogRef?.open()" />
   <!-- 编辑资源对话框 end -->
 </template>
 
 <script setup lang="ts">
+import { computed, ref } from 'vue';
 import { Delete, Edit, FolderOpened } from '@element-plus/icons-vue';
-import { computed } from 'vue';
-import { useWarehouseTable } from './hooks/warehouseTable';
-import { useWarehouseSelect } from './hooks/warehouseSelect';
-import { useWarehouseFilter } from './hooks/warehouseFilter';
+import { useWarehouseTable } from './hooks/warehouse/warehouseTable';
+import { useWarehouseSelect } from './hooks/warehouse/warehouseSelect';
+import { useWarehouseFilter } from './hooks/warehouse/warehouseFilter';
 import createCategoryDialog from './components/createCategoryDialog.vue';
 import editCategoryDialog from './components/editCategoryDialog.vue';
 import editResourceDialog from './components/editResourceDialog.vue';
 
-const { loading, list, search, dataSearch, getDataList, handleOpen, handleDelete, handleEdit } =
-  useWarehouseTable(); // 表格数据
-const { visibleFilter, filterReset, filterClose } = useWarehouseFilter(search); // 过滤器
-const { select, getLabel, getCategoryList } = useWarehouseSelect(); // 下拉列表
-const curCategoryName = computed(() => getLabel(select.category, dataSearch.value.categoryId)); // 当前分类名称
+const { select, getCategoryList } = useWarehouseSelect(); // 下拉列表
+const {
+  loading,
+  list,
+  search,
+  tableSearch,
+  getList,
+  handleOpenDir,
+  handleDeleteRow,
+  handleEditRow
+} = useWarehouseTable(); // 表格数据
+const { visibleFilter, handleFilterReset, handleFilterClose } = useWarehouseFilter(search); // 过滤器弹出层
+
+const categoryName = computed(() => {
+  const item = select.category.list.find(
+    (item) => item[select.category.option.value] === tableSearch.value.categoryId
+  );
+  return item ? item[select.category.option.label] : '全部';
+}); // 分类名称
+const createCategoryDialogRef = ref<InstanceType<typeof createCategoryDialog>>(); // 创建分类对话框 ref
 
 getCategoryList();
 </script>

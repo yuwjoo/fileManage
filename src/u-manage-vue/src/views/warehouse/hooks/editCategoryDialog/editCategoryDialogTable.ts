@@ -1,7 +1,7 @@
 import { ref, nextTick } from 'vue';
 import { selectCategoryList, saveCategoryData, deleteCategoryData } from '@/api/warehouse';
 import { ElNotification, type FormInstance, type TableInstance } from 'element-plus';
-import type { FormRule, ListData } from '@/types/views/warehouse/hooks/editCategoryDialogTable';
+import type { FormRule, ListData } from '@/types/views/warehouse/editCategoryDialogTable';
 
 /**
  * @description: 编辑分类对话框-表格数据
@@ -38,7 +38,7 @@ export function useEditCategoryDialogTable() {
   /**
    * @description: 处理新建
    */
-  function handleAdd() {
+  function handleAddRow() {
     list.value.push({
       status: {
         isEdit: false,
@@ -53,7 +53,7 @@ export function useEditCategoryDialogTable() {
    * @param {ListData} row 当前数据
    * @param {number} index 数据下标
    */
-  function handleSave(row: ListData, index: number) {
+  function handleSaveRow(row: ListData, index: number) {
     formRef.value?.validateField([`[${index}].name`, `[${index}].directory`], (valid) => {
       if (valid) {
         row.status.loading = 'save';
@@ -79,7 +79,7 @@ export function useEditCategoryDialogTable() {
    * @param {ListData} row 当前数据
    * @param {number} index 数据下标
    */
-  function handleDelete(row: ListData, index: number) {
+  function handleDeleteRow(row: ListData, index: number) {
     const handler = () => {
       ElNotification({
         type: 'success',
@@ -105,7 +105,7 @@ export function useEditCategoryDialogTable() {
    * @description: 处理编辑
    * @param {ListData} row 当前数据
    */
-  function handleEdit(row: ListData) {
+  function handleEditRow(row: ListData) {
     row.status.isEdit = true;
   }
 
@@ -116,9 +116,9 @@ export function useEditCategoryDialogTable() {
     formRef,
     tableRef,
     getData,
-    handleAdd,
-    handleSave,
-    handleDelete,
-    handleEdit
+    handleAddRow,
+    handleSaveRow,
+    handleDeleteRow,
+    handleEditRow
   };
 }

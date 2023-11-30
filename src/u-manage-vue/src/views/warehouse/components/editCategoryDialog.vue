@@ -5,7 +5,7 @@
     title="管理分类"
     width="500px"
     :close-on-click-modal="false"
-    :before-close="close"
+    :before-close="handleClose"
   >
     <el-form
       v-loading="loading"
@@ -49,7 +49,7 @@
               :loading="row.status.loading === 'save'"
               :disabled="row.status.loading !== 'no'"
               title="保存"
-              @click="handleSave(row, $index)"
+              @click="handleSaveRow(row, $index)"
             />
             <el-button
               v-else
@@ -58,7 +58,7 @@
               circle
               :disabled="row.status.loading !== 'no'"
               title="编辑"
-              @click="handleEdit(row)"
+              @click="handleEditRow(row)"
             />
             <el-button
               type="danger"
@@ -67,12 +67,12 @@
               :loading="row.status.loading === 'delete'"
               :disabled="row.status.loading !== 'no'"
               title="删除"
-              @click="handleDelete(row, $index)"
+              @click="handleDeleteRow(row, $index)"
             />
           </template>
         </el-table-column>
       </el-table>
-      <el-button class="edit-category-dialog__form-add" :icon="Plus" @click="handleAdd"
+      <el-button class="edit-category-dialog__form-add" :icon="Plus" @click="handleAddRow"
         >新建</el-button
       >
     </el-form>
@@ -82,10 +82,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { Delete, Edit, Check, Plus } from '@element-plus/icons-vue';
-import { useOpenDialog } from '../hooks/openDialog';
-import { useEditCategoryDialogTable } from '../hooks/editCategoryDialogTable';
+import { useEditCategoryDialogTable } from '../hooks/editCategoryDialog/editCategoryDialogTable';
+import { useEditCategoryDialogOpen } from '../hooks/editCategoryDialog/editCategoryDialogOpen';
 
 const visible = ref<boolean>(false); // 显示对话框
+
 const {
   list,
   loading,
@@ -93,18 +94,18 @@ const {
   formRef,
   tableRef,
   getData,
-  handleAdd,
-  handleSave,
-  handleDelete,
-  handleEdit
+  handleAddRow,
+  handleSaveRow,
+  handleDeleteRow,
+  handleEditRow
 } = useEditCategoryDialogTable(); // 表格数据
-const { editCategoryOpen } = useOpenDialog(); // 打开对话框函数
+
+useEditCategoryDialogOpen(handleOpen); // 设置对话框打开函数
 
 /**
  * @description: 打开对话框
  */
-function open() {
-  list.value = [];
+function handleOpen() {
   getData();
   visible.value = true;
 }
@@ -112,14 +113,12 @@ function open() {
 /**
  * @description: 关闭对话框
  */
-function close() {
+function handleClose() {
   visible.value = false;
 }
 
-editCategoryOpen.value = open;
-
 defineExpose({
-  open
+  open: handleOpen
 });
 </script>
 

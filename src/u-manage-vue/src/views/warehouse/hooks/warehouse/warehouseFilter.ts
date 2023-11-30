@@ -1,4 +1,4 @@
-import type { Search } from '@/types/views/warehouse/hooks/warehouseTable';
+import type { Search } from '@/types/views/warehouse/warehouseTable';
 import { ref, type Ref } from 'vue';
 
 /**
@@ -11,9 +11,9 @@ export function useWarehouseFilter(search: Ref<Search>) {
   /**
    * @description: 过滤器条件重置
    */
-  function filterReset() {
+  function handleFilterReset() {
     search.value = {
-      searchContent: search.value.searchContent,
+      ...search.value,
       categoryId: undefined,
       createDate: undefined
     };
@@ -22,9 +22,9 @@ export function useWarehouseFilter(search: Ref<Search>) {
   /**
    * @description: 过滤器关闭
    */
-  function filterClose() {
+  function handleFilterClose() {
     visibleFilter.value = false;
   }
 
-  return { visibleFilter, filterReset, filterClose };
+  return { visibleFilter, handleFilterReset, handleFilterClose };
 }

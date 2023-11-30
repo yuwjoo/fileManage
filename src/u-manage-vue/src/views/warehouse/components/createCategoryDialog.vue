@@ -31,7 +31,7 @@
 
     <template #footer>
       <el-button size="default" @click="handleClose">取消</el-button>
-      <el-button type="primary" size="default" :loading="loading" @click="handleSubmit"
+      <el-button type="primary" size="default" :loading="loading" @click="submitForm"
         >提交</el-button
       >
     </template>
@@ -40,19 +40,23 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useCreateCategoryDialogForm } from '../hooks/createCategoryDialogForm';
+import { useCreateCategoryDialogForm } from '../hooks/createCategoryDialog/createCategoryDialogForm';
 
 const emits = defineEmits<{
   add: [value: any];
 }>();
+
 const visible = ref<boolean>(false); // 显示对话框
-const { loading, form, formRef, rules, handleSubmit } = useCreateCategoryDialogForm(); // 表单数据
+
+const { loading, form, formRef, rules, resetForm, submitForm } = useCreateCategoryDialogForm({
+  submitSuccess: handleSubmitSuccess
+}); // 表单数据
 
 /**
  * @description: 打开对话框
  */
-function open() {
-  form.value = { name: '', directory: '' };
+function handleOpen() {
+  resetForm();
   visible.value = true;
 }
 
@@ -63,5 +67,16 @@ function handleClose() {
   visible.value = false;
 }
 
-defineExpose({ open });
+/**
+ * @description: 处理提交完成
+ * @param {any} res 返回数据
+ */
+function handleSubmitSuccess(res: any) {
+  emits('add', res);
+  handleClose();
+}
+
+defineExpose({
+  open: handleOpen
+});
 </script>

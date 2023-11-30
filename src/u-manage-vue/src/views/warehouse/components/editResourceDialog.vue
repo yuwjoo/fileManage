@@ -50,7 +50,7 @@
             :key="tag"
             :closable="!disabled"
             :disable-transitions="false"
-            @close="handleDeleteTag(form.tagList, tag)"
+            @close="handleDeleteTag(tag)"
           >
             {{ tag }}
           </el-tag>
@@ -62,8 +62,8 @@
               v-model="inputValue"
               size="small"
               maxlength="20"
-              @keyup.enter="handleInputConfirm(form.tagList, false)"
-              @blur="handleInputConfirm(form.tagList, true)"
+              @keyup.enter="handleInputConfirm(false)"
+              @blur="handleInputConfirm(true)"
             />
             <el-button
               class="tag_group_tag tag_group_add"
@@ -82,7 +82,7 @@
           drag
           :disabled="disabled"
           :show-file-list="false"
-          :http-request="handleHttpRequest"
+          :http-request="resourceUpload.handleHttpRequest"
         >
           <el-table
             :data="form.resourceList"
@@ -101,7 +101,7 @@
                   :icon="Delete"
                   circle
                   title="删除"
-                  @click.stop="handleDelete(form.resourceList, $index)"
+                  @click.stop="resourceUpload.handleDeleteFile($index)"
                 />
               </template>
             </el-table-column>
@@ -115,7 +115,7 @@
           drag
           :disabled="disabled"
           :show-file-list="false"
-          :http-request="handleHttpRequest"
+          :http-request="readmeUpload.handleHttpRequest"
         >
           <el-table
             :data="form.readmeList"
@@ -134,7 +134,7 @@
                   :icon="Delete"
                   circle
                   title="删除"
-                  @click.stop="handleDelete(form.readmeList, $index)"
+                  @click.stop="readmeUpload.handleDeleteFile($index)"
                 />
               </template>
             </el-table-column>
@@ -144,45 +144,44 @@
     </el-form>
 
     <template #footer>
-      <el-button size="default" @click="close">取消</el-button>
-      <el-button type="primary" size="default" @click="handleSubmit">提交</el-button>
+      <el-button size="default" @click="handleClose">取消</el-button>
+      <el-button type="primary" size="default" @click="submitForm">提交</el-button>
     </template>
   </el-dialog>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, toRef } from 'vue';
 import { Delete, Document } from '@element-plus/icons-vue';
-import { useEditResourceDialogForm } from '../hooks/editResourceDialogForm';
-import { useEditResourceDialogFileList } from '../hooks/editResourceDialogFileList';
-import { useEditResourceDialogTagGroup } from '../hooks/editResourceDialogTagGroup';
-import { useOpenDialog } from '../hooks/openDialog';
-import { useWarehouseSelect } from '../hooks/warehouseSelect';
+import { useEditResourceDialogForm } from '../hooks/editResourceDialog/editResourceDialogForm';
+import { useEditResourceDialogOpen } from '../hooks/editResourceDialog/editResourceDialogOpen';
+import { useEditResourceDialogFileList } from '../hooks/editResourceDialog/editResourceDialogFileList';
+import { useEditResourceDialogTagGroup } from '../hooks/editResourceDialog/editResourceDialogTagGroup';
+import { useWarehouseSelect } from '../hooks/warehouse/warehouseSelect';
 
 const emits = defineEmits<{
   'create-category': [];
+  change: [];
 }>();
 
 const visible = ref<boolean>(false); // 显示对话框
-const { form, rules, disabled, formRef, handleSubmit } = useEditResourceDialogForm(); // 表单数据
-const { handleDelete, handleHttpRequest } = useEditResourceDialogFileList(); // 上传文件列表
-const { isAdd, inputValue, InputRef, handleDeleteTag, handleInputConfirm, handleEntryAdd } =
-  useEditResourceDialogTagGroup(); // 标签组
-const { editResourceOpen } = useOpenDialog(); // 打开对话框函数
+
 const { select, getCategoryList } = useWarehouseSelect(); // 下拉数据
+const { form, rules, disabled, formRef, resetForm, submitForm } = useEditResourceDialogForm({
+  submitSuccess: handleSubmitSuccess
+}); // 表单数据
+const resourceUpload = useEditResourceDialogFileList(toRef(form.value, 'resourceList')); // 上传资源文件
+const readmeUpload = useEditResourceDialogFileList(toRef(form.value, 'readmeList')); // 上传说明文件
+const { isAdd, inputValue, InputRef, handleDeleteTag, handleInputConfirm, handleEntryAdd } =
+  useEditResourceDialogTagGroup(toRef(form.value, 'tagList')); // 标签列表
+
+useEditResourceDialogOpen(handleOpen); // 打开对话框函数
 
 /**
  * @description: 打开对话框
  */
-function open() {
-  form.value = {
-    categoryId: '',
-    name: '',
-    describe: '',
-    tagList: [],
-    resourceList: [],
-    readmeList: []
-  };
+function handleOpen() {
+  resetForm();
   getCategoryList();
   visible.value = true;
 }
@@ -190,14 +189,20 @@ function open() {
 /**
  * @description: 关闭对话框
  */
-function close() {
+function handleClose() {
   visible.value = false;
 }
 
-editResourceOpen.value = open;
+/**
+ * @description: 处理提交完成
+ */
+function handleSubmitSuccess() {
+  emits('change');
+  handleClose();
+}
 
 defineExpose({
-  open
+  open: handleOpen
 });
 </script>
 

@@ -6,7 +6,7 @@ import iconMinimize from '~icons/iconfont/minimize';
 import iconRestore from '~icons/iconfont/restore';
 import iconMaximize from '~icons/iconfont/maximize';
 import iconClose from '~icons/iconfont/close';
-import type { WindowControlButtons } from '@/types/views/layout/hooks/windowControl';
+import type { WindowControlButtons } from '@/types/views/layout/windowControl';
 
 /**
  * @description: 窗口控制相关 hook

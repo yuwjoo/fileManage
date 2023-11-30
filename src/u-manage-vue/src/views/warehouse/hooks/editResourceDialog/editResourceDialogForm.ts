@@ -1,11 +1,11 @@
 import { ref } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus';
-import type { Form } from '@/types/views/warehouse/hooks/editResourceDialogTable';
+import type { Form, Options } from '@/types/views/warehouse/editResourceDialogForm';
 
 /**
  * @description: 编辑资源对话框-表单数据
  */
-export function useEditResourceDialogForm() {
+export function useEditResourceDialogForm(options: Options) {
   const form = ref<Form>({
     categoryId: '',
     name: '',
@@ -19,7 +19,7 @@ export function useEditResourceDialogForm() {
     name: [{ required: true, message: '请输入名称', trigger: 'change' }],
     resourceList: [{ validator: resourceListValidator, trigger: 'change' }]
   } as FormRules<Form>; // 表单校验规则
-  const disabled = ref<boolean>(false); // 禁用表单
+  const disabled = ref<boolean>(false); // 禁用
   const formRef = ref<FormInstance>(); // 表单 ref
 
   /**
@@ -38,15 +38,33 @@ export function useEditResourceDialogForm() {
   }
 
   /**
+   * @description: 重置form数据
+   */
+  function resetForm() {
+    form.value = {
+      categoryId: '',
+      name: '',
+      describe: '',
+      tagList: [],
+      resourceList: [],
+      readmeList: []
+    };
+  }
+
+  /**
    * @description: 处理提交
    */
-  function handleSubmit() {}
+  function submitForm() {
+    console.log(form.value);
+    options.submitSuccess();
+  }
 
   return {
     form,
     rules,
     disabled,
     formRef,
-    handleSubmit
+    resetForm,
+    submitForm
   };
 }
