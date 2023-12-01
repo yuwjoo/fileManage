@@ -48,6 +48,7 @@
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
+                value-format="x"
                 :editable="false"
                 :teleported="false"
               />
@@ -113,15 +114,18 @@
   </el-page-header>
 
   <!-- 创建分类对话框 start -->
-  <create-category-dialog ref="createCategoryDialogRef" />
+  <create-category-dialog ref="createCategoryDialogRef" @add="handleCreateCategory" />
   <!-- 创建分类对话框 end -->
 
   <!-- 编辑分类对话框 start -->
-  <edit-category-dialog />
+  <edit-category-dialog @change="handleEditCategory" />
   <!-- 编辑分类对话框 end -->
 
   <!-- 编辑资源对话框 start -->
-  <edit-resource-dialog @create-category="createCategoryDialogRef?.open()" />
+  <edit-resource-dialog
+    ref="editResourceDialogRef"
+    @create-category="createCategoryDialogRef!.open()"
+  />
   <!-- 编辑资源对话框 end -->
 </template>
 
@@ -134,6 +138,7 @@ import { useWarehouseFilter } from './hooks/warehouse/warehouseFilter';
 import createCategoryDialog from './components/createCategoryDialog.vue';
 import editCategoryDialog from './components/editCategoryDialog.vue';
 import editResourceDialog from './components/editResourceDialog.vue';
+import type { Form } from '@/types/views/warehouse/createCategoryDialogForm';
 
 const { select, getCategoryList } = useWarehouseSelect(); // 下拉列表
 const {
@@ -155,7 +160,30 @@ const categoryName = computed(() => {
   return item ? item[select.category.option.label] : '全部';
 }); // 分类名称
 const createCategoryDialogRef = ref<InstanceType<typeof createCategoryDialog>>(); // 创建分类对话框 ref
+const editResourceDialogRef = ref<InstanceType<typeof editResourceDialog>>(); // 编辑资源对话框 ref
 
+/**
+ * @description: 处理编辑分类列表
+ */
+function handleEditCategory() {
+  getCategoryList().then(() => {
+    if (!select.category.list.some((item) => item.id === search.value.categoryId)) {
+      search.value.categoryId = -1;
+      getList();
+    }
+  });
+}
+
+/**
+ * @description: 处理创建分类列表
+ * @param {Required<Form>} data 数据
+ */
+function handleCreateCategory(data: Required<Form>) {
+  select.category.list.push(data);
+  editResourceDialogRef.value!.addCategory(data);
+}
+
+getList();
 getCategoryList();
 </script>
 

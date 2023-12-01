@@ -60,7 +60,27 @@
               title="编辑"
               @click="handleEditRow(row)"
             />
+            <el-popconfirm
+              v-if="row.id"
+              title="确定删除吗?"
+              confirm-button-text="确定"
+              cancel-button-text="取消"
+              @confirm="handleDeleteRow(row, $index)"
+            >
+              <template #reference>
+                <el-button
+                  type="danger"
+                  :icon="Delete"
+                  circle
+                  :loading="row.status.loading === 'delete'"
+                  :disabled="row.status.loading !== 'no'"
+                  title="删除"
+                />
+              </template>
+            </el-popconfirm>
+
             <el-button
+              v-else
               type="danger"
               :icon="Delete"
               circle
@@ -84,6 +104,11 @@ import { ref } from 'vue';
 import { Delete, Edit, Check, Plus } from '@element-plus/icons-vue';
 import { useEditCategoryDialogTable } from '../hooks/editCategoryDialog/editCategoryDialogTable';
 import { useEditCategoryDialogOpen } from '../hooks/editCategoryDialog/editCategoryDialogOpen';
+import type { ListData } from '@/types/views/warehouse/editCategoryDialogTable';
+
+const emits = defineEmits<{
+  change: [list: ListData[]];
+}>();
 
 const visible = ref<boolean>(false); // 显示对话框
 
@@ -115,6 +140,7 @@ function handleOpen() {
  */
 function handleClose() {
   visible.value = false;
+  emits('change', list.value);
 }
 
 defineExpose({

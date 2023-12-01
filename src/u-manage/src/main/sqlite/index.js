@@ -48,7 +48,7 @@ const api = {
   insertResource(data) {
     return run(
       `INSERT INTO resource (name, describe, tags, category_id) VALUES (?, ?, ?, ?);`,
-      [data.name, data.describe, (data.tags || []).join(","), data.category_id]
+      [data.name, data.describe, (data.tags || []).join(","), data.categoryId]
     );
   },
   /**
@@ -83,8 +83,7 @@ const api = {
    */
   selectResourceList(data) {
     return all(
-      `SELECT * FROM resource
-       WHERE name link "%${data.searchContent}%";`
+      `SELECT * FROM resource;`
     );
   },
 };

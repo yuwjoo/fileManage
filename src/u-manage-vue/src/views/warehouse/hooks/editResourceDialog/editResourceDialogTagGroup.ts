@@ -1,20 +1,21 @@
+import type { Form } from '@/types/views/warehouse/editResourceDialogForm';
 import type { ElInput } from 'element-plus';
 import { nextTick, ref, type Ref } from 'vue';
 
 /**
  * @description: 编辑资源对话框-标签组
  */
-export function useEditResourceDialogTagGroup(tagList: Ref<string[]>) {
+export function useEditResourceDialogTagGroup(form: Ref<Form>) {
   const isAdd = ref<boolean>(false); // 新增模式
   const inputValue = ref<string>(''); // 输入框绑定值
   const InputRef = ref<InstanceType<typeof ElInput>>(); // 输入框 ref
 
   /**
    * @description: 处理标签删除
-   * @param {string} tag 被删除的标签名
+   * @param {number} index 被删除的标签下标
    */
-  function handleDeleteTag(tag: string) {
-    tagList.value = tagList.value.filter((t) => t !== tag);
+  function handleDeleteTag(index: number) {
+    form.value.tagList = form.value.tagList.filter((_, i) => i !== index);
   }
 
   /**
@@ -22,7 +23,8 @@ export function useEditResourceDialogTagGroup(tagList: Ref<string[]>) {
    * @param {boolean} isBlur 是否失去焦点
    */
   function handleInputConfirm(isBlur: boolean) {
-    tagList.value.push(inputValue.value);
+    const value = inputValue.value.trim();
+    if (value) form.value.tagList.push(value);
     isAdd.value = !isBlur;
     inputValue.value = '';
   }

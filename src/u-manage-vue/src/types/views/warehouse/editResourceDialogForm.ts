@@ -3,7 +3,7 @@ import type { UploadUserFile } from 'element-plus';
 export {};
 
 export interface Form {
-  categoryId: string; // 分类id
+  categoryId: number | ''; // 分类id
   name: string; // 名称
   describe: string; // 描述
   tagList: string[]; // 标签列表

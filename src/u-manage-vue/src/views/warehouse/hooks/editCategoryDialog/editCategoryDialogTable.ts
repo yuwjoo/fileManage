@@ -1,6 +1,6 @@
 import { ref, nextTick } from 'vue';
 import { selectCategoryList, saveCategoryData, deleteCategoryData } from '@/api/warehouse';
-import { ElNotification, type FormInstance, type TableInstance } from 'element-plus';
+import { type FormInstance, type TableInstance } from 'element-plus';
 import type { FormRule, ListData } from '@/types/views/warehouse/editCategoryDialogTable';
 
 /**
@@ -41,7 +41,7 @@ export function useEditCategoryDialogTable() {
   function handleAddRow() {
     list.value.push({
       status: {
-        isEdit: false,
+        isEdit: true,
         loading: 'no'
       }
     });
@@ -58,14 +58,15 @@ export function useEditCategoryDialogTable() {
       if (valid) {
         row.status.loading = 'save';
         saveCategoryData({ id: row.id, name: row.name, directory: row.directory })
-          .then(() => {
+          .then((id) => {
+            row.id = id;
+            row.status.isEdit = false;
             ElNotification({
               type: 'success',
               title: '',
               message: '保存成功',
               position: 'bottom-right'
             });
-            row.status.isEdit = false;
           })
           .finally(() => {
             row.status.loading = 'no';

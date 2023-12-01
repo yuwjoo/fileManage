@@ -19,7 +19,7 @@ export function selectCategoryList(params?: ParamsType): Promise<CategoryListRes
  * @param {ParamsType} params 参数
  * @return {promise<CategoryListResponse>} 返回结果
  */
-export function saveCategoryData(params?: ParamsType): Promise<CategoryListResponse> {
+export function saveCategoryData(params?: ParamsType): Promise<number> {
   return useRequest({
     url: 'category:saveCategoryData',
     method: 'get',
@@ -48,6 +48,19 @@ export function deleteCategoryData(params?: ParamsType): Promise<CategoryListRes
 export function selectResourceList(params?: ParamsType): Promise<ResourceListResponse> {
   return useRequest({
     url: 'resource:selectResourceList',
+    method: 'get',
+    params
+  });
+}
+
+/**
+ * @description: 保存资源列表
+ * @param {ParamsType} params 参数
+ * @return {promise<ResourceListResponse>} 返回结果
+ */
+export function saveResourceData(params?: ParamsType): Promise<ResourceListResponse> {
+  return useRequest({
+    url: 'resource:saveResourceData',
     method: 'get',
     params
   });

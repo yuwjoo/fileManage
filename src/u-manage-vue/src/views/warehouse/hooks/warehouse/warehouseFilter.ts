@@ -14,7 +14,7 @@ export function useWarehouseFilter(search: Ref<Search>) {
   function handleFilterReset() {
     search.value = {
       ...search.value,
-      categoryId: undefined,
+      categoryId: -1,
       createDate: undefined
     };
   }

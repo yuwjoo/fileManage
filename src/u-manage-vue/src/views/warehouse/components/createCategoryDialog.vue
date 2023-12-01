@@ -41,6 +41,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useCreateCategoryDialogForm } from '../hooks/createCategoryDialog/createCategoryDialogForm';
+import type { Form } from '@/types/views/warehouse/createCategoryDialogForm';
 
 const emits = defineEmits<{
   add: [value: any];
@@ -69,10 +70,10 @@ function handleClose() {
 
 /**
  * @description: 处理提交完成
- * @param {any} res 返回数据
+ * @param {Form} data 返回数据
  */
-function handleSubmitSuccess(res: any) {
-  emits('add', res);
+function handleSubmitSuccess(data: Form) {
+  emits('add', data);
   handleClose();
 }
 

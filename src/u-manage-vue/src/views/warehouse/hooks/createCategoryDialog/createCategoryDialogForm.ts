@@ -1,5 +1,5 @@
-import { type FormRules, type FormInstance, ElNotification } from 'element-plus';
-import { ref, reactive } from 'vue';
+import { type FormRules, type FormInstance } from 'element-plus';
+import { ref, reactive, toRaw } from 'vue';
 import { saveCategoryData } from '@/api/warehouse';
 import type { Form, Options } from '@/types/views/warehouse/createCategoryDialogForm';
 
@@ -29,17 +29,9 @@ export function useCreateCategoryDialogForm(options: Options) {
     formRef.value!.validate((isVaild) => {
       if (isVaild) {
         loading.value = true;
-        saveCategoryData(form.value)
-          .then((res) => {
-            options.submitSuccess(res);
-          })
-          .catch(() => {
-            ElNotification({
-              type: 'error',
-              title: '提交失败',
-              message: "I'm at the bottom right corner",
-              position: 'bottom-right'
-            });
+        saveCategoryData(toRaw(form.value))
+          .then((id) => {
+            options.submitSuccess({ id, ...form.value });
           })
           .finally(() => {
             loading.value = false;

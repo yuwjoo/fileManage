@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue';
+import { computed, ref, toRaw } from 'vue';
 import { selectResourceList } from '@/api/warehouse';
 import type { Search } from '@/types/views/warehouse/warehouseTable';
 import type { ResourceListResponse } from '@/types/api/warehouse';
@@ -9,7 +9,11 @@ import type { ResourceListResponse } from '@/types/api/warehouse';
 export function useWarehouseTable() {
   const rawlist = ref<ResourceListResponse>([]); // 原始列表数据
   const loading = ref<boolean>(false); // 加载中
-  const search = ref<Search>({}); // 筛选条件
+  const search = ref<Search>({
+    searchContent: '',
+    categoryId: -1,
+    createDate: undefined
+  }); // 筛选条件
   const tableSearch = ref<Search>(JSON.parse(JSON.stringify(search.value))); // 当前表格使用的筛选条件
   const list = computed(() => {
     return rawlist.value.filter((item) => item.name.includes(search.value.searchContent || ''));
@@ -21,7 +25,7 @@ export function useWarehouseTable() {
   function getList() {
     tableSearch.value = JSON.parse(JSON.stringify(search.value));
     loading.value = true;
-    selectResourceList(search.value)
+    selectResourceList(toRaw(search.value))
       .then((res) => {
         rawlist.value = res || [];
       })

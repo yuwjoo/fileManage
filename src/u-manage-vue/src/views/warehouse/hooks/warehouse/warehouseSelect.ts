@@ -8,7 +8,7 @@ import type { Select } from '@/types/views/warehouse/warehouseSelect';
 export function useWarehouseSelect() {
   const select = reactive<Select>({
     category: {
-      list: [],
+      list: [{ id: -1, name: '全部', directory: '' }],
       loading: false,
       option: { label: 'name', value: 'id' }
     } // 分类下拉属性
@@ -19,9 +19,10 @@ export function useWarehouseSelect() {
    */
   function getCategoryList() {
     select.category.loading = true;
-    selectCategoryList()
+    return selectCategoryList()
       .then((res) => {
-        select.category.list = res || [];
+        const list = res || [];
+        select.category.list = [{ id: -1, name: '全部', directory: '' }, ...list];
       })
       .catch(() => {
         select.category.list = [];
