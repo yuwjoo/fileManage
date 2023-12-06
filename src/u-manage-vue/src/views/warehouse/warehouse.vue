@@ -1,7 +1,7 @@
 <template>
   <el-page-header class="warehouse" icon="">
     <template #title>
-      <el-tooltip content="点击刷新列表" @click="getList">{{ categoryName }}</el-tooltip>
+      <el-tooltip content="点击刷新列表" @click="setTableData">{{ categoryName }}</el-tooltip>
     </template>
     <template #content>
       <el-input
@@ -33,11 +33,12 @@
           <el-form label-suffix=":">
             <el-form-item label="当前分类">
               <el-radio-group v-model="search.categoryId">
+                <el-radio-button label="">全部</el-radio-button>
                 <el-radio-button
-                  v-for="(item, index) in select.category.list"
+                  v-for="(item, index) in category.list"
                   :key="index"
-                  :label="item.id"
-                  >{{ item.name }}</el-radio-button
+                  :label="item[category.option.value]"
+                  >{{ item[category.option.value] }}</el-radio-button
                 >
               </el-radio-group>
             </el-form-item>
@@ -56,14 +57,7 @@
           </el-form>
           <div class="warehouse-filter-popover__option">
             <el-button type="default" @click="handleFilterReset">重置</el-button>
-            <el-button
-              type="primary"
-              @click="
-                handleFilterClose();
-                getList();
-              "
-              >查询</el-button
-            >
+            <el-button type="primary" @click="handleFilterSearch({ setTableData })">查询</el-button>
           </div>
         </template>
       </el-popover>
@@ -76,7 +70,7 @@
       <el-table
         v-loading="loading"
         class="warehouse__table"
-        :data="list"
+        :data="tableData"
         border
         stripe
         height="100%"
@@ -113,78 +107,48 @@
     </template>
   </el-page-header>
 
-  <!-- 创建分类对话框 start -->
-  <create-category-dialog ref="createCategoryDialogRef" @add="handleCreateCategory" />
-  <!-- 创建分类对话框 end -->
-
-  <!-- 编辑分类对话框 start -->
-  <edit-category-dialog @change="handleEditCategory" />
-  <!-- 编辑分类对话框 end -->
-
   <!-- 编辑资源对话框 start -->
   <edit-resource-dialog
     ref="editResourceDialogRef"
-    @create-category="createCategoryDialogRef!.open()"
+    :category="category"
+    @open-create-category="createCategoryDialogRef!.open()"
   />
   <!-- 编辑资源对话框 end -->
+
+  <!-- 编辑分类对话框 start -->
+  <edit-category-dialog
+    ref="editCategoryDialogRef"
+    :category="category"
+    @change="setCategoryList"
+  />
+  <!-- 编辑分类对话框 end -->
+
+  <!-- 创建分类对话框 start -->
+  <create-category-dialog ref="createCategoryDialogRef" @change="setCategoryList" />
+  <!-- 创建分类对话框 end -->
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { Delete, Edit, FolderOpened } from '@element-plus/icons-vue';
-import { useWarehouseTable } from './hooks/warehouse/warehouseTable';
-import { useWarehouseSelect } from './hooks/warehouse/warehouseSelect';
-import { useWarehouseFilter } from './hooks/warehouse/warehouseFilter';
+import { useWarehouseTable } from './hooks/warehouseTable';
+import { useWarehouseSelect } from './hooks/warehouseSelect';
+import { useWarehouseFilter } from './hooks/warehouseFilter';
+import { editResourceDialogRef } from './hooks/editResourceDialog';
+import { editCategoryDialogRef } from './hooks/editCategoryDialog';
 import createCategoryDialog from './components/createCategoryDialog.vue';
 import editCategoryDialog from './components/editCategoryDialog.vue';
 import editResourceDialog from './components/editResourceDialog.vue';
-import type { Form } from '@/types/views/warehouse/createCategoryDialogForm';
 
-const { select, getCategoryList } = useWarehouseSelect(); // 下拉列表
-const {
-  loading,
-  list,
-  search,
-  tableSearch,
-  getList,
-  handleOpenDir,
-  handleDeleteRow,
-  handleEditRow
-} = useWarehouseTable(); // 表格数据
-const { visibleFilter, handleFilterReset, handleFilterClose } = useWarehouseFilter(search); // 过滤器弹出层
-
-const categoryName = computed(() => {
-  const item = select.category.list.find(
-    (item) => item[select.category.option.value] === tableSearch.value.categoryId
-  );
-  return item ? item[select.category.option.label] : '全部';
-}); // 分类名称
+const { category, setCategoryList, getCategoryName } = useWarehouseSelect(); // 下拉列表
+const { loading, tableData, query, setTableData, handleOpenDir, handleDeleteRow, handleEditRow } =
+  useWarehouseTable(); // 表格
+const { visibleFilter, search, handleFilterReset, handleFilterSearch } = useWarehouseFilter(); // 过滤器弹出层
+const categoryName = computed(() => getCategoryName(query.value.categoryId) || '全部'); // 分类名称
 const createCategoryDialogRef = ref<InstanceType<typeof createCategoryDialog>>(); // 创建分类对话框 ref
-const editResourceDialogRef = ref<InstanceType<typeof editResourceDialog>>(); // 编辑资源对话框 ref
 
-/**
- * @description: 处理编辑分类列表
- */
-function handleEditCategory() {
-  getCategoryList().then(() => {
-    if (!select.category.list.some((item) => item.id === search.value.categoryId)) {
-      search.value.categoryId = -1;
-      getList();
-    }
-  });
-}
-
-/**
- * @description: 处理创建分类列表
- * @param {Required<Form>} data 数据
- */
-function handleCreateCategory(data: Required<Form>) {
-  select.category.list.push(data);
-  editResourceDialogRef.value!.addCategory(data);
-}
-
-getList();
-getCategoryList();
+setTableData(search);
+setCategoryList();
 </script>
 
 <style lang="scss">

@@ -5,16 +5,16 @@
     title="管理分类"
     width="500px"
     :close-on-click-modal="false"
-    :before-close="handleClose"
+    @close="handleClose(emits)"
   >
     <el-form
       v-loading="loading"
       class="edit-category-dialog__form"
       ref="formRef"
-      :model="list"
+      :model="tableData"
       :show-message="false"
     >
-      <el-table ref="tableRef" :data="list" border stripe max-height="500px">
+      <el-table ref="tableRef" :data="tableData" border stripe max-height="500px">
         <el-table-column prop="name" label="分类名" min-width="120" align="center">
           <template #default="{ $index, row }">
             <el-form-item
@@ -100,51 +100,41 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import { Delete, Edit, Check, Plus } from '@element-plus/icons-vue';
-import { useEditCategoryDialogTable } from '../hooks/editCategoryDialog/editCategoryDialogTable';
-import { useEditCategoryDialogOpen } from '../hooks/editCategoryDialog/editCategoryDialogOpen';
-import type { ListData } from '@/types/views/warehouse/editCategoryDialogTable';
+import { useEditCategoryDialog } from '../hooks/editCategoryDialog';
+import { useEditCategoryDialogTable } from '../hooks/editCategoryDialogTable';
+import type { PropType } from 'vue';
+import type { UseWarehouseSelectReturn } from '../types/warehouseSelect';
+
+const props = defineProps({
+  // 分类数据
+  category: {
+    type: Object as PropType<UseWarehouseSelectReturn['category']>,
+    required: true
+  }
+});
 
 const emits = defineEmits<{
-  change: [list: ListData[]];
+  change: []; // 数据改变
 }>();
 
-const visible = ref<boolean>(false); // 显示对话框
+const { visible, handleOpen, handleClose } = useEditCategoryDialog(); // 对话框
 
 const {
-  list,
+  tableData,
   loading,
   rules,
   formRef,
   tableRef,
-  getData,
+  setTableData,
   handleAddRow,
   handleSaveRow,
   handleDeleteRow,
   handleEditRow
 } = useEditCategoryDialogTable(); // 表格数据
 
-useEditCategoryDialogOpen(handleOpen); // 设置对话框打开函数
-
-/**
- * @description: 打开对话框
- */
-function handleOpen() {
-  getData();
-  visible.value = true;
-}
-
-/**
- * @description: 关闭对话框
- */
-function handleClose() {
-  visible.value = false;
-  emits('change', list.value);
-}
-
 defineExpose({
-  open: handleOpen
+  open: () => handleOpen({ setTableData }, props.category)
 });
 </script>
 

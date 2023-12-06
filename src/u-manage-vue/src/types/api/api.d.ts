@@ -9,5 +9,5 @@ export enum Code {
 export interface ResponseBody<T> {
   code: Code;
   message: string;
-  res: T;
+  data: T;
 }

@@ -1,13 +1,8 @@
 export {};
 
-export enum Use {
-  axios, // axios环境下请求
-  electron // electron环境下请求
-}
-
 export interface Options {
-  use: Use[];
+  requestType: 'axios' | 'electron' | 'auto';
   url: string;
   method?: string;
-  params?: Record<string, unknown>;
+  params?: Record<string, any>;
 }

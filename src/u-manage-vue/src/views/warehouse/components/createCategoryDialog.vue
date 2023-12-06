@@ -31,7 +31,11 @@
 
     <template #footer>
       <el-button size="default" @click="handleClose">取消</el-button>
-      <el-button type="primary" size="default" :loading="loading" @click="submitForm"
+      <el-button
+        type="primary"
+        size="default"
+        :loading="submitLoading"
+        @click="handleSubmitForm(emits, { handleClose })"
         >提交</el-button
       >
     </template>
@@ -39,45 +43,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useCreateCategoryDialogForm } from '../hooks/createCategoryDialog/createCategoryDialogForm';
-import type { Form } from '@/types/views/warehouse/createCategoryDialogForm';
+import { useCreateCategoryDialog } from '../hooks/createCategoryDialog';
+import { useCreateCategoryDialogForm } from '../hooks/createCategoryDialogForm';
 
 const emits = defineEmits<{
-  add: [value: any];
+  change: [value: any]; // 数据改变
 }>();
 
-const visible = ref<boolean>(false); // 显示对话框
-
-const { loading, form, formRef, rules, resetForm, submitForm } = useCreateCategoryDialogForm({
-  submitSuccess: handleSubmitSuccess
-}); // 表单数据
-
-/**
- * @description: 打开对话框
- */
-function handleOpen() {
-  resetForm();
-  visible.value = true;
-}
-
-/**
- * @description: 处理关闭
- */
-function handleClose() {
-  visible.value = false;
-}
-
-/**
- * @description: 处理提交完成
- * @param {Form} data 返回数据
- */
-function handleSubmitSuccess(data: Form) {
-  emits('add', data);
-  handleClose();
-}
+const { visible, handleOpen, handleClose } = useCreateCategoryDialog(); // 对话框
+const { submitLoading, form, formRef, rules, handleResetForm, handleSubmitForm } =
+  useCreateCategoryDialogForm(); // 表单数据
 
 defineExpose({
-  open: handleOpen
+  open: () => handleOpen({ handleResetForm })
 });
 </script>

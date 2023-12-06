@@ -1,15 +1,17 @@
-export type ParamsType = Record<string, unknown>;
+export {};
 
-export type CategoryListResponse = {
+export type ParamsType = Record<string, any>;
+
+export type Category = {
   id: number;
   name: string;
   directory: string;
-}[];
+};
 
-export type ResourceListResponse = {
+export type Resource = {
   id: number;
   name: string;
   describe?: string;
   tags: string[];
-  category_id: number;
-}[];
+  categoryId: number;
+};

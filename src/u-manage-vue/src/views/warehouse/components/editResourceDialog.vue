@@ -11,10 +11,10 @@
       <el-form-item label="加入分类" prop="categoryId">
         <el-radio-group v-model="form.categoryId">
           <el-radio-button
-            v-for="(item, index) in select.category.list.slice(1)"
+            v-for="(item, index) in category.list"
             :key="index"
-            :label="item.id"
-            >{{ item.name }}</el-radio-button
+            :label="item[category.option.value]"
+            >{{ item[category.option.label] }}</el-radio-button
           >
         </el-radio-group>
         <el-popover v-if="!disabled" placement="top-start" :width="240" trigger="hover">
@@ -24,7 +24,8 @@
             </el-icon>
           </template>
           <template #default>
-            没有想要的分类？<el-link type="primary" @click="emits('createCategory')">点我</el-link
+            没有想要的分类？<el-link type="primary" @click="emits('openCreateCategory')"
+              >点我</el-link
             >快速新建
           </template>
         </el-popover>
@@ -51,7 +52,7 @@
             :key="index"
             :closable="!disabled"
             :disable-transitions="false"
-            @close="handleDeleteTag(index)"
+            @close="handleDeleteTag(form.tagList, index)"
           >
             {{ tag }}
           </el-tag>
@@ -63,8 +64,8 @@
               v-model="inputValue"
               size="small"
               maxlength="20"
-              @keyup.enter="handleInputConfirm(false)"
-              @blur="handleInputConfirm(true)"
+              @keyup.enter="handleInputConfirm(form.tagList, false)"
+              @blur="handleInputConfirm(form.tagList, true)"
             />
             <el-button
               class="tag_group_tag tag_group_add"
@@ -102,7 +103,7 @@
                   :icon="Delete"
                   circle
                   title="删除"
-                  @click.stop="handleDeleteFile('resourceList', $index)"
+                  @click.stop="handleDeleteFile(form.resourceList, $index)"
                 />
               </template>
             </el-table-column>
@@ -135,7 +136,7 @@
                   :icon="Delete"
                   circle
                   title="删除"
-                  @click.stop="handleDeleteFile('readmeList', $index)"
+                  @click.stop="handleDeleteFile(form.readmeList, $index)"
                 />
               </template>
             </el-table-column>
@@ -146,7 +147,11 @@
 
     <template #footer>
       <el-button size="default" @click="handleClose">取消</el-button>
-      <el-button type="primary" size="default" :loading="saveLoading" @click="submitForm"
+      <el-button
+        type="primary"
+        size="default"
+        :loading="submitLoading"
+        @click="handleSubmitForm(emits, { handleClose })"
         >提交</el-button
       >
     </template>
@@ -154,68 +159,36 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import { Delete, Document } from '@element-plus/icons-vue';
-import { useEditResourceDialogForm } from '../hooks/editResourceDialog/editResourceDialogForm';
-import { useEditResourceDialogOpen } from '../hooks/editResourceDialog/editResourceDialogOpen';
-import { useEditResourceDialogFileList } from '../hooks/editResourceDialog/editResourceDialogFileList';
-import { useEditResourceDialogTagGroup } from '../hooks/editResourceDialog/editResourceDialogTagGroup';
-import { useWarehouseSelect } from '../hooks/warehouse/warehouseSelect';
-import type { Form } from '@/types/views/warehouse/createCategoryDialogForm';
+import { useEditResourceDialog } from '../hooks/editResourceDialog';
+import { useEditResourceDialogForm } from '../hooks/editResourceDialogForm';
+import { useEditResourceDialogFileList } from '../hooks/editResourceDialogFileList';
+import { useEditResourceDialogTagGroup } from '../hooks/editResourceDialogTagGroup';
+import type { PropType } from 'vue';
+import type { UseWarehouseSelectReturn } from '../types/warehouseSelect';
+
+defineProps({
+  // 分类数据
+  category: {
+    type: Object as PropType<UseWarehouseSelectReturn['category']>,
+    required: true
+  }
+});
 
 const emits = defineEmits<{
-  createCategory: [];
-  change: [];
+  openCreateCategory: []; // 打开创建分类对话框
+  change: []; // 数据改变
 }>();
 
-const visible = ref<boolean>(false); // 显示对话框
-
-const { select, getCategoryList } = useWarehouseSelect(); // 下拉数据
-const { form, rules, saveLoading, disabled, formRef, resetForm, submitForm } =
-  useEditResourceDialogForm({
-    submitSuccess: handleSubmitSuccess
-  }); // 表单数据
-const { handleDeleteFile, handleHttpRequest } = useEditResourceDialogFileList(form); // 上传文件
+const { visible, handleOpen, handleClose } = useEditResourceDialog(); // 对话框
+const { form, rules, submitLoading, disabled, formRef, handleResetForm, handleSubmitForm } =
+  useEditResourceDialogForm(); // 表单数据
+const { handleDeleteFile, handleHttpRequest } = useEditResourceDialogFileList(); // 上传文件列表
 const { isAdd, inputValue, InputRef, handleDeleteTag, handleInputConfirm, handleEntryAdd } =
-  useEditResourceDialogTagGroup(form); // 标签列表
-
-useEditResourceDialogOpen(handleOpen); // 打开对话框函数
-
-/**
- * @description: 打开对话框
- */
-function handleOpen() {
-  resetForm();
-  getCategoryList();
-  visible.value = true;
-}
-
-/**
- * @description: 关闭对话框
- */
-function handleClose() {
-  visible.value = false;
-}
-
-/**
- * @description: 处理提交完成
- */
-function handleSubmitSuccess() {
-  emits('change');
-  handleClose();
-}
-
-/**
- * @description: 添加分类
- * @param {Required<Form>} data 数据
- */
-function addCategory(data: Required<Form>) {
-  select.category.list.push(data);
-}
+  useEditResourceDialogTagGroup(); // 标签列表
 
 defineExpose({
-  open: handleOpen,
-  addCategory
+  open: () => handleOpen({ handleResetForm })
 });
 </script>
 

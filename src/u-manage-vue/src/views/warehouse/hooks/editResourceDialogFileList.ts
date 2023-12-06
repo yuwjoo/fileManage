@@ -1,18 +1,16 @@
-import type { Form } from '@/types/views/warehouse/editResourceDialogForm';
-import type { UploadRequestOptions } from 'element-plus';
-import type { Ref } from 'vue';
+import type { UploadRequestOptions, UploadUserFile } from 'element-plus';
 
 /**
  * @description: 编辑资源对话框-文件上传
  */
-export function useEditResourceDialogFileList(form: Ref<Form>) {
+export function useEditResourceDialogFileList() {
   /**
    * @description: 处理删除文件
-   * @param {string} key 文件列表 key
+   * @param {UploadUserFile[]} fileList 文件列表
    * @param {number} index 删除文件的下标
    */
-  function handleDeleteFile(key: 'resourceList' | 'readmeList', index: number): void {
-    form.value[key] = form.value[key].filter((_, i) => i !== index);
+  function handleDeleteFile(fileList: UploadUserFile[], index: number): void {
+    fileList = fileList.filter((_, i) => i !== index);
   }
 
   /**

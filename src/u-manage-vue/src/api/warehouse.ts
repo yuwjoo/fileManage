@@ -1,13 +1,14 @@
 import { useRequest } from '@/hooks/request';
-import type { CategoryListResponse, ResourceListResponse, ParamsType } from '@/types/api/warehouse';
+import type { ResponseBody } from '@/types/api/api';
+import type { Category, Resource, ParamsType } from '@/types/api/warehouse';
 
 /**
- * @description: 获取分类列表
+ * @description: 查询分类列表
  * @param {ParamsType} params 参数
- * @return {promise<CategoryListResponse>} 返回结果
  */
-export function selectCategoryList(params?: ParamsType): Promise<CategoryListResponse> {
-  return useRequest({
+export function selectCategoryList(params?: ParamsType) {
+  return useRequest<ResponseBody<Category[]>>({
+    requestType: 'electron',
     url: 'category:selectCategoryList',
     method: 'get',
     params
@@ -17,10 +18,10 @@ export function selectCategoryList(params?: ParamsType): Promise<CategoryListRes
 /**
  * @description: 保存分类数据
  * @param {ParamsType} params 参数
- * @return {promise<CategoryListResponse>} 返回结果
  */
-export function saveCategoryData(params?: ParamsType): Promise<number> {
-  return useRequest({
+export function saveCategoryData(params?: ParamsType) {
+  return useRequest<ResponseBody<number>>({
+    requestType: 'electron',
     url: 'category:saveCategoryData',
     method: 'get',
     params
@@ -30,10 +31,10 @@ export function saveCategoryData(params?: ParamsType): Promise<number> {
 /**
  * @description: 删除分类数据
  * @param {ParamsType} params 参数
- * @return {promise<CategoryListResponse>} 返回结果
  */
-export function deleteCategoryData(params?: ParamsType): Promise<CategoryListResponse> {
-  return useRequest({
+export function deleteCategoryData(params?: ParamsType) {
+  return useRequest<ResponseBody<null>>({
+    requestType: 'electron',
     url: 'category:deleteCategoryData',
     method: 'get',
     params
@@ -41,12 +42,12 @@ export function deleteCategoryData(params?: ParamsType): Promise<CategoryListRes
 }
 
 /**
- * @description: 获取资源列表
+ * @description: 查询资源列表
  * @param {ParamsType} params 参数
- * @return {promise<ResourceListResponse>} 返回结果
  */
-export function selectResourceList(params?: ParamsType): Promise<ResourceListResponse> {
-  return useRequest({
+export function selectResourceList(params?: ParamsType) {
+  return useRequest<ResponseBody<Resource[]>>({
+    requestType: 'electron',
     url: 'resource:selectResourceList',
     method: 'get',
     params
@@ -56,10 +57,10 @@ export function selectResourceList(params?: ParamsType): Promise<ResourceListRes
 /**
  * @description: 保存资源列表
  * @param {ParamsType} params 参数
- * @return {promise<ResourceListResponse>} 返回结果
  */
-export function saveResourceData(params?: ParamsType): Promise<ResourceListResponse> {
-  return useRequest({
+export function saveResourceData(params?: ParamsType) {
+  return useRequest<ResponseBody<Resource>>({
+    requestType: 'electron',
     url: 'resource:saveResourceData',
     method: 'get',
     params

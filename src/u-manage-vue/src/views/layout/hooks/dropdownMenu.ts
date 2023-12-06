@@ -1,7 +1,7 @@
 import { Plus, Collection } from '@element-plus/icons-vue';
-import { useEditCategoryDialogOpen } from '@/views/warehouse/hooks/editCategoryDialog/editCategoryDialogOpen';
-import { useEditResourceDialogOpen } from '@/views/warehouse/hooks/editResourceDialog/editResourceDialogOpen';
-import type { MenuItem } from '@/types/views/layout/dropdownMenu';
+import { editCategoryDialogRef } from '@/views/warehouse/hooks/editCategoryDialog';
+import { editResourceDialogRef } from '@/views/warehouse/hooks/editResourceDialog';
+import type { MenuItem } from '../types/dropdownMenu';
 
 /**
  * @description: 下拉菜单 hook
@@ -19,10 +19,10 @@ export function useDropdownMenu() {
   function handleCommand(command: string): void {
     switch (command) {
       case 'addResource':
-        useEditResourceDialogOpen().open?.();
+        editResourceDialogRef.value?.open();
         break;
       case 'manageCategory':
-        useEditCategoryDialogOpen().open?.();
+        editCategoryDialogRef.value?.open();
         break;
     }
   }
