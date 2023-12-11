@@ -10,7 +10,7 @@ export function useEditResourceDialogFileList() {
    * @param {number} index 删除文件的下标
    */
   function handleDeleteFile(fileList: UploadUserFile[], index: number): void {
-    fileList = fileList.filter((_, i) => i !== index);
+    fileList.splice(index, 1);
   }
 
   /**

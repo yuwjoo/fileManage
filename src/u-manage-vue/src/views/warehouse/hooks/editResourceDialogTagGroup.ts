@@ -15,7 +15,7 @@ export function useEditResourceDialogTagGroup() {
    * @param {number} index 被删除的标签下标
    */
   function handleDeleteTag(tagList: string[], index: number) {
-    tagList = tagList.filter((_, i) => i !== index);
+    tagList.splice(index, 1);
   }
 
   /**

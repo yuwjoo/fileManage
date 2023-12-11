@@ -87,6 +87,7 @@
           :http-request="handleHttpRequest"
         >
           <el-table
+            class="fileList_table"
             :data="form.resourceList"
             :show-header="false"
             :empty-text="disabled ? '暂无数据' : '拖拽文件或者点击添加'"
@@ -120,6 +121,7 @@
           :http-request="handleHttpRequest"
         >
           <el-table
+            class="fileList_table"
             :data="form.readmeList"
             :show-header="false"
             :empty-text="disabled ? '暂无数据' : '拖拽文件或者点击添加'"
@@ -211,6 +213,12 @@ defineExpose({
 .fileList {
   --el-upload-dragger-padding-horizontal: 10px;
   width: 100%;
+
+  .fileList_table {
+    .el-table__inner-wrapper::before {
+      display: none;
+    }
+  }
 }
 
 .tag_group {
