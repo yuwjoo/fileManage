@@ -195,7 +195,7 @@ const { isAdd, inputValue, InputRef, handleDeleteTag, handleInputConfirm, handle
   useEditResourceDialogTagGroup(); // 标签列表
 
 defineExpose({
-  open: (type: number, row: any) => handleOpen({ handleResetForm }, type, row)
+  open: (type?: number, row?: any) => handleOpen({ handleResetForm }, type, row)
 });
 </script>
 

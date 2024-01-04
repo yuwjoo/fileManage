@@ -1,6 +1,7 @@
 import { computed, readonly, ref, toRaw, type Ref } from 'vue';
 import { selectResourceList, deleteResourceData } from '@/api/warehouse';
 import { editResourceDialogRef } from '@/views/warehouse/hooks/editResourceDialog';
+import { useElectron } from '@/hooks/electron';
 import type { Resource } from '@/types/api/warehouse';
 import type { Query } from '../types/warehouseTable';
 import type { Search } from '../types/warehouseFilter';
@@ -41,7 +42,7 @@ export function useWarehouseTable() {
    * @param {Resource} row 当前数据
    */
   function handleOpenDir(row: Resource) {
-    console.log(row);
+    useElectron().action('windowOpenDialog');
   }
 
   /**

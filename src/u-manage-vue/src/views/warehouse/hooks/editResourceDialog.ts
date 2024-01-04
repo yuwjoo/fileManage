@@ -17,10 +17,10 @@ export function useEditResourceDialog() {
    */
   function handleOpen(
     useEditResourceDialogForm: Pick<UseEditResourceDialogFormReturn, 'handleResetForm'>,
-    type: number,
-    row: any
+    type?: number,
+    row?: any
   ) {
-    useEditResourceDialogForm.handleResetForm(row);
+    useEditResourceDialogForm.handleResetForm(row || {});
     dialogType.value = type || 1;
     visible.value = true;
   }

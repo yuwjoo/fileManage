@@ -1,5 +1,5 @@
 import type { ActionIPCPostMessage, ActionOptions } from "@/types/preload";
-import { BrowserWindow, ipcMain } from "electron";
+import { BrowserWindow, ipcMain, dialog } from "electron";
 
 const actionList = {
   /**
@@ -54,6 +54,13 @@ const actionList = {
    */
   windowOpenDevTools(event: Electron.IpcMainEvent) {
     event.sender.openDevTools();
+  },
+  /**
+   * @description: 打开文件对话框
+   * @param {Electron.IpcMainEvent} event 事件对象
+   */
+  windowOpenDialog(event: Electron.IpcMainEvent) {
+    dialog.showOpenDialog({ defaultPath: "C:\\" });
   },
 } as Record<string, any>;
 
