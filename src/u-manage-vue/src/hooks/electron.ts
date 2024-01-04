@@ -31,7 +31,7 @@ class Electron {
     if (!this.isAvailable) {
       throw new Error('Electron API is not available');
     }
-    const listener = window.electronApi.addListener(name, callback, options);
+    const listener = window.electronApi.listener(name, callback, options);
     onBeforeUnmount(() => {
       listener.remove();
     });

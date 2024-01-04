@@ -21,7 +21,7 @@ export function useWindowControl(): ComputedRef<WindowControlButtons[]> {
    * @description: 监听窗口最大化状态改变
    */
   if (electron.isAvailable) {
-    electron.listener('window:changeMaximize', (is: boolean) => (isMaximize.value = is), {
+    electron.listener('windowChangeMaximize', (is: boolean) => (isMaximize.value = is), {
       immediate: true
     });
   }
@@ -34,7 +34,7 @@ export function useWindowControl(): ComputedRef<WindowControlButtons[]> {
         {
           icon: iconDevTools,
           title: '打开控制台',
-          onclick: () => electron.action('window:openDevTools')
+          onclick: () => electron.action('windowOpenDevTools')
         },
         { icon: iconRefreshRight, title: '刷新页面', onclick: () => window.location.reload() }
       );
@@ -42,25 +42,25 @@ export function useWindowControl(): ComputedRef<WindowControlButtons[]> {
     buttons.push({
       icon: iconMinimize,
       title: '最小化',
-      onclick: () => electron.action('window:minimize')
+      onclick: () => electron.action('windowMinimize')
     });
     if (isMaximize.value) {
       buttons.push({
         icon: iconRestore,
         title: '还原',
-        onclick: () => electron.action('window:restore')
+        onclick: () => electron.action('windowRestore')
       });
     } else {
       buttons.push({
         icon: iconMaximize,
         title: '最大化',
-        onclick: () => electron.action('window:maximize')
+        onclick: () => electron.action('windowMaximize')
       });
     }
     buttons.push({
       icon: iconClose,
       title: '关闭',
-      onclick: () => electron.action('window:close')
+      onclick: () => electron.action('windowClose')
     });
     return buttons;
   });

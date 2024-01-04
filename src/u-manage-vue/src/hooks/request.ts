@@ -10,7 +10,13 @@ export async function useRequest<T>(options: Options): Promise<T> {
   const isAuto = options.requestType === 'auto';
   if ((isAuto || options.requestType === 'electron') && useElectron().isAvailable) {
     try {
-      return await useElectron().request(options.url, options.params);
+      console.log(options);
+      return await useElectron()
+        .request(options.url, options.params)
+        .then((res) => {
+          console.log(options.url, res);
+          return res;
+        });
     } catch (err: any) {
       ElNotification({
         title: '失败',

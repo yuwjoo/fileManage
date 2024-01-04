@@ -1,0 +1,14 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.builder.json"
+    }
+  ],
+  "compilerOptions": {
+    "declaration": false,
+  }
+}

@@ -36,7 +36,7 @@ export type ConnectErrorData = {
   msg: string; // 消息
 };
 
-export type AddListener = (
+export type Listener = (
   name: string,
   callback: ListenerCallback,
   options?: ListenerOptions
@@ -54,7 +54,7 @@ export type Connect = (
 
 export interface ElectronApi {
   version: string; // electron版本号
-  addListener: AddListener; // 添加事件监听
+  listener: Listener; // 添加事件监听
   action: Action; // 执行动作
   request: Request; // 发送请求
   connect: Connect; // 创建连接

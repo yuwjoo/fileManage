@@ -1,0 +1,1 @@
+import{_ as o}from"./close-05618c58.js";import{d as n,s as t,X as a,B as _,o as c}from"./index-d710d504.js";const l=n({name:"abort",__name:"index",setup(r){return(s,m)=>{const e=o;return c(),t("div",null,[a(" abort页 "),_(e)])}}});export{l as default};

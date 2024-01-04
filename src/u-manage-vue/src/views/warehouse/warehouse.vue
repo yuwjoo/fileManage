@@ -1,7 +1,9 @@
 <template>
   <el-page-header class="warehouse" icon="">
     <template #title>
-      <el-tooltip content="点击刷新列表" @click="setTableData">{{ categoryName }}</el-tooltip>
+      <el-tooltip content="点击刷新列表">
+        <span @click="setTableData()">{{ categoryName }}</span>
+      </el-tooltip>
     </template>
     <template #content>
       <el-input
@@ -38,7 +40,7 @@
                   v-for="(item, index) in category.list"
                   :key="index"
                   :label="item[category.option.value]"
-                  >{{ item[category.option.value] }}</el-radio-button
+                  >{{ item[category.option.label] }}</el-radio-button
                 >
               </el-radio-group>
             </el-form-item>
@@ -75,9 +77,16 @@
         stripe
         height="100%"
       >
-        <el-table-column prop="title" label="名称" min-width="100" align="center" />
+        <el-table-column prop="categoryName" label="分类" min-width="60" align="center" />
+        <el-table-column prop="name" label="名称" min-width="100" align="center" />
         <el-table-column prop="describe" label="描述" min-width="150" align="center" />
-        <el-table-column prop="tags" label="标签" min-width="100" align="center" />
+        <el-table-column prop="tagList" label="标签" min-width="100" align="center">
+          <template #default="{ row }">
+            <el-space wrap>
+              <el-tag v-for="(tag, index) in row.tagList" :key="index">{{ tag }}</el-tag>
+            </el-space>
+          </template>
+        </el-table-column>
         <el-table-column prop="option" label="操作" width="140" align="center">
           <template #default="scope">
             <el-button
@@ -92,15 +101,24 @@
               :icon="Edit"
               circle
               title="编辑"
-              @click="handleDeleteRow(scope.row)"
-            />
-            <el-button
-              type="danger"
-              :icon="Delete"
-              circle
-              title="删除"
               @click="handleEditRow(scope.row)"
             />
+            <el-popconfirm
+              title="确定删除吗?"
+              confirm-button-text="确定"
+              cancel-button-text="取消"
+              @confirm="handleDeleteRow(scope.row)"
+            >
+              <template #reference>
+                <el-button
+                  type="danger"
+                  :icon="Delete"
+                  :loading="scope.row.deleteLoading"
+                  circle
+                  title="删除"
+                />
+              </template>
+            </el-popconfirm>
           </template>
         </el-table-column>
       </el-table>
@@ -112,6 +130,7 @@
     ref="editResourceDialogRef"
     :category="category"
     @open-create-category="createCategoryDialogRef!.open()"
+    @change="setTableData()"
   />
   <!-- 编辑资源对话框 end -->
 

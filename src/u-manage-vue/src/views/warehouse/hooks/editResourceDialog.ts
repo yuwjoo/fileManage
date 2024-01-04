@@ -9,14 +9,19 @@ export const editResourceDialogRef = ref<InstanceType<typeof editResourceDialog>
  */
 export function useEditResourceDialog() {
   const visible = ref<boolean>(false); // 显示对话框
+  const dialogType = ref<number>(1); // 对话框类型：1：新增，2：编辑
   /**
    * @description: 打开对话框
    * @param {Pick<UseEditResourceDialogFormReturn, 'handleResetForm'>} useEditResourceDialogForm 编辑资源对话框-表单hook
+   * @param {any} row 数据
    */
   function handleOpen(
-    useEditResourceDialogForm: Pick<UseEditResourceDialogFormReturn, 'handleResetForm'>
+    useEditResourceDialogForm: Pick<UseEditResourceDialogFormReturn, 'handleResetForm'>,
+    type: number,
+    row: any
   ) {
-    useEditResourceDialogForm.handleResetForm();
+    useEditResourceDialogForm.handleResetForm(row);
+    dialogType.value = type || 1;
     visible.value = true;
   }
 
@@ -27,5 +32,5 @@ export function useEditResourceDialog() {
     visible.value = false;
   }
 
-  return { visible, handleOpen, handleClose };
+  return { visible, dialogType, handleOpen, handleClose };
 }

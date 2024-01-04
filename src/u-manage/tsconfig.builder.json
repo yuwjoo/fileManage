@@ -1,0 +1,22 @@
+{
+  "include": [
+    "builder/**/*.ts",
+    "builder/**/*.d.ts",
+    "builder/**/*.tsx",
+    "webpack.config.ts",
+    "electron-builder.config.ts",
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "types": [
+      "webpack"
+    ],
+    "paths": {
+      "~/*": [
+        "./*"
+      ]
+    },
+  }
+}

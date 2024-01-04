@@ -1,5 +1,6 @@
 import { computed, readonly, ref, toRaw, type Ref } from 'vue';
-import { selectResourceList } from '@/api/warehouse';
+import { selectResourceList, deleteResourceData } from '@/api/warehouse';
+import { editResourceDialogRef } from '@/views/warehouse/hooks/editResourceDialog';
 import type { Resource } from '@/types/api/warehouse';
 import type { Query } from '../types/warehouseTable';
 import type { Search } from '../types/warehouseFilter';
@@ -20,8 +21,8 @@ export function useWarehouseTable() {
    * @description: 设置表格数据
    * @param {Ref<Search>} search 筛选条件
    */
-  function setTableData(search: Ref<Search>) {
-    query.value = JSON.parse(JSON.stringify(search.value));
+  function setTableData(search?: Ref<Search>) {
+    if (search) query.value = JSON.parse(JSON.stringify(search.value));
     loading.value = true;
     selectResourceList(toRaw(query.value))
       .then((res) => {
@@ -48,7 +49,14 @@ export function useWarehouseTable() {
    * @param {Resource} row 当前数据
    */
   function handleDeleteRow(row: Resource) {
-    console.log(row);
+    (row as any).deleteLoading = true;
+    deleteResourceData(toRaw(row))
+      .then(() => {
+        setTableData();
+      })
+      .finally(() => {
+        (row as any).deleteLoading = true;
+      });
   }
 
   /**
@@ -56,7 +64,7 @@ export function useWarehouseTable() {
    * @param {Resource} row 当前数据
    */
   function handleEditRow(row: Resource) {
-    console.log(row);
+    editResourceDialogRef.value?.open(2, row);
   }
 
   return {

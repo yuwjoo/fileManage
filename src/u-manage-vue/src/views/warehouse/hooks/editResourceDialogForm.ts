@@ -43,9 +43,11 @@ export function useEditResourceDialogForm() {
 
   /**
    * @description: 重置form数据
+   * @param {any} defaultData 默认数据
    */
-  function handleResetForm() {
-    form.value = { tagList: [], resourceList: [], readmeList: [] };
+  function handleResetForm(defaultData: any) {
+    form.value = { tagList: [], resourceList: [], readmeList: [], ...defaultData };
+    if (formRef.value) formRef.value.clearValidate();
   }
 
   /**
@@ -61,9 +63,7 @@ export function useEditResourceDialogForm() {
     if (isValid) {
       submitLoading.value = true;
       saveResourceData({
-        categoryId: form.value.categoryId,
-        name: form.value.name,
-        describe: form.value.describe,
+        ...form.value,
         resourceList: handleFileList(form.value.resourceList),
         readmeList: handleFileList(form.value.readmeList),
         tagList: toRaw(form.value.tagList)

@@ -3,36 +3,35 @@
   "productName": "u-manage",
   "version": "1.0.0",
   "description": "My Electron application description",
-  "main": "src/main/index.js",
   "scripts": {
-    "start": "chcp 65001 && electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
-    "lint": "echo \"No linting configured\""
+    "start": "npm run exec-ts builder/start.ts",
+    "watch": "npm run exec-ts builder/start.ts -- --watch",
+    "release": "npm run exec-ts builder/build.ts",
+    "exec-ts": "ts-node --project ./tsconfig.builder.json -r tsconfig-paths/register"
   },
   "keywords": [],
   "author": {
     "name": "YH",
     "email": "1191759350@qq.com"
   },
-  "_moduleAliases": {
-    "@": "./src"
-  },
   "license": "MIT",
-  "dependencies": {
-    "electron-squirrel-startup": "^1.0.0",
-    "module-alias": "^2.2.3",
-    "sqlite3": "^5.1.6"
-  },
   "devDependencies": {
-    "@electron-forge/cli": "^6.4.2",
-    "@electron-forge/maker-deb": "^6.4.2",
-    "@electron-forge/maker-rpm": "^6.4.2",
-    "@electron-forge/maker-squirrel": "^6.4.2",
-    "@electron-forge/maker-zip": "^6.4.2",
-    "@electron-forge/plugin-auto-unpack-natives": "^6.4.2",
+    "@types/webpack-node-externals": "^3.0.0",
+    "copy-webpack-plugin": "^11.0.0",
     "electron": "27.0.2",
-    "electron-reloader": "^1.2.3"
+    "electron-builder": "^24.9.1",
+    "node-gyp": "^10.0.1",
+    "tree-kill": "^1.2.2",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "dependencies": {
+    "sequelize": "^6.35.2",
+    "sqlite3": "^5.1.7-rc.0"
   }
 }

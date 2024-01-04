@@ -9,7 +9,7 @@ import type { Category, Resource, ParamsType } from '@/types/api/warehouse';
 export function selectCategoryList(params?: ParamsType) {
   return useRequest<ResponseBody<Category[]>>({
     requestType: 'electron',
-    url: 'category:selectCategoryList',
+    url: 'categorySelectCategoryList',
     method: 'get',
     params
   });
@@ -20,9 +20,9 @@ export function selectCategoryList(params?: ParamsType) {
  * @param {ParamsType} params 参数
  */
 export function saveCategoryData(params?: ParamsType) {
-  return useRequest<ResponseBody<number>>({
+  return useRequest<ResponseBody<Category>>({
     requestType: 'electron',
-    url: 'category:saveCategoryData',
+    url: 'categorySaveCategoryData',
     method: 'get',
     params
   });
@@ -35,7 +35,7 @@ export function saveCategoryData(params?: ParamsType) {
 export function deleteCategoryData(params?: ParamsType) {
   return useRequest<ResponseBody<null>>({
     requestType: 'electron',
-    url: 'category:deleteCategoryData',
+    url: 'categoryDeleteCategoryData',
     method: 'get',
     params
   });
@@ -48,7 +48,7 @@ export function deleteCategoryData(params?: ParamsType) {
 export function selectResourceList(params?: ParamsType) {
   return useRequest<ResponseBody<Resource[]>>({
     requestType: 'electron',
-    url: 'resource:selectResourceList',
+    url: 'resourceSelectResourceList',
     method: 'get',
     params
   });
@@ -61,7 +61,20 @@ export function selectResourceList(params?: ParamsType) {
 export function saveResourceData(params?: ParamsType) {
   return useRequest<ResponseBody<Resource>>({
     requestType: 'electron',
-    url: 'resource:saveResourceData',
+    url: 'resourceSaveResourceData',
+    method: 'get',
+    params
+  });
+}
+
+/**
+ * @description: 删除资源列表
+ * @param {ParamsType} params 参数
+ */
+export function deleteResourceData(params?: ParamsType) {
+  return useRequest<null>({
+    requestType: 'electron',
+    url: 'resourceDeleteResourceData',
     method: 'get',
     params
   });

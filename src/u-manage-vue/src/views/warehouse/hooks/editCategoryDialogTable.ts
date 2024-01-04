@@ -55,7 +55,7 @@ export function useEditCategoryDialogTable() {
           name: row.name,
           directory: row.directory
         });
-        row.id = res.data;
+        row.id = res.data.id;
         row.status.isEdit = false;
         ElNotification({
           type: 'success',

@@ -90,3 +90,6 @@ typings/
 
 # Electron-Forge
 out/
+
+# 发布应用
+release

@@ -1,5 +1,10 @@
 <template>
-  <el-dialog v-model="visible" title="新建资源" :close-on-click-modal="false" show-close>
+  <el-dialog
+    v-model="visible"
+    :title="`${dialogType === 1 ? '新建' : '编辑'}资源`"
+    :close-on-click-modal="false"
+    show-close
+  >
     <el-form
       ref="formRef"
       label-suffix=":"
@@ -182,7 +187,7 @@ const emits = defineEmits<{
   change: []; // 数据改变
 }>();
 
-const { visible, handleOpen, handleClose } = useEditResourceDialog(); // 对话框
+const { visible, dialogType, handleOpen, handleClose } = useEditResourceDialog(); // 对话框
 const { form, rules, submitLoading, disabled, formRef, handleResetForm, handleSubmitForm } =
   useEditResourceDialogForm(); // 表单数据
 const { handleDeleteFile, handleHttpRequest } = useEditResourceDialogFileList(); // 上传文件列表
@@ -190,7 +195,7 @@ const { isAdd, inputValue, InputRef, handleDeleteTag, handleInputConfirm, handle
   useEditResourceDialogTagGroup(); // 标签列表
 
 defineExpose({
-  open: () => handleOpen({ handleResetForm })
+  open: (type: number, row: any) => handleOpen({ handleResetForm }, type, row)
 });
 </script>
 
